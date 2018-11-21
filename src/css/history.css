@@ -1,0 +1,16 @@
+.blue-button {
+	height:25px;
+	width:80px;
+	background-color: #00aeef;
+	margin:auto;
+	border-radius: 5px;
+	color : white;
+	text-decoration:none;
+	border-color: #00aeef;
+}
+
+.book-img {
+	height: 165px;
+	width: 125px;
+	border: #000000 1px solid;
+}

@@ -1,0 +1,105 @@
+.input-search {
+	height: 25px;
+	border-color: lightgray;
+	width: 99%;
+}
+
+.border-radius {
+	border-radius: 5px;
+}
+
+.btn-search {
+	height: 30px;
+	width: 120px;
+	border-color: #00aeef;
+	padding: 0px;
+}
+
+.btn-detail {
+	height: 27px;
+	width: 100px;
+	border-color: #00aeef;
+	padding: 0px;
+}
+
+.btn-order {
+	height: 25px;
+	width: 80px;
+	border-color: #00aeef;
+	padding: 0px;
+}
+
+.book-result-img {
+	height: 165px;
+	width: 125px;
+	border: #000000 1px solid;
+}
+
+.container-small {
+	margin-top: 40px;
+	margin-left: 25px;
+	margin-right: 25px;
+	width: 650px;
+}
+
+.star-icon {
+	width: 25px;
+	height: 25px;
+}
+
+.star-icon-review {
+	width: 35px;
+	height: 35px;
+	margin: 3px;
+}
+
+.review-img {
+	width: 70px;
+	height: 70px;
+	border: #000000 1px solid;
+}
+
+.notification {
+	z-index: 10;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0%;
+	width: 100vw;
+	height: 100vh;
+}
+
+.backdrop {
+	z-index: 5;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0%;
+	width: 100vw;
+	height: 100vh;
+	background-color: #000000;
+	opacity: 0.5;
+
+}
+
+.cancel-img {
+	height: 20px;
+	width: 20px;
+}
+
+.corner-small {
+	border-radius: 2px;
+}
+
+.check-img {
+	height: 35px;
+	width: 35px;
+}
+
+.add-height {
+	height: 20px;
+}
+
+.hided {
+	display: none;
+}

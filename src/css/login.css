@@ -1,0 +1,38 @@
+.login-box{
+  width: 350px;
+  border-left: #00aeef 5px solid;
+  border-right: #00aeef 5px solid;
+  border-top: #00aeef 25px solid;
+  border-bottom: #00aeef 25px solid;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 100px;
+}
+
+.login-bg {
+  background: #fff;
+  background-image:
+    radial-gradient(lightgray 8%, transparent 0),
+    radial-gradient(lightgray 8%, transparent 0);
+  background-size: 16px 16px;
+  background-position: 0 0, 8px 8px;
+}
+
+.input-username{
+  height: 20px;
+  width: 150px;
+  padding-left: 3px;
+}
+
+.input-password{
+  height: 20px;
+  width: 150px;
+  padding-left: 3px;
+}
+
+.btn-login{
+  border-width: 1px;
+  border-color: #f26600;
+  border-radius: 5px;
+  padding: 10px;
+}

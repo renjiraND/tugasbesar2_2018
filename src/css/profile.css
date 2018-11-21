@@ -1,0 +1,18 @@
+.profile-picture{
+  width : 200px;
+  height: 200px;
+  border-radius: 100%;
+  border-color: yellow;
+  border-width: 5px;
+  border-style: solid;
+}
+
+.edit-button{
+  width : 60px;
+  height: 60px;
+}
+
+.mini-icon {
+  width : 40px;
+  height : 40px;
+}

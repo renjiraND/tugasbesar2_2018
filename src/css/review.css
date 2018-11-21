@@ -1,0 +1,42 @@
+.book-cover {
+	width: 150px;
+	height: 150px;
+  float: right
+}
+
+.review-textarea {
+    width: 80%;
+    height: 100px;
+    padding: 8px 8px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    font-size: 14px;
+		font-family: sans-serif;
+    resize: none;
+}
+
+.white-button {
+	height:30px;
+	width:150px;
+	background-color: white;
+	border: orange 2px solid;
+	margin:auto;
+	border-radius: 5px;
+	color : orange;
+	text-decoration:none;
+}
+
+.blue-button {
+	height:30px;
+	width:150px;
+	background-color: #00aeef;
+	margin:auto;
+	border-radius: 5px;
+	color : white;
+	text-decoration:none;
+	border-color: #00aeef;
+}
+
+.stars-button {
+	display: none;
+}
