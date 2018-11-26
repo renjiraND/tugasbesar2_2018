@@ -1,8 +1,10 @@
 package bookservice;
 
 
+import com.google.gson.Gson;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -22,12 +24,12 @@ public class BookService {
 
   public static void main(String[] argv) {
     Object implementor = new BookService ();
-    String address = "http://localhost:9000/BookService";
+    String address = "http://localhost:9001/BookService";
     Endpoint.publish(address, implementor);
   }
 
   @WebMethod
-  public String searchBook(String keyword) throws IOException,ParseException {
+  public List<Book> searchBook(String keyword) throws IOException,ParseException {
     System.out.println("1");
     URL url = new URL("https://www.googleapis.com/books/v1/volumes?q="+keyword+"&key="+APIkey);
     HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -59,7 +61,7 @@ public class BookService {
 
     Long item_number = (Long) JSONBooks.get("totalItems");
     JSONArray items = (JSONArray) JSONBooks.get("items");
-
+    List<Book> book_list = new ArrayList<>();
 
     for (Object o : items) {
       JSONObject book = (JSONObject) o;
@@ -72,7 +74,7 @@ public class BookService {
 
       //Get Authors
       JSONArray authors = (JSONArray) volume_info.get("authors");
-      String author;
+      String author = "";
       if (authors == null) {
         author = "Unknown";
       } else {
@@ -114,9 +116,13 @@ public class BookService {
 //      System.out.println(thumbnail);
 //      System.out.println(category_list);
 //      System.out.println(book);
+      book_list.add(b);
       System.out.println(b);
     }
     System.out.println(items);
-    return JSONstring;
+    Gson gson = new Gson();
+    String JSON_result = gson.toJson(book_list);
+    System.out.println(JSON_result);
+    return book_list;
   }
 }
