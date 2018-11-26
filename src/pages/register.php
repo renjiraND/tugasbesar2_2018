@@ -42,6 +42,10 @@
             <div class="margin-right-small font-default"> Phone Number </div>
             <input class="input-medium flex align-right border-radius font-field" type="tel" name="input-phone-number">
           </div>
+          <div class="flex row center margin-top-small align-right">
+            <div class="margin-right-small font-default"> Card Number </div>
+            <input class="input-medium flex align-right border-radius font-field" type="tel" name="input-card-number">
+          </div>
         </form>
       </div>
       <div class="margin-left-small">
