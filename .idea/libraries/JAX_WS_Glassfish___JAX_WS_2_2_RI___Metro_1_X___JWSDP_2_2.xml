@@ -1,0 +1,30 @@
+<component name="libraryTable">
+  <library name="JAX-WS-Glassfish / JAX-WS 2.2 RI / Metro 1.X / JWSDP 2.2" type="JAX-WS">
+    <properties version="Glassfish / JAX-WS 2.2 RI / Metro 1.X / JWSDP 2.2" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/javax.annotation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/jaxb-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/jaxb-impl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/jaxb-xjc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/jaxws-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/jaxws-rt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/jaxws-tools.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/gmbal-api-only.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/FastInoset.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/jsr181-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/management-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/policy.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/saaj-impl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/saaj-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/mimepull.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/stax2-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/streambuffer.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/stax-ex.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/woodstox-core-asl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/ha-api.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
