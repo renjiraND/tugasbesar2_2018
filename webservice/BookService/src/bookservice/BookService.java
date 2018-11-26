@@ -12,6 +12,8 @@ import javax.xml.ws.Endpoint;
 
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebService(targetNamespace = "http://test")
 public class BookService {
@@ -55,12 +57,66 @@ public class BookService {
 
     JSONObject JSONBooks = (JSONObject) jsonParse.parse(JSONstring);
 
+    Long item_number = (Long) JSONBooks.get("totalItems");
+    JSONArray items = (JSONArray) JSONBooks.get("items");
 
-//    for (int i = 0; i < ; i++) {
-//      JSONObject object = (JSONObject) JSONBooks.get(i);
-//      System.out.println(object);
-//    }
-    System.out.println(JSONBooks.get("totalItems"));
+
+    for (Object o : items) {
+      JSONObject book = (JSONObject) o;
+      JSONObject volume_info = (JSONObject) book.get("volumeInfo");
+      //Get Book ID
+      String id = (String) book.get("id");
+
+      //Get Book Title
+      String title = (String) volume_info.get("title");
+
+      //Get Authors
+      JSONArray authors = (JSONArray) volume_info.get("authors");
+      String author;
+      if (authors == null) {
+        author = "Unknown";
+      } else {
+        author = (String) authors.get(0);
+      }
+
+      //Get Descriptions
+      String description;
+      if (volume_info.get("description") == null) {
+        description = "No Description";
+      } else {
+        description = (String) volume_info.get("description");
+      }
+
+      //GetImageLinks
+      JSONObject imageLinks = (JSONObject) volume_info.get("imageLinks");
+      String thumbnail;
+      if(imageLinks == null) {
+        thumbnail = "default";
+      } else{
+        thumbnail = (String) imageLinks.get("thumbnail");
+      }
+      //Get Category
+      List<String> category_list = new ArrayList<String>();
+      JSONArray categories = (JSONArray) volume_info.get("categories");
+      if (categories == null){
+        category_list.add("None");
+      } else {
+        for (Object c : categories){
+          category_list.add((String) c);
+        }
+      }
+
+      Book b = new Book(id, title, author, description, thumbnail, category_list);
+//      System.out.println(id);
+//      System.out.println(title);
+//      System.out.println(author);
+//      System.out.println(description);
+//      System.out.println(thumbnail);
+//      System.out.println(category_list);
+//      System.out.println(book);
+      System.out.println(b);
+    }
+    System.out.println(items);
     return JSONstring;
   }
 }
