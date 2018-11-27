@@ -6,7 +6,8 @@ var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "probank"
+  database: "probank",
+  multipleStatements: true
 });
 
 con.connect(function(err) {
@@ -14,8 +15,8 @@ con.connect(function(err) {
   console.log("Database Connected!");
 });
 
-app.listen(3000, () => {
- console.log("Server running on port 3000");
+app.listen(4000, () => {
+ console.log("Server running on port 4000");
 });
 
 app.get("/validate", function(req, res, next){
@@ -24,13 +25,15 @@ app.get("/validate", function(req, res, next){
     con.query(sql, function(err,result) {
       if (err) throw err;
       if (result[0]) {
-        res.send("Validate")
+        message = {"validation":1, "message":"Nasabah with number " + req.query.no + " exist"}
       } else {
-        res.send("Number doesn't exist")
+        message = {"validation":0, "message":"Nasabah with number " + req.query.no + " does not exist"}
       }
+      res.send(message)
     });
   }else{
-    res.send("Hah?");
+    message = {"validation":0, "message":"Request Error"}
+    res.send(message)
   }
 });
 
@@ -38,26 +41,41 @@ app.get("/transfer", function(req,res,next){
   if (req.query.send && req.query.rcv && req.query.amount && req.query.time) {
     sendsql = "select * from nasabah where nomor = \'" + req.query.send + "\'";
     rcvsql = "select * from nasabah where nomor = \'" + req.query.rcv + "\'";
+    console.log(req.query.time)
     con.query(sendsql, function(err,sender) {
       if (err) throw err;
-      if (sender[0]) {
-        con.query(rcvsql, function(err,rcvr) {
-          if (err) throw err;
-          if (rcvr[0]) {
-            if (sender[0]["saldo"] > req.query.amount) {
-              res.send("Transaksi Berhasil");
-            } else {
-              res.send("Transaksi Gagal : Saldo Tidak Mencukupi");
-            }
-          } else {
-            res.send("Receiver number doesn't exist")
-          }
-        });
-      } else {
-        res.send("Sender number doesn't exist")
+      if (!sender[0]) {
+        message = {"status": 0, "message" : "Sender number does not exist"};
+        res.send(message);
+        return;
       }
+      con.query(rcvsql, function(err,rcvr) {
+        if (err) throw err;
+        if (!rcvr[0]) {
+          message = {"status": 0, "message" : "Receiver number does not exist"}
+          res.send(message)
+          return
+        }
+        if (sender[0]["saldo"] > req.query.amount) {
+          new_sender_amount = sender[0]["saldo"] - req.query.amount;
+          new_rcvr_amount = rcvr[0]["saldo"] + Number(req.query.amount);
+          transfersql = `UPDATE nasabah SET saldo=${new_sender_amount} where nomor=${req.query.send};
+                        UPDATE nasabah SET saldo=${new_rcvr_amount} where nomor=${req.query.rcv};
+                        INSERT INTO transaksi VALUES ('${req.query.send}', '${req.query.rcv}', '${req.query.amount}', '${req.query.time}')`
+          console.log(transfersql)
+          con.query(transfersql, function(err, result, field) {
+            if (err) throw err;
+            message = {"status":1, "message" : "Transfer Berhasil"}
+            res.send(message)
+          })
+        } else {
+          message = {"status":0, "message" : "Saldo tidak Mencukupi"}
+          res.send(message);
+        }
+      });
     });
   } else {
-    res.send("Hah?");
+    message = {"status":0, "message":"Request Error"}
+    res.send(message);
   }
 });
