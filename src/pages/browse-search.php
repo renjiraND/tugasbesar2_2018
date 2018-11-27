@@ -1,3 +1,4 @@
+<!-- DEPRECATED ?
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,7 @@
 </head>
 <body>
 
-	<?php require 'header.php';?>
+	<?#php require 'header.php';?>
 
 	<div class="padding-large">
 		<div class="text-color-orange text-bold text-size-very-large font-default">Search Book</div>

@@ -39,7 +39,7 @@
 </div>
 <div class="bg-color-dark-blue text-size-small flex row navigation-height">
 	<div id="browse" class="one-third navigation">
-		<a href="browse-search.php" class="text-color-white text-no-underline full-height full-width flex center font-default"><span class="text-size-medium text-bold">B</span><span>ROWSE</span></a>
+		<a href="search.php" class="text-color-white text-no-underline full-height full-width flex center font-default"><span class="text-size-medium text-bold">B</span><span>ROWSE</span></a>
 	</div>
 	<div id="history" class="one-third bordered navigation">
 		<a href="history.php" class="text-color-white text-no-underline full-height full-width flex center font-default"><span class="text-size-medium text-bold">H</span><span>ISTORY</span></a>
