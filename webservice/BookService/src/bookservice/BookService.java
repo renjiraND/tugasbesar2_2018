@@ -94,7 +94,65 @@ public class BookService {
           category_list.add((String) c);
         }
       }
-      Book b = new Book(id, title, author, description, thumbnail, category_list);
+
+      //Get Price
+      String database_url = "jdbc:mysql://localhost:3306/bookservice";
+      String username = "root";
+      String password = "";
+      int price = 0;
+      System.out.println("Connecting database...");
+
+      try (Connection connection = DriverManager.getConnection(database_url, username, password)) {
+        System.out.println("Database connected!");
+
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+          stmt = connection.createStatement();
+          String query = String.format("SELECT * FROM buku WHERE (id = '%s')", id);
+          System.out.print(query);
+          rs = stmt.executeQuery(query);
+          if(rs.first()) {
+            System.out.println(rs.getString("id"));
+            price = rs.getInt("price");
+          }
+        }
+        catch (SQLException ex){
+          // handle any errors
+          System.out.println("SQLException: " + ex.getMessage());
+          System.out.println("SQLState: " + ex.getSQLState());
+          System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        finally {
+          // it is a good idea to release
+          // resources in a finally{} block
+          // in reverse-order of their creation
+          // if they are no-longer needed
+
+          if (rs != null) {
+            try {
+              rs.close();
+            } catch (SQLException sqlEx) { } // ignore
+
+            rs = null;
+          }
+
+          if (stmt != null) {
+            try {
+              stmt.close();
+            } catch (SQLException sqlEx) { } // ignore
+
+            stmt = null;
+          }
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+        throw new IllegalStateException("Cannot connect the database!", e);
+      }
+
+
+      Book b = new Book(id, title, author, description, thumbnail, category_list, price);
 //      System.out.println(id);
 //      System.out.println(title);
 //      System.out.println(author);
@@ -106,7 +164,7 @@ public class BookService {
       System.out.println(b);
     }
 
-    
+
     System.out.println(items);
     Gson gson = new Gson();
     String JSON_result = gson.toJson(book_list);
