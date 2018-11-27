@@ -2,8 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="134c6d72-e622-4aed-8815-7d4e4e201a20" name="Default Changelist" comment="Compile search result to an ArrayList, Convert ArrayList to JSON">
-      <change beforePath="$PROJECT_DIR$/webservice/BookService/out/production/BookService/bookservice/Book.class" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/out/production/BookService/bookservice/Book.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gitignore.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/global-groovy.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soapui-errors.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soapui.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/res/misc/credit-card.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/res/misc/money.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/BookService/lib/mysql-connector-java-5.1.45-bin.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/probank/npm-debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/JAX_WS_Glassfish___JAX_WS_2_2_RI___Metro_1_X___JWSDP_2_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/JAX_WS_Glassfish___JAX_WS_2_2_RI___Metro_1_X___JWSDP_2_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/browse-detail.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/browse-detail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/edit-profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/edit-profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/register.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/register.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sql/tayo.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sql/tayo4.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/sql/probook.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webservice/BookService/out/production/BookService/bookservice/BookService.class" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/out/production/BookService/bookservice/BookService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webservice/probank/probank.sql" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/probank/probank.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webservice/probank/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/probank/server.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,14 +36,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="376">
-              <caret line="66" column="39" lean-forward="true" selection-start-line="66" selection-start-column="39" selection-end-line="66" selection-end-column="39" />
+              <caret line="66" column="24" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="234">
+              <caret line="82" column="61" lean-forward="true" selection-start-line="82" selection-start-column="61" selection-end-line="82" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -86,6 +115,11 @@
             <path>
               <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
               <item name="tugasbesar2_2018" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tugasbesar2_2018" type="462c0819:PsiDirectoryNode" />
               <item name="mocks" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -117,8 +151,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -178,6 +212,7 @@
       <workItem from="1543253654127" duration="3681000" />
       <workItem from="1543257635776" duration="1958000" />
       <workItem from="1543270610242" duration="1779000" />
+      <workItem from="1543293366374" duration="12000" />
     </task>
     <task id="LOCAL-00001" summary="Sementara doang">
       <created>1543211795211</created>
@@ -225,12 +260,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26713000" />
+    <option name="totallyTimeSpent" value="26725000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="70" y="-5" width="1851" height="1086" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49846625" visible="true" weight="0.2961517" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49846625" visible="true" weight="0.3006135" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -248,7 +284,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="9" sideWeight="0.5052984" side_tool="true" visible="true" weight="0.29967776" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5052984" side_tool="true" visible="true" weight="0.29967776" />
       <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49804798" weight="0.32975295" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
@@ -289,7 +325,7 @@
     <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="376">
-          <caret line="66" column="39" lean-forward="true" selection-start-line="66" selection-start-column="39" selection-end-line="66" selection-end-column="39" />
+          <caret line="66" column="24" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -305,6 +341,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mocks/detail.png">
       <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="82" column="61" lean-forward="true" selection-start-line="82" selection-start-column="61" selection-end-line="82" selection-end-column="61" />
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">
