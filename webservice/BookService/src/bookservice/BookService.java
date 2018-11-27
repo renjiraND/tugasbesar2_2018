@@ -4,19 +4,22 @@ package bookservice;
 import com.google.gson.Gson;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
-import java.net.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.*;
-import java.util.Iterator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @WebService(targetNamespace = "http://test")
@@ -45,6 +48,7 @@ public class BookService {
 
     JSONArray items = (JSONArray) JSONBooks.get("items");
     List<Book> book_list = new ArrayList<>();
+
 
     for (Object o : items) {
       JSONObject book = (JSONObject) o;
@@ -99,8 +103,69 @@ public class BookService {
 //      System.out.println(category_list);
 //      System.out.println(book);
       book_list.add(b);
+
+
+
+
+
+
+      try  {
+        Class.forName("com.mysql.jdbc.Driver");
+
+        String database_url = "jdbc:mysql://localhost:3306/bookservice";
+        String username = "root";
+        String password = "";
+        System.out.println("Connecting database...");
+
+        Connection connection = DriverManager.getConnection(database_url, username, password);
+        System.out.println("Database connected!");
+
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+
+          String query = String.format("INSERT INTO buku (id, price) VALUES ('%s',%d)", id, (10 + (int)(Math.random() * ((200 - 10) + 1)))*1000);
+          System.out.println(query);
+          stmt = connection.createStatement();
+          stmt.executeUpdate(query);
+          System.out.println("Query Executed!");
+        }
+        catch (SQLException ex){
+          // handle any errors
+          System.out.println("SQLException: " + ex.getMessage());
+          System.out.println("SQLState: " + ex.getSQLState());
+          System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        finally {
+          if (rs != null) {
+            try {
+              rs.close();
+            } catch (SQLException sqlEx) { } // ignore
+
+            rs = null;
+          }
+
+          if (stmt != null) {
+            try {
+              stmt.close();
+            } catch (SQLException sqlEx) { } // ignore
+
+            stmt = null;
+          }
+        }
+      } catch (SQLException e) {
+        throw new IllegalStateException("Cannot connect the database!", e);
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+      }
+
       System.out.println(b);
     }
+
+
+
+
     System.out.println(items);
     Gson gson = new Gson();
     String JSON_result = gson.toJson(book_list);
@@ -164,6 +229,7 @@ public class BookService {
 
         stmt = connection.createStatement();
         String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi where categories='%s') LIMIT 1", category);
+        System.out.print(query);
         rs = stmt.executeQuery(query);
         if(rs.first()) {
           System.out.println(rs.getString("id"));
@@ -221,6 +287,7 @@ public class BookService {
         }
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new IllegalStateException("Cannot connect the database!", e);
     }
     return "";
