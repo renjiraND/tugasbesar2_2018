@@ -129,6 +129,7 @@
 					</form>
 				</div>
 
+				<!--
 				<div class="margin-top-large">
 					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Reviews</div>
 					<?php
@@ -150,8 +151,10 @@
 							</div>";
 						}
 					?>
-
 				</div>
+				-->
+
+
 			</div>
 		</div>
 	</div>
