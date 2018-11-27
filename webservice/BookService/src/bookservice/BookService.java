@@ -36,7 +36,7 @@ public class BookService {
 
   @WebMethod
   public List<Book> searchBook(String keyword) throws IOException, ParseException {
-    URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + keyword + "&key=" + APIkey);
+    URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + keyword +"+intitle:"+keyword+"&key=" + APIkey);
     StringBuffer content = connectHttpUrl(url);
 
     String JSONstring;
