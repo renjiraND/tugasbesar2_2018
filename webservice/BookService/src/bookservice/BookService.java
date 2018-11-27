@@ -1,10 +1,8 @@
 package bookservice;
 
-
 import com.google.gson.Gson;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import javax.jws.WebMethod;
@@ -13,6 +11,7 @@ import javax.xml.ws.Endpoint;
 import java.net.*;
 import java.io.*;
 import java.sql.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class BookService {
   @WebMethod
   public List<Book> searchBook(String keyword) throws IOException, ParseException {
     URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + keyword + "&key=" + APIkey);
-    StringBuffer content = connectHttpUrl(url);
+    StringBuffer content = connectHttpUrlGET(url);
 
     String JSONstring;
 
@@ -108,45 +107,127 @@ public class BookService {
     return book_list;
   }
 
-  public void buyBookByID(String BookID, String UserID) throws IOException{
+  public StringBuffer buyBookByID(String BookID, String UserID, String[] categories) throws IOException {
     // localhost:4000/transfer?send=123412341234&rcv=040214100804&amount=0&time=2018-11-15%2000:00:00
+
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss");
     Date date = new Date();
-    String varTime =  dateFormatter.format(date);
+    String varTime = dateFormatter.format(date);
     String varAmount = "0"; // testing purposes
+    String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
 
-    URL url = new URL("http://localhost:4000/transfer?send="+UserID+"&rcv="+BankID+"&amount="+varAmount+"&time="+varTime);
-    StringBuffer received = connectHttpUrl(url);
-    System.out.println(received);
+    byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
+    String request = "http://localhost:4000/transfer";
 
+    StringBuffer content = connectHttpUrlPOST(request,postData);
+
+    String url = "jdbc:mysql://localhost:3306/booktest";
+    String username = "root";
+    String password = "";
+    System.out.println("Connecting database...");
+
+    try (Connection connection = DriverManager.getConnection(url, username, password)) {
+      System.out.println("Database connected!");
+      Statement stmt = null;
+      ResultSet rs = null;
+      int ur;
+
+      try {
+        stmt = connection.createStatement();
+        String query = String.format("SELECT bookid FROM bookTransaction WHERE bookid = \'"+BookID+"\'");
+        rs = stmt.executeQuery(query);
+        if(rs.first()) {
+          System.out.println(rs.getString("bookid"));
+          query = String.format("UPDATE booktransaction SET ntransaction = ntransaction + 1 WHERE bookid = \'"+BookID+"\'");
+          ur = stmt.executeUpdate(query);
+        } else {
+          for (String category : categories){
+            query = String.format("INSERT INTO `booktransaction` (`BookID`, `kategori`, `ntransaction`) VALUES (\'"+BookID+"\', \'"+category+"\', '1')");
+            ur = stmt.executeUpdate(query);
+          }
+        }
+      }
+      catch (SQLException ex){
+        System.out.println("SQLException: " + ex.getMessage());
+        System.out.println("SQLState: " + ex.getSQLState());
+        System.out.println("VendorError: " + ex.getErrorCode());
+      }
+      finally {
+
+        if (rs != null) {
+          try {
+            rs.close();
+          } catch (SQLException sqlEx) { }
+          rs = null;
+        }
+        if (stmt != null) {
+          try {
+            stmt.close();
+          } catch (SQLException sqlEx) { }
+          stmt = null;
+        }
+      }
+    } catch (SQLException e) {
+      throw new IllegalStateException("Cannot connect the database!", e);
+    }
+
+
+
+    return content;
   }
 
-  private StringBuffer connectHttpUrl(URL url) throws IOException{
+//    URL url = new URL("http://localhost:4000/transfer?);
+//    StringBuffer received = connectHttpUrlGET(url);
+//    System.out.println(received);
+
+  private StringBuffer connectHttpUrlGET(URL url) throws IOException{
     HttpURLConnection con = (HttpURLConnection) url.openConnection();
     con.setRequestMethod("GET");
     con.setRequestProperty("Content-Type", "application/json");
     con.setConnectTimeout(5000);
     con.setReadTimeout(5000);
-    int status = con.getResponseCode();
-
-    BufferedReader in = new BufferedReader(
-            new InputStreamReader(con.getInputStream()));
-    String inputLine;
-
-    StringBuffer content = new StringBuffer();
-    while ((inputLine = in.readLine()) != null) {
-      content.append(inputLine);
-    }
-    in.close();
+    StringBuffer content = getConnectionResponse(con);
     System.out.println(content);
     con.disconnect();
     return content;
   }
 
+  private StringBuffer connectHttpUrlPOST(String request ,byte[] postData) throws IOException{
+    int postDataLength = postData.length;
+    URL url = new URL(request);
+    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+    con.setDoOutput(true);
+    con.setInstanceFollowRedirects(false);
+    con.setRequestMethod("POST");
+    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+    con.setRequestProperty("charset", "utf-8");
+    con.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+    con.setUseCaches(false);
+    try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
+      wr.write(postData);
+    }
+    StringBuffer response = getConnectionResponse(con);
+    con.disconnect();
+    return response;
+  }
+
+  private StringBuffer getConnectionResponse(HttpURLConnection con) throws IOException{
+      int status = con.getResponseCode();
+      BufferedReader in = new BufferedReader(
+              new InputStreamReader(con.getInputStream()));
+      String inputLine;
+
+      StringBuffer response = new StringBuffer();
+      while ((inputLine = in.readLine()) != null) {
+          response.append(inputLine);
+      }
+      in.close();
+      return response;
+  }
+
 
   @WebMethod
   public String getRecommendation(String[] categories) throws IOException, ParseException {
-    System.out.println("NTOD");
 
     String url = "jdbc:mysql://localhost:3306/bookservice";
     String username = "root";
@@ -169,9 +250,9 @@ public class BookService {
           System.out.println(rs.getString("id"));
           return rs.getString("id");
         } else {
-          URL reccomendurl = new URL("https://www.googleapis.com/books/v1/volumes?q=+subject="+category+"&key="+APIkey);
+          URL recommend_url = new URL("https://www.googleapis.com/books/v1/volumes?q=+subject="+category+"&key="+APIkey);
 
-          StringBuffer content = connectHttpUrl(reccomendurl);
+          StringBuffer content = connectHttpUrlGET(recommend_url);
 
           String JSONstring;
 

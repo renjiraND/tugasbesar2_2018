@@ -1,8 +1,17 @@
-var express = require("express");
-var app = express();
-var mysql = require('mysql');
+let express = require("express");
+let app = express();
+let mysql = require('mysql');
+let bodyParser = require('body-parser');
 
-var con = mysql.createConnection({
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(express.urlencoded());
+
+
+let con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
@@ -37,11 +46,12 @@ app.get("/validate", function(req, res, next){
   }
 });
 
-app.get("/transfer", function(req,res,next){
-  if (req.query.send && req.query.rcv && req.query.amount && req.query.time) {
-    sendsql = "select * from nasabah where nomor = \'" + req.query.send + "\'";
-    rcvsql = "select * from nasabah where nomor = \'" + req.query.rcv + "\'";
-    console.log(req.query.time)
+app.post("/transfer", function(req,res,next){
+  console.log(req.body);
+  if (req.body.send && req.body.rcv && req.body.amount && req.body.time) {
+    sendsql = "select * from nasabah where nomor = \'" + req.body.send + "\'";
+    rcvsql = "select * from nasabah where nomor = \'" + req.body.rcv + "\'";
+    console.log(req.body.time)
     con.query(sendsql, function(err,sender) {
       if (err) throw err;
       if (!sender[0]) {
@@ -56,12 +66,12 @@ app.get("/transfer", function(req,res,next){
           res.send(message)
           return
         }
-        if (sender[0]["saldo"] > req.query.amount) {
-          new_sender_amount = sender[0]["saldo"] - req.query.amount;
-          new_rcvr_amount = rcvr[0]["saldo"] + Number(req.query.amount);
-          transfersql = `UPDATE nasabah SET saldo=${new_sender_amount} where nomor=${req.query.send};
-                        UPDATE nasabah SET saldo=${new_rcvr_amount} where nomor=${req.query.rcv};
-                        INSERT INTO transaksi VALUES ('${req.query.send}', '${req.query.rcv}', '${req.query.amount}', '${req.query.time}')`
+        if (sender[0]["saldo"] > req.body.amount) {
+          new_sender_amount = sender[0]["saldo"] - req.body.amount;
+          new_rcvr_amount = rcvr[0]["saldo"] + Number(req.body.amount);
+          transfersql = `UPDATE nasabah SET saldo=${new_sender_amount} where nomor=${req.body.send};
+                        UPDATE nasabah SET saldo=${new_rcvr_amount} where nomor=${req.body.rcv};
+                        INSERT INTO transaksi VALUES ('${req.body.send}', '${req.body.rcv}', '${req.body.amount}', '${req.body.time}')`
           console.log(transfersql)
           con.query(transfersql, function(err, result, field) {
             if (err) throw err;
