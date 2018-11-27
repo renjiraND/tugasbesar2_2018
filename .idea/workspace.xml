@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="134c6d72-e622-4aed-8815-7d4e4e201a20" name="Default Changelist" comment="Compile search result to an ArrayList, Convert ArrayList to JSON">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/JAX_WS_Glassfish___JAX_WS_2_2_RI___Metro_1_X___JWSDP_2_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/JAX_WS_Glassfish___JAX_WS_2_2_RI___Metro_1_X___JWSDP_2_2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/tugasbesar2_2018.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tugasbesar2_2018.iml" afterDir="false" />
+    <list default="true" id="134c6d72-e622-4aed-8815-7d4e4e201a20" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webservice/BookService/out/production/BookService/bookservice/Book.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webservice/BookService/out/production/BookService/bookservice/BookService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webservice/BookService/src/bookservice/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/src/bookservice/Book.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,11 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="140" column="27" lean-forward="true" selection-start-line="140" selection-start-column="27" selection-end-line="140" selection-end-column="27" />
+            <state relative-caret-position="810">
+              <caret line="108" column="4" selection-start-line="108" selection-start-column="4" selection-end-line="108" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -35,13 +32,17 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/Book.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
+            <state relative-caret-position="234">
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1658#1659#0" expanded="true" />
+                <element signature="e#1686#1687#0" expanded="true" />
+                <element signature="e#1725#1726#0" expanded="true" />
+                <element signature="e#1759#1760#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -61,6 +62,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>NTOD</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -68,12 +74,15 @@
         <entry key="$PROJECT_DIR$" value="bookservice" />
       </map>
     </option>
+    <option name="PUSH_TAGS">
+      <GitPushTagMode />
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/webservice/BookService/src/bookservice/Book.java" />
         <option value="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" />
+        <option value="$PROJECT_DIR$/webservice/BookService/src/bookservice/Book.java" />
       </list>
     </option>
   </component>
@@ -131,7 +140,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543302532011" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543304374948" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/webservice/BookService/lib/mysql-connector-java-5.1.45-bin.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -186,7 +195,7 @@
       <workItem from="1543257635776" duration="1958000" />
       <workItem from="1543270610242" duration="1779000" />
       <workItem from="1543293366374" duration="2887000" />
-      <workItem from="1543298022286" duration="4500000" />
+      <workItem from="1543298022286" duration="5750000" />
     </task>
     <task id="LOCAL-00001" summary="Sementara doang">
       <created>1543211795211</created>
@@ -230,11 +239,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543258392005</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Fix Project Structure, Add Script for adding book price in database">
+      <created>1543302577376</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1543302577376</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34100000" />
+    <option name="totallyTimeSpent" value="35350000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="70" y="-5" width="1851" height="1086" extended-state="6" />
@@ -252,18 +268,18 @@
       <window_info anchor="bottom" id="Thumbnails" sideWeight="0.49972114" weight="0.32975295" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49302843" visible="true" weight="0.29967776" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49302843" weight="0.29967776" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50697154" side_tool="true" visible="true" weight="0.29967776" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50139433" side_tool="true" visible="true" weight="0.32975295" />
       <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49804798" weight="0.32975295" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
-      <window_info anchor="bottom" id="Version Control" order="13" sideWeight="0.49925596" weight="0.32978722" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="13" sideWeight="0.4986057" visible="true" weight="0.32975295" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -284,7 +300,8 @@
     <MESSAGE value="Add Book Class and string to JSON Parser" />
     <MESSAGE value="Parse JSON String and Get Relevant Attribute for Pro-Book" />
     <MESSAGE value="Compile search result to an ArrayList, Convert ArrayList to JSON" />
-    <option name="LAST_COMMIT_MESSAGE" value="Compile search result to an ArrayList, Convert ArrayList to JSON" />
+    <MESSAGE value="Fix Project Structure, Add Script for adding book price in database" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Project Structure, Add Script for adding book price in database" />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/System.java">
@@ -305,22 +322,26 @@
     <entry file="file://$PROJECT_DIR$/mocks/detail.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/Book.java">
+    <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
+        <state relative-caret-position="810">
+          <caret line="108" column="4" selection-start-line="108" selection-start-column="4" selection-end-line="108" selection-end-column="4" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
+    <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/Book.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="140" column="27" lean-forward="true" selection-start-line="140" selection-start-column="27" selection-end-line="140" selection-end-column="27" />
+        <state relative-caret-position="234">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1658#1659#0" expanded="true" />
+            <element signature="e#1686#1687#0" expanded="true" />
+            <element signature="e#1725#1726#0" expanded="true" />
+            <element signature="e#1759#1760#0" expanded="true" />
           </folding>
         </state>
       </provider>

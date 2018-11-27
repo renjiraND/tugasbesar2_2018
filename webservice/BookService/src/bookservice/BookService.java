@@ -103,69 +103,10 @@ public class BookService {
 //      System.out.println(category_list);
 //      System.out.println(book);
       book_list.add(b);
-
-
-
-
-
-
-      try  {
-        Class.forName("com.mysql.jdbc.Driver");
-
-        String database_url = "jdbc:mysql://localhost:3306/bookservice";
-        String username = "root";
-        String password = "";
-        System.out.println("Connecting database...");
-
-        Connection connection = DriverManager.getConnection(database_url, username, password);
-        System.out.println("Database connected!");
-
-        Statement stmt = null;
-        ResultSet rs = null;
-
-        try {
-
-          String query = String.format("INSERT INTO buku (id, price) VALUES ('%s',%d)", id, (10 + (int)(Math.random() * ((200 - 10) + 1)))*1000);
-          System.out.println(query);
-          stmt = connection.createStatement();
-          stmt.executeUpdate(query);
-          System.out.println("Query Executed!");
-        }
-        catch (SQLException ex){
-          // handle any errors
-          System.out.println("SQLException: " + ex.getMessage());
-          System.out.println("SQLState: " + ex.getSQLState());
-          System.out.println("VendorError: " + ex.getErrorCode());
-        }
-        finally {
-          if (rs != null) {
-            try {
-              rs.close();
-            } catch (SQLException sqlEx) { } // ignore
-
-            rs = null;
-          }
-
-          if (stmt != null) {
-            try {
-              stmt.close();
-            } catch (SQLException sqlEx) { } // ignore
-
-            stmt = null;
-          }
-        }
-      } catch (SQLException e) {
-        throw new IllegalStateException("Cannot connect the database!", e);
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-      }
-
       System.out.println(b);
     }
 
-
-
-
+    
     System.out.println(items);
     Gson gson = new Gson();
     String JSON_result = gson.toJson(book_list);
