@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.24, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.21, for Win64 (x86_64)
 --
 -- Host: localhost    Database: probook
 -- ------------------------------------------------------
--- Server version	5.7.24-0ubuntu0.18.04.1
+-- Server version	5.5.5-10.1.37-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -62,7 +62,7 @@ CREATE TABLE `order` (
   KEY `fk_order_book_idx` (`book`),
   CONSTRAINT `fk_order_book` FOREIGN KEY (`book`) REFERENCES `book` (`idbook`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_buyer` FOREIGN KEY (`buyer`) REFERENCES `user` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,6 +71,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` VALUES (10,'BobMcSaggy',1,4,'2018-11-26',4,'goks\r\n');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,6 +86,8 @@ CREATE TABLE `token` (
   `access_token` varchar(10) NOT NULL,
   `granted` varchar(16) NOT NULL,
   `expiry_time` datetime NOT NULL,
+  `browser` varchar(120) NOT NULL,
+  `ip` varchar(15) NOT NULL,
   PRIMARY KEY (`access_token`),
   KEY `fk_granted_username_idx` (`granted`),
   CONSTRAINT `fk_granted_username` FOREIGN KEY (`granted`) REFERENCES `user` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -139,4 +142,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-22 19:01:06
+-- Dump completed on 2018-11-28  7:20:17
