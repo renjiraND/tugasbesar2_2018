@@ -58,10 +58,18 @@
 				array_push($list_review, $row);
 			}
 
+			$client = new SoapClient("http://localhost:9000/BookService?wsdl");
+			//$response = $client->__soapCall("getBook",array('id' => "xsRGDwAAQBAJ"));
+			$response = $client->getBook(array("arg0" => "xsRGDwAAQBAJ"));
+			/* Print webservice response */
+			$title = $response->return->title;
+			print_r($title);
+			//var_dump($client->__getFunctions()); 
+			var_dump($client->__getTypes()); 
 			$conn->close();
 		?>
 
-		<div class="flex center">
+		<div class="flex center">	
 			<div class="container-small">
 				<div class="flex space-beetween">
 					<div>
