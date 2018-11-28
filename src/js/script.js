@@ -12,9 +12,5 @@ app.config(function($routeProvider) {
 });
 
 app.controller('SearchController', function($scope) {
-  $scope.message = 'Hello from SearchController';
-});
-
-app.controller('ResultController', function($scope) {
-  $scope.message = 'Hello from ResultController';
+  $scope.searchvalue = "";
 });

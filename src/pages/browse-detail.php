@@ -63,13 +63,13 @@
 			$response = $client->getBook(array("arg0" => "xsRGDwAAQBAJ"));
 			/* Print webservice response */
 			$title = $response->return->title;
-			print_r($title);
-			//var_dump($client->__getFunctions()); 
-			var_dump($client->__getTypes()); 
+			print_r($client);
+			//var_dump($client->__getFunctions());
+			var_dump($client->__getTypes());
 			$conn->close();
 		?>
 
-		<div class="flex center">	
+		<div class="flex center">
 			<div class="container-small">
 				<div class="flex space-beetween">
 					<div>

@@ -111,7 +111,7 @@
       }
       addTokenToDB($token,$user);
       setcookie("login",$token,time()+86400, "/");
-      header("Location: ../pages/browse-search.php");
+      header("Location: ../pages/search.php");
       die;
     }
     else {
