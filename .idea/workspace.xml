@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="134c6d72-e622-4aed-8815-7d4e4e201a20" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webservice/BookService/out/production/tugasbesar2_2018/bookservice/BookService.class" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/out/production/tugasbesar2_2018/bookservice/BookService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/browse-detail.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/browse-detail.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,8 +22,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="452">
-              <caret line="387" column="20" lean-forward="true" selection-start-line="387" selection-start-column="20" selection-end-line="387" selection-end-column="20" />
+            <state relative-caret-position="362">
+              <caret line="175" column="26" lean-forward="true" selection-start-line="175" selection-start-column="26" selection-end-line="175" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pages/browse-detail.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="109" column="23" lean-forward="true" selection-start-line="109" selection-start-column="23" selection-end-line="109" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -32,7 +40,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/Book.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-583">
+            <state relative-caret-position="216">
               <caret line="13" selection-start-line="13" selection-end-line="13" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -89,11 +97,17 @@
       </list>
     </option>
   </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="152" />
-    <option name="y" value="-5" />
-    <option name="width" value="1398" />
-    <option name="height" value="997" />
+    <option name="x" value="240" />
+    <option name="y" value="33" />
+    <option name="width" value="1396" />
+    <option name="height" value="996" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -103,7 +117,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -119,12 +132,25 @@
             <path>
               <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
               <item name="tugasbesar2_2018" type="462c0819:PsiDirectoryNode" />
-              <item name="mocks" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+              <item name="libraries" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
               <item name="tugasbesar2_2018" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tugasbesar2_2018" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tugasbesar2_2018" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="php" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
@@ -147,19 +173,35 @@
               <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
               <item name="tugasbesar2_2018" type="462c0819:PsiDirectoryNode" />
               <item name="webservice" type="462c0819:PsiDirectoryNode" />
+              <item name="BookService" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tugasbesar2_2018" type="462c0819:PsiDirectoryNode" />
+              <item name="webservice" type="462c0819:PsiDirectoryNode" />
+              <item name="BookService" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="bookservice" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tugasbesar2_2018" type="462c0819:PsiDirectoryNode" />
+              <item name="webservice" type="462c0819:PsiDirectoryNode" />
               <item name="probank" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543336928033" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543388426068" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/webservice/BookService/lib/mysql-connector-java-5.1.45-bin.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -216,6 +258,8 @@
       <workItem from="1543293366374" duration="2887000" />
       <workItem from="1543298022286" duration="7176000" />
       <workItem from="1543334175265" duration="2735000" />
+      <workItem from="1543378869289" duration="1202000" />
+      <workItem from="1543385666284" duration="2319000" />
     </task>
     <task id="LOCAL-00001" summary="Sementara doang">
       <created>1543211795211</created>
@@ -305,13 +349,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39511000" />
+    <option name="totallyTimeSpent" value="43032000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="71" y="-5" width="1849" height="1085" extended-state="6" />
+    <frame x="70" y="-5" width="1851" height="1086" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49846625" visible="true" weight="0.30953708" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49846625" visible="true" weight="0.31846067" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -322,14 +366,14 @@
       <window_info id="Web" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49135527" visible="true" weight="0.29967776" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49079755" visible="true" weight="0.29967776" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5086447" side_tool="true" visible="true" weight="0.29967776" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5092025" side_tool="true" visible="true" weight="0.29967776" />
       <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49749023" weight="0.32975295" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
@@ -338,9 +382,9 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Maven" order="3" />
-      <window_info anchor="right" id="Palette" order="4" />
-      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Maven" order="5" weight="0.32961518" />
       <window_info anchor="right" id="Database" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
@@ -379,15 +423,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mocks/search_result.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mocks/detail.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/Book.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-583">
+        <state relative-caret-position="216">
           <caret line="13" selection-start-line="13" selection-end-line="13" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -399,10 +437,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mocks/search_result.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mocks/detail.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/browse-detail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="109" column="23" lean-forward="true" selection-start-line="109" selection-start-column="23" selection-end-line="109" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="387" column="20" lean-forward="true" selection-start-line="387" selection-start-column="20" selection-end-line="387" selection-end-column="20" />
+        <state relative-caret-position="362">
+          <caret line="175" column="26" lean-forward="true" selection-start-line="175" selection-start-column="26" selection-end-line="175" selection-end-column="26" />
         </state>
       </provider>
     </entry>
