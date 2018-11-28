@@ -20,11 +20,32 @@
       return false;
     }
   }
+	function get_client_ip_server() {
+    $ipaddress = '';
+    if ($_SERVER['HTTP_CLIENT_IP'])
+        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    else if($_SERVER['HTTP_X_FORWARDED_FOR'])
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    else if($_SERVER['HTTP_X_FORWARDED'])
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+    else if($_SERVER['HTTP_FORWARDED_FOR'])
+        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+    else if($_SERVER['HTTP_FORWARDED'])
+        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+    else if($_SERVER['REMOTE_ADDR'])
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
+    else
+        $ipaddress = 'UNKNOWN';
+
+    return $ipaddress;
+  }
   function addTokenToDB($token,$user)
   {
     require '../php/connect.php';
     $exptime = date('Y-m-d H:i:s',(time()+43200));
-    $sql = "INSERT INTO probook.token(access_token, granted, expiry_time) VALUES ('$token','$user','$exptime')";
+		$browser = $_SERVER['HTTP_USER_AGENT'];
+    $ip = get_client_ip_server();
+		$sql = "INSERT INTO probook.token(access_token, granted, expiry_time, browser, ip) VALUES ('$token','$user','$exptime', '$browser', '$ip')";
     if ($conn->query($sql) === TRUE) {
     } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
@@ -40,10 +61,11 @@
 	$pass = $_POST["input-password"];
 	$address = $_POST["input-address"];
 	$phone = $_POST["input-phone-number"];
+	$card_number = $_POST["input-card-number"];
 
 	require 'connect.php';
 
-	$sql = "INSERT INTO probook.user(username, name, email, password, address, phone, picture) VALUES ('$user','$name','$email','$pass','$address','$phone','../res/profile_picture/default.jpg')";
+	$sql = "INSERT INTO probook.user(username, name, email, password, address, phone, picture, card_number) VALUES ('$user','$name','$email','$pass','$address','$phone','../res/profile_picture/default.jpg', '$card_number')";
 
 	if ($conn->query($sql) === TRUE) {
 	} else {

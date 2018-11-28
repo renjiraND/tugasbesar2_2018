@@ -1,11 +1,36 @@
 <?php
+	function get_client_ip_server() {
+	$ipaddress = '';
+	if (@$_SERVER['HTTP_CLIENT_IP'])
+			$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+	else if(@$_SERVER['HTTP_X_FORWARDED_FOR'])
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	else if(@$_SERVER['HTTP_X_FORWARDED'])
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+	else if(@$_SERVER['HTTP_FORWARDED_FOR'])
+			$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+	else if(@$_SERVER['HTTP_FORWARDED'])
+			$ipaddress = $_SERVER['HTTP_FORWARDED'];
+	else if(@$_SERVER['REMOTE_ADDR'])
+			$ipaddress = $_SERVER['REMOTE_ADDR'];
+	else
+			$ipaddress = 'UNKNOWN';
+
+	return $ipaddress;
+	}
 	if (!isset($_COOKIE['login'])) {
 		header("Location: login.php");
 		die();
 	} else {
 		require '../php/connect.php';
+		date_default_timezone_set("Asia/Jakarta");
 		$timenow = date('Y-m-d H:i:s',time());
-		$sql = "SELECT expiry_time from probook.token where access_token = '". $_COOKIE['login'] . "' AND expiry_time > '". $timenow ."'";
+		$browser = $_SERVER['HTTP_USER_AGENT'];
+		$ip = get_client_ip_server();
+
+		$sql = "DELETE from probook.token where expiry_time < '" . $timenow . "'";
+		$result = mysqli_query($conn, $sql);
+		$sql = "SELECT expiry_time from probook.token where access_token = '". $_COOKIE['login'] . "' AND expiry_time > '". $timenow ."' AND browser = '". $browser ."' AND ip = '". $ip ."'";
 		$result = mysqli_query($conn, $sql);
 		if (mysqli_num_rows($result)>0) {
       $sql2 = "SELECT username from probook.user INNER JOIN probook.token ON username=granted where access_token='" . $_COOKIE['login']. "'" ;

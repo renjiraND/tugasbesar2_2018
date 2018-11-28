@@ -23,8 +23,9 @@
       <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/stax-ex.jar!/" />
       <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/woodstox-core-asl.jar!/" />
       <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/ha-api.jar!/" />
-      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/json-simple-1.1.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/mysql-connector-java-5.1.45-bin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/gson-2.6.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/webservice/BookService/lib/json-simple-1.1.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

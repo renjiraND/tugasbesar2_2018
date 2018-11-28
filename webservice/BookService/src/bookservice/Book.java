@@ -1,14 +1,28 @@
 package bookservice;
 
-public class Book {
+import java.io.Serializable;
+import java.util.List;
+
+public class Book implements Serializable {
     private String id;
     private String title;
     private String authors;
     private String description;
     private String imageLinks;
-    private String category;
+    private List<String> categories;
+    private int price;
 
     public Book() {
+    }
+
+    public Book(String id, String title, String authors, String description, String imageLinks, List<String> categories, int price) {
+        this.id = id;
+        this.title = title;
+        this.authors = authors;
+        this.description = description;
+        this.imageLinks = imageLinks;
+        this.categories = categories;
+        this.price = price;
     }
 
     public String getId() {
@@ -51,6 +65,22 @@ public class Book {
         this.imageLinks = imageLinks;
     }
 
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -59,6 +89,7 @@ public class Book {
                 ", authors='" + authors + '\'' +
                 ", description='" + description + '\'' +
                 ", imageLinks='" + imageLinks + '\'' +
+                ", categories=" + categories +
                 '}';
     }
 }

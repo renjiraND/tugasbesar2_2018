@@ -13,13 +13,14 @@
     $sql2 = "SELECT username from probook.user INNER JOIN probook.token ON username=granted where access_token='" . $_COOKIE['login']. "'" ;
     $result2 = mysqli_fetch_row(mysqli_query($conn, $sql2));
     $username = $result2[0];
-		$sql = "SELECT name, email, address, phone, picture  from probook.user where username='" . $username. "'" ;
+		$sql = "SELECT name, email, address, phone, picture, card_number from probook.user where username='" . $username. "'" ;
 		$result = mysqli_fetch_row(mysqli_query($conn, $sql));
 		$name = $result[0];
 		$email = $result[1];
 		$address = $result[2];
 		$phone = $result[3];
 		$picture = $result[4];
+		$card_number = $result[5];
 	?>
 
   <div class="bg-color-navy-blue">
@@ -76,6 +77,14 @@
       </div>
       <div class="flex one-five text-size-small center-vertical font-default"> Phone Number </div>
       <div class="flex three-five text-size-small vertical margin-left-medium wrap-text font-default"> <?php echo $phone?> </div>
+    </div>
+
+		<div class="flex row text-size-small text-color-black margin-top-medium margin-left-large">
+      <div class="one-five flex align-right margin-right-medium">
+        <img class="mini-icon" src="../res/misc/credit-card.png">
+      </div>
+      <div class="flex one-five text-size-small center-vertical font-default"> Card Number </div>
+      <div class="flex three-five text-size-small vertical margin-left-medium wrap-text font-default"> <?php echo $card_number?> </div>
     </div>
   </div>
 </body>

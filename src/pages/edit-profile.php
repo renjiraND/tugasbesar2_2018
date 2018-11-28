@@ -13,12 +13,13 @@
     $sql2 = "SELECT username from probook.user INNER JOIN probook.token ON username=granted where access_token='" . $_COOKIE['login']. "'" ;
     $result2 = mysqli_fetch_row(mysqli_query($conn, $sql2));
     $username = $result2[0];
-		$sql = "SELECT name, address, phone, picture from probook.user where username='" . $username. "'" ;
+		$sql = "SELECT name, address, phone, picture, card_number from probook.user where username='" . $username. "'" ;
 		$result = mysqli_fetch_row(mysqli_query($conn, $sql));
 		$name = $result[0];
 		$address = $result[1];
 		$phone = $result[2];
 		$picture = $result[3];
+		$card_number = $result[4];
 	?>
 
   <div class="text-size-very-large text-bold margin-left-medium text-color-orange font-default">
@@ -87,6 +88,20 @@
     <div class="flex two-third">
       <div class="flex two-third flex-wrap">
       <input form="new-profile" class="other-input padding-left-small full-width font-field" type="text" name="new-phone" value='<?php echo $phone?>'>
+      </div>
+    </div>
+  </div>
+
+	<div class="flex row margin-top-large center-vertical">
+    <div class="flex row one-third center text-size-small">
+      <div class="flex half"></div>
+      <div class="flex half font-default">
+          Card number
+      </div>
+    </div>
+    <div class="flex two-third">
+      <div class="flex two-third flex-wrap">
+      <input form="new-profile" class="other-input padding-left-small full-width font-field" type="text" name="new-card" value='<?php echo $card_number?>'>
       </div>
     </div>
   </div>
