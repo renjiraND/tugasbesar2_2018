@@ -4,19 +4,22 @@ package bookservice;
 import com.google.gson.Gson;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
-import java.net.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.*;
-import java.util.Iterator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @WebService(targetNamespace = "http://test")
@@ -33,7 +36,7 @@ public class BookService {
 
   @WebMethod
   public List<Book> searchBook(String keyword) throws IOException, ParseException {
-    URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + keyword + "&key=" + APIkey);
+    URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + keyword +"+intitle:"+keyword+"&key=" + APIkey);
     StringBuffer content = connectHttpUrl(url);
 
     String JSONstring;
@@ -45,6 +48,7 @@ public class BookService {
 
     JSONArray items = (JSONArray) JSONBooks.get("items");
     List<Book> book_list = new ArrayList<>();
+
 
     for (Object o : items) {
       JSONObject book = (JSONObject) o;
@@ -90,7 +94,63 @@ public class BookService {
           category_list.add((String) c);
         }
       }
-      Book b = new Book(id, title, author, description, thumbnail, category_list);
+
+      //Get Price
+      String database_url = "jdbc:mysql://localhost:3306/bookservice";
+      String username = "root";
+      String password = "";
+      int price = -1;
+      System.out.println("Connecting database...");
+
+      try (Connection connection = DriverManager.getConnection(database_url, username, password)) {
+        System.out.println("Database connected!");
+
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+          stmt = connection.createStatement();
+          String query = String.format("SELECT * FROM buku WHERE (id = '%s')", id);
+          rs = stmt.executeQuery(query);
+          if(rs.first()) {
+            price = rs.getInt("price");
+          }
+        }
+        catch (SQLException ex){
+          // handle any errors
+          System.out.println("SQLException: " + ex.getMessage());
+          System.out.println("SQLState: " + ex.getSQLState());
+          System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        finally {
+          // it is a good idea to release
+          // resources in a finally{} block
+          // in reverse-order of their creation
+          // if they are no-longer needed
+
+          if (rs != null) {
+            try {
+              rs.close();
+            } catch (SQLException sqlEx) { } // ignore
+
+            rs = null;
+          }
+
+          if (stmt != null) {
+            try {
+              stmt.close();
+            } catch (SQLException sqlEx) { } // ignore
+
+            stmt = null;
+          }
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+        throw new IllegalStateException("Cannot connect the database!", e);
+      }
+
+
+      Book b = new Book(id, title, author, description, thumbnail, category_list, price);
 //      System.out.println(id);
 //      System.out.println(title);
 //      System.out.println(author);
@@ -99,14 +159,130 @@ public class BookService {
 //      System.out.println(category_list);
 //      System.out.println(book);
       book_list.add(b);
-      System.out.println(b);
     }
-    System.out.println(items);
+
+
     Gson gson = new Gson();
     String JSON_result = gson.toJson(book_list);
     System.out.println(JSON_result);
     return book_list;
   }
+
+    @WebMethod
+    public Book getBook(String id) throws IOException, ParseException {
+        URL url = new URL("https://www.googleapis.com/books/v1/volumes/" + id + "?key=" + APIkey);
+        StringBuffer content = connectHttpUrl(url);
+
+        String JSONstring;
+
+        JSONParser jsonParse = new JSONParser();
+        JSONstring = content.toString();
+
+        JSONObject book = (JSONObject) jsonParse.parse(JSONstring);
+
+        JSONObject volume_info = (JSONObject) book.get("volumeInfo");
+
+        //Get Book Title
+        String title = (String) volume_info.get("title");
+
+        //Get Authors
+        JSONArray authors = (JSONArray) volume_info.get("authors");
+        String author;
+        if (authors == null) {
+            author = "Unknown";
+        } else {
+            author = (String) authors.get(0);
+        }
+
+        //Get Descriptions
+        String description;
+        if (volume_info.get("description") == null) {
+            description = "No Description";
+        } else {
+            description = (String) volume_info.get("description");
+        }
+
+        //GetImageLinks
+        JSONObject imageLinks = (JSONObject) volume_info.get("imageLinks");
+        String thumbnail;
+        if (imageLinks == null) {
+            thumbnail = "default";
+        } else {
+            thumbnail = (String) imageLinks.get("thumbnail");
+        }
+        //Get Category
+        List<String> category_list = new ArrayList<>();
+        JSONArray categories = (JSONArray) volume_info.get("categories");
+        if (categories == null) {
+            category_list.add("None");
+        } else {
+            for (Object c : categories) {
+                category_list.add((String) c);
+            }
+        }
+
+        //Get Price
+        String database_url = "jdbc:mysql://localhost:3306/bookservice";
+        String username = "root";
+        String password = "";
+        int price = -1;
+        System.out.println("Connecting database...");
+
+        try (Connection connection = DriverManager.getConnection(database_url, username, password)) {
+            System.out.println("Database connected!");
+
+            Statement stmt = null;
+            ResultSet rs = null;
+
+            try {
+                stmt = connection.createStatement();
+                String query = String.format("SELECT * FROM buku WHERE (id = '%s')", id);
+                rs = stmt.executeQuery(query);
+                if(rs.first()) {
+                    price = rs.getInt("price");
+                }
+            }
+            catch (SQLException ex){
+                // handle any errors
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+            }
+            finally {
+                // it is a good idea to release
+                // resources in a finally{} block
+                // in reverse-order of their creation
+                // if they are no-longer needed
+
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (SQLException sqlEx) { } // ignore
+
+                    rs = null;
+                }
+
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException sqlEx) { } // ignore
+
+                    stmt = null;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Cannot connect the database!", e);
+        }
+
+
+        Book b = new Book(id, title, author, description, thumbnail, category_list, price);
+
+        Gson gson = new Gson();
+        String JSON_result = gson.toJson(b);
+        System.out.println(JSON_result);
+        return b;
+    }
 
   public void buyBookByID(String BookID, String UserID) throws IOException{
     // localhost:4000/transfer?send=123412341234&rcv=040214100804&amount=0&time=2018-11-15%2000:00:00
@@ -146,7 +322,6 @@ public class BookService {
 
   @WebMethod
   public String getRecommendation(String[] categories) throws IOException, ParseException {
-    System.out.println("NTOD");
 
     String url = "jdbc:mysql://localhost:3306/bookservice";
     String username = "root";
@@ -164,6 +339,7 @@ public class BookService {
 
         stmt = connection.createStatement();
         String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi where categories='%s') LIMIT 1", category);
+        System.out.print(query);
         rs = stmt.executeQuery(query);
         if(rs.first()) {
           System.out.println(rs.getString("id"));
@@ -221,6 +397,7 @@ public class BookService {
         }
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new IllegalStateException("Cannot connect the database!", e);
     }
     return "";
