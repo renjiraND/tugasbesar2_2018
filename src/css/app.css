@@ -105,3 +105,7 @@ footer {height: 100px;}
 .font-title-2{font-family: "Nunito Sans";}
 .font-default{font-family: "Nunito";}
 .font-field{font-family: "Arial";}
+
+.hide {
+  display: none;
+}
