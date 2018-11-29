@@ -74,12 +74,28 @@
 			$book['id'] = $responseDetail->return->id;
 			$book['title'] = $responseDetail->return->title;
 			$book['author'] = $responseDetail->return->authors;
-			$book['description'] = $responseDetail->return->description;
-			$book['img'] = $responseDetail->return->imageLinks;
-			$book['price'] = $responseDetail->return->price;
-			$book['categories'] = $responseDetail->return->categories;
-			$book['rating'] = $sum / count($list_review);
 
+			if ($responseDetail->return->description == 'default'){
+				$book['description'] = '../res/profile_picture/default.jpg';
+			} else {
+			$book['description'] = $responseDetail->return->description;
+			}
+
+			$book['img'] = $responseDetail->return->imageLinks;
+
+			if ($responseDetail->return->price == -1){
+				$book['price'] = 'Not For Sale';
+			} else {
+			$book['price'] = 'Rp' + $responseDetail->return->price;
+			}
+
+			$book['categories'] = $responseDetail->return->categories;
+
+			if (count($list_review) != 0){
+				$book['rating'] = $sum / count($list_review);
+			} else {
+				$book['rating'] = 0;
+			}
 
 			// $responseReccomendation = $client->getRecommendation(array("arg0" => $book['categories']));
 			// $recBookId = $responseReccomendation->return;
@@ -113,7 +129,7 @@
 						<div class="flex center">
 							<img class="book-result-img margin font-default" src=<?php echo "\"" . $book["img"] . "\"";?>>
 						</div>
-						<div class="text-color-grey text-bold text-size-small margin-top-small font-default"><?php echo "Rp" . $book["price"];?></div>
+						<div class="text-color-grey text-bold text-size-small margin-top-small font-default"><?php echo $book["price"];?></div>
 						<div class="flex row margin-top-small">
 							<?php
 								$rating = $book['rating'];
