@@ -36,7 +36,7 @@
 	<div>
 		<?php require 'header.php';?>
 		<?php
-			// require '../php/connect.php';
+			require '../php/connect.php';
 			// $id_book = $_GET['id_book'];
 
 			// $sql = "SELECT * FROM probook.book WHERE probook.book.idbook = " . $id_book;
@@ -51,12 +51,13 @@
 			// 	$book['rating'] = $_GET['rating'];
 			// }
 
-			// $sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = " . $id_book;
-			// $result = $conn->query($sql);
-			// $list_review = array();
-			// while ($row = $result->fetch_assoc()) {
-			// 	array_push($list_review, $row);
-			// }
+			$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = " . 1;
+			print_r($sql);
+			$result = $conn->query($sql);
+			$list_review = array();
+			while ($row = $result->fetch_assoc()) {
+				array_push($list_review, $row);
+			}
 
 			$client = new SoapClient("http://localhost:9000/BookService?wsdl");
 			$response = $client->getBook(array("arg0" => "xsRGDwAAQBAJ"));
@@ -143,7 +144,7 @@
 					</form>
 				</div>
 
-				<!--
+	
 				<div class="margin-top-large">
 					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Reviews</div>
 					<?php
@@ -166,7 +167,31 @@
 						}
 					?>
 				</div>
-				-->
+
+
+				<div class="margin-top-large">
+					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Reccomendation</div>
+					<?php
+					echo "<div class=\"flex space-beetween margin-bot-medium\">
+					<div class=\"flex space-beetween row \">
+						<img class=\"book-result-img\" src=\"" . $book['img'] . "\">
+						<div class=\"margin-left-small font-default\">
+							<div class=\"text-color-orange text-bold text-size-medium\">" . $book["title"] ."</div>
+							<div class=\"text-color-grey text-bold text-size-very-small\">" . $book["author"] . " - " . number_format($book["rate"],1) . "/5.0 (" . $book["votes"] . " votes)</div>
+							<div class=\"text-color-grey text-bold text-size-very-small align-bottom\">wakwaw</div>
+						</div>
+					</div>
+					<div>
+						<form method=\"GET\" action=\"browse-detail.php\">
+							<div class=\"flex align-right\">
+								<input type=\"hidden\" name=\"id_book\" value=\"" . $book["id"] . "\">
+								<input type=\"hidden\" name=\"rating\" value=\"" . $book["rate"] . "\">
+								<input class=\"text-color-white border-radius bg-color-light-blue margin-top-small font-default btn-detail\" type=\"submit\" value=\"Detail\" id_book=\"" . $book['id'] . "\" value=\"Detail\">
+							</div>
+						</form>
+					</div>";
+				?>
+				</div>
 
 
 			</div>
