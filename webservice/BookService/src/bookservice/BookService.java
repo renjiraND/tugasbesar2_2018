@@ -22,7 +22,6 @@ import java.util.List;
 public class BookService {
 
   private String APIkey = "AIzaSyCozd0JbgrBxT32kZILK2gKfh7wSKKVOf4";
-  private String BankID = "000011112222";
 
   public static void main(String[] argv) {
     Object implementor = new BookService();
@@ -107,21 +106,18 @@ public class BookService {
     return book_list;
   }
 
+  @WebMethod
   public StringBuffer buyBookByID(String BookID, String UserID, String[] categories) throws IOException {
-    // localhost:4000/transfer?send=123412341234&rcv=040214100804&amount=0&time=2018-11-15%2000:00:00
 
+    //Init required variables
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss");
     Date date = new Date();
     String varTime = dateFormatter.format(date);
-    String varAmount = "0"; // testing purposes
-    String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
+    StringBuffer content = new StringBuffer();
+    String BankID = "000011112222";
 
-    byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
-    String request = "http://localhost:4000/transfer";
-
-    StringBuffer content = connectHttpUrlPOST(request,postData);
-
-    String url = "jdbc:mysql://localhost:3306/booktest";
+    //Init variables for DB connection
+    String url = "jdbc:mysql://localhost:3306/bookservice";
     String username = "root";
     String password = "";
     System.out.println("Connecting database...");
@@ -134,15 +130,31 @@ public class BookService {
 
       try {
         stmt = connection.createStatement();
-        String query = String.format("SELECT bookid FROM bookTransaction WHERE bookid = \'"+BookID+"\'");
+        String query = String.format("SELECT buku.id, amount, price FROM buku JOIN transaksi on buku.id = transaksi.id AND buku.id = \'"+BookID+"\'");
         rs = stmt.executeQuery(query);
         if(rs.first()) {
-          System.out.println(rs.getString("bookid"));
-          query = String.format("UPDATE booktransaction SET ntransaction = ntransaction + 1 WHERE bookid = \'"+BookID+"\'");
+          String varAmount = rs.getString("price");
+          String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
+
+          byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
+          String request = "http://localhost:4000/transfer";
+
+          content = connectHttpUrlPOST(request,postData);
+
+          query = String.format("UPDATE transaksi SET amount = amount + 1 WHERE id = \'"+BookID+"\'");
           ur = stmt.executeUpdate(query);
         } else {
+          query = String.format("SELECT price FROM buku WHERE buku.id = \'"+BookID+"\'");
+          rs = stmt.executeQuery(query);
+          String varAmount = rs.getString("price");
+          String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
+
+          byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
+          String request = "http://localhost:4000/transfer";
+
+          content = connectHttpUrlPOST(request,postData);
           for (String category : categories){
-            query = String.format("INSERT INTO `booktransaction` (`BookID`, `kategori`, `ntransaction`) VALUES (\'"+BookID+"\', \'"+category+"\', '1')");
+            query = String.format("INSERT INTO `transaksi` (`id`, `categories`, `amount`) VALUES (\'"+BookID+"\', \'"+category+"\', '1')");
             ur = stmt.executeUpdate(query);
           }
         }
@@ -171,14 +183,8 @@ public class BookService {
       throw new IllegalStateException("Cannot connect the database!", e);
     }
 
-
-
     return content;
   }
-
-//    URL url = new URL("http://localhost:4000/transfer?);
-//    StringBuffer received = connectHttpUrlGET(url);
-//    System.out.println(received);
 
   private StringBuffer connectHttpUrlGET(URL url) throws IOException{
     HttpURLConnection con = (HttpURLConnection) url.openConnection();
