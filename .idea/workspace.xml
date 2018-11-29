@@ -2,21 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="134c6d72-e622-4aed-8815-7d4e4e201a20" name="Default Changelist" comment="Merged master with bookandDB&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;soapui.log&#10;#&#9;webservice/BookService/out/production/BookService/bookservice/BookService.class&#10;#&#9;webservice/BookService/src/bookservice/BookService.java">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/soapui-errors.log" beforeDir="false" afterPath="$PROJECT_DIR$/soapui-errors.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/soapui.log" beforeDir="false" afterPath="$PROJECT_DIR$/soapui.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webservice/BookService/BookService.iml" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/BookService.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webservice/probank/node_modules/body-parser/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/probank/node_modules/body-parser/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webservice/probank/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/probank/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webservice/probank/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/probank/server.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/BookService/out/production/tugasbesar2_2018/bookservice/Book.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/BookService/out/production/tugasbesar2_2018/bookservice/BookService.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -215,7 +202,7 @@
       <workItem from="1543378869289" duration="1202000" />
       <workItem from="1543385666284" duration="2741000" />
       <workItem from="1543476180505" duration="130000" />
-      <workItem from="1543476468445" duration="762000" />
+      <workItem from="1543476468445" duration="1038000" />
     </task>
     <task id="LOCAL-00001" summary="Sementara doang">
       <created>1543211795211</created>
@@ -308,15 +295,21 @@
       <option name="project" value="LOCAL" />
       <updated>1543388472097</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Merged master with bookandDB&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;soapui.log&#10;#&#9;webservice/BookService/out/production/BookService/bookservice/BookService.class&#10;#&#9;webservice/BookService/src/bookservice/BookService.java">
+      <created>1543477392813</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1543477392813</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44776000" />
+    <option name="totallyTimeSpent" value="45052000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49846625" visible="true" weight="0.19818456" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -329,12 +322,12 @@
       <window_info id="Web" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49079755" visible="true" weight="0.29860032" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49079755" weight="0.29860032" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32970452" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5092025" side_tool="true" weight="0.29860032" />
       <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49749023" weight="0.32975295" />
