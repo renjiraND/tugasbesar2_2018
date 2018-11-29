@@ -141,7 +141,7 @@
 				<div class="margin-top-large">
 					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Reviews</div>
 					<?php
-						foreach ($list_review as $review) {
+                        foreach ($list_review as $review) {
 							echo "<div class=\"flex space-beetween margin-bot-medium\">
 								<div class=\"flex row\">
 									<img class=\"review-img margin-right-small\" src=\"" . $review["img"] . "\">

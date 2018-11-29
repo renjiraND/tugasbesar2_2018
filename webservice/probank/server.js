@@ -1,6 +1,7 @@
 var express = require("express");
 var app = express();
 var mysql = require('mysql');
+var cors = require('cors')
 
 var con = mysql.createConnection({
   host: "localhost",
@@ -9,6 +10,8 @@ var con = mysql.createConnection({
   database: "probank",
   multipleStatements: true
 });
+
+app.use(cors())
 
 con.connect(function(err) {
   if (err) throw err;
