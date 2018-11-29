@@ -37,8 +37,8 @@
 		<?php require 'header.php';?>
 		<?php
 			require '../php/connect.php';
-			//$id_book = $_GET['id_book'];
-			$id_book = 'xsRGDwAAQBAJ';
+			$id_book = $_GET['id_book'];
+			//$id_book = 'xsRGDwAAQBAJ';
 
 			// $sql = "SELECT * FROM probook.book WHERE probook.book.idbook = " . $id_book;
 			// $result = $conn->query($sql);
@@ -53,7 +53,7 @@
 			// }
 
 			$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = " . 1;
-			print_r($sql);
+			//print_r($sql);
 			$result = $conn->query($sql);
 			$list_review = array();
 			while ($row = $result->fetch_assoc()) {
@@ -64,8 +64,8 @@
 			$responseDetail = $client->getBook(array("arg0" => $id_book));
 			/* Print webservice response */
 			$title = $responseDetail->return->categories;
-			print_r($title);
-			var_dump($title);
+			//print_r($title);
+			//var_dump($title);
 
 			$book['id'] = $responseDetail->return->id;
 			$book['title'] = $responseDetail->return->title;
@@ -93,8 +93,8 @@
 			// $recBook['categories'] = $responseReccomendation->return->categories;
 			// $book['rating'] = $_GET['rating'];
 
-			var_dump($client->__getFunctions());
-			var_dump($client->__getTypes());
+			//var_dump($client->__getFunctions());
+			//var_dump($client->__getTypes());
 			 $conn->close();
 		?>
 
@@ -110,7 +110,7 @@
 						<div class="flex center">
 							<img class="book-result-img margin font-default" src=<?php echo "\"" . $book["img"] . "\"";?>>
 						</div>
-						<div class="text-color-grey text-bold text-size-small margin-top-small font-default"><?php echo Rp . $book["price"];?></div>
+						<div class="text-color-grey text-bold text-size-small margin-top-small font-default"><?php echo "Rp" . $book["price"];?></div>
 						<div class="flex row margin-top-small">
 							<?php
 								$rating = $book['rating'];
