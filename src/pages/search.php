@@ -26,7 +26,7 @@
               <img class="book-result-img" ng-src="{{book.imageLinks}}" style="flex-grow: 1; flex-basis: 0;">
               <div class="margin-left-small font-default" style="flex-grow: 7; flex-basis: 0;">
                 <div class="text-color-orange text-bold text-size-medium">{{book.title}}</div>
-                <div class="text-color-grey text-bold text-size-very-small">{{book.authors}} - 0.0/5.0</div>
+                <div class="text-color-grey text-bold text-size-very-small">{{book.authors}} - {{book.rating}}/5.0 ({{book.votes}} voted)</div>
                 <div class="text-color-grey text text-size-very-small">{{book.description}}</div>
               </div>
             </div>
@@ -35,7 +35,6 @@
                 <div class="flex align-right">
                   <input type="hidden" name="id_book" ng-value="book.id">
                   <input type="hidden" name="rating" value=5>
-                  <!--input type="hidden" name="rating" value="" . $book["rate"] . ""-->
                   <input class="text-color-white border-radius bg-color-light-blue margin-top-small font-default btn-detail" type="submit" value="Detail">
                 </div>
               </form>
