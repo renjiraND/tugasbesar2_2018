@@ -36,37 +36,43 @@
 	<div>
 		<?php require 'header.php';?>
 		<?php
-			require '../php/connect.php';
-			$id_book = $_GET['id_book'];
+			// require '../php/connect.php';
+			// $id_book = $_GET['id_book'];
 
-			$sql = "SELECT * FROM probook.book WHERE probook.book.idbook = " . $id_book;
-			$result = $conn->query($sql);
-			$book = array();
-			while ($row = $result->fetch_assoc()) {
-				$book['id'] = $row['idbook'];
-				$book['title'] = $row['bookname'];
-				$book['author'] = $row['author'];
-				$book['description'] = $row['description'];
-				$book['img'] = $row['image'];
-				$book['rating'] = $_GET['rating'];
-			}
+			// $sql = "SELECT * FROM probook.book WHERE probook.book.idbook = " . $id_book;
+			// $result = $conn->query($sql);
+			// $book = array();
+			// while ($row = $result->fetch_assoc()) {
+			// 	$book['id'] = $row['idbook'];
+			// 	$book['title'] = $row['bookname'];
+			// 	$book['author'] = $row['author'];
+			// 	$book['description'] = $row['description'];
+			// 	$book['img'] = $row['image'];
+			// 	$book['rating'] = $_GET['rating'];
+			// }
 
-			$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = " . $id_book;
-			$result = $conn->query($sql);
-			$list_review = array();
-			while ($row = $result->fetch_assoc()) {
-				array_push($list_review, $row);
-			}
+			// $sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = " . $id_book;
+			// $result = $conn->query($sql);
+			// $list_review = array();
+			// while ($row = $result->fetch_assoc()) {
+			// 	array_push($list_review, $row);
+			// }
 
 			$client = new SoapClient("http://localhost:9000/BookService?wsdl");
-			//$response = $client->__soapCall("getBook",array('id' => "xsRGDwAAQBAJ"));
 			$response = $client->getBook(array("arg0" => "xsRGDwAAQBAJ"));
 			/* Print webservice response */
-			$title = $response->return->title;
-			print_r($title);
+			// $title = $response->return;
+			// print_r($title);
+
+			$book['id'] = $response->return->id;
+			$book['title'] = $response->return->title;
+			$book['author'] = $response->return->authors;
+			$book['description'] = $response->return->description;
+			$book['img'] = $response->return->imageLinks ;
+			$book['rating'] = $_GET['rating'];
+
 			//var_dump($client->__getFunctions()); 
-			var_dump($client->__getTypes()); 
-			$conn->close();
+			// $conn->close();
 		?>
 
 		<div class="flex center">	
