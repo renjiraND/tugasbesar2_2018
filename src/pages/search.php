@@ -33,7 +33,8 @@
             <div>
               <form method="GET" action="browse-detail.php">
                 <div class="flex align-right">
-                  <input type="hidden" name="id" ng-value="book.id">
+                  <input type="hidden" name="id_book" ng-value="book.id">
+                  <input type="hidden" name="rating" value=5>
                   <!--input type="hidden" name="rating" value="" . $book["rate"] . ""-->
                   <input class="text-color-white border-radius bg-color-light-blue margin-top-small font-default btn-detail" type="submit" value="Detail">
                 </div>
