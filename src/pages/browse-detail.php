@@ -82,7 +82,7 @@
 			// $recBookId = $responseReccomendation->return;
 
 			// $responseRecBook = $client->getBook(array("arg0" => $recBookId));
-			
+
 			// $recBook = array();
 			// $recBook['id'] = $responseReccomendation->return->id;
 			// $recBook['title'] = $responseReccomendation->return->title;
@@ -94,11 +94,11 @@
 			// $book['rating'] = $_GET['rating'];
 
 			var_dump($client->__getFunctions());
-			var_dump($client->__getTypes()); 
+			var_dump($client->__getTypes());
 			 $conn->close();
 		?>
 
-		<div class="flex center">	
+		<div class="flex center">
 			<div class="container-small">
 				<div class="flex space-beetween">
 					<div>
@@ -167,7 +167,7 @@
 					</form>
 				</div>
 
-	
+
 				<div class="margin-top-large">
 					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Reviews</div>
 					<?php

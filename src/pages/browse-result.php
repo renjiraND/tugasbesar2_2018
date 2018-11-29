@@ -8,7 +8,6 @@
 </head>
 <body>
 
-	<?php require 'header.php';?>
 	<?php
 		require '../php/connect.php';
 		$search_val = $_GET['search'];
@@ -43,7 +42,7 @@
 	<div class="padding-large">
 		<div class="flex row">
 			<div class="two-third">
-				<div class="text-color-orange text-bold text-size-very-large font-default">Search Book</div>
+				<div class="text-color-orange text-bold text-size-large font-default">Result</div>
 			</div>
 			<div class="one-third flex align-right align-bottom">
 				<div class="text-color-grey text-size-small font-default">Found <u><strong><?php echo sizeof($list_book);?></strong></u> result(s)</div>
