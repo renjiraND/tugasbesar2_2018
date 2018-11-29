@@ -60,22 +60,40 @@
 			}
 
 			$client = new SoapClient("http://localhost:9000/BookService?wsdl");
-			$response = $client->getBook(array("arg0" => "xsRGDwAAQBAJ"));
+			$responseDetail = $client->getBook(array("arg0" => "xsRGDwAAQBAJ"));
 			/* Print webservice response */
-			$title = $response->return->categories;
+			$title = $responseDetail->return->categories;
 			print_r($title);
 			var_dump($title);
 
-			$book['id'] = $response->return->id;
-			$book['title'] = $response->return->title;
-			$book['author'] = $response->return->authors;
-			$book['description'] = $response->return->description;
-			$book['img'] = $response->return->imageLinks;
-			$book['price'] = $response->return->price;
-			$book['categories'] = $response->return->categories;
+			$book['id'] = $responseDetail->return->id;
+			$book['title'] = $responseDetail->return->title;
+			$book['author'] = $responseDetail->return->authors;
+			$book['description'] = $responseDetail->return->description;
+			$book['img'] = $responseDetail->return->imageLinks;
+			$book['price'] = $responseDetail->return->price;
+			$book['categories'] = $responseDetail->return->categories;
 			$book['rating'] = $_GET['rating'];
 
-			//var_dump($client->__getFunctions()); 
+
+
+			// $responseReccomendation = $client->getRecommendation(array("arg0" => $book['categories']));
+			// $recBookId = $responseReccomendation->return;
+
+			// $responseRecBook = $client->getBook(array("arg0" => $recBookId));
+			
+			// $recBook = array();
+			// $recBook['id'] = $responseReccomendation->return->id;
+			// $recBook['title'] = $responseReccomendation->return->title;
+			// $recBook['author'] = $responseReccomendation->return->authors;
+			// $recBook['description'] = $responseReccomendation->return->description;
+			// $recBook['img'] = $responseReccomendation->return->imageLinks;
+			// $recBook['price'] = $responseReccomendation->return->price;
+			// $recBook['categories'] = $responseReccomendation->return->categories;
+			// $book['rating'] = $_GET['rating'];
+
+			var_dump($client->__getFunctions());
+			var_dump($client->__getTypes()); 
 			 $conn->close();
 		?>
 
@@ -174,7 +192,7 @@
 
 
 				<div class="margin-top-large">
-					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Reccomendation</div>
+					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Recommendation</div>
 					<?php
 					echo "<div class=\"flex space-beetween margin-bot-medium\">
 					<div class=\"flex space-beetween row \">
