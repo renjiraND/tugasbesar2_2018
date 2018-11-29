@@ -23,8 +23,8 @@
         <div ng-repeat="book in searchresult">
           <div class="margin-bottom-medium">
             <div class="flex row margin-top-large">
-              <img class="book-result-img" ng-src="{{book.imageLinks}}">
-              <div class="margin-left-small font-default">
+              <img class="book-result-img" ng-src="{{book.imageLinks}}" style="flex-grow: 1; flex-basis: 0;">
+              <div class="margin-left-small font-default" style="flex-grow: 7; flex-basis: 0;">
                 <div class="text-color-orange text-bold text-size-medium">{{book.title}}</div>
                 <div class="text-color-grey text-bold text-size-very-small">{{book.authors}} - 0.0/5.0</div>
                 <div class="text-color-grey text text-size-very-small">{{book.description}}</div>

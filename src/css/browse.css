@@ -30,8 +30,8 @@
 }
 
 .book-result-img {
-	height: 165px;
-	width: 125px;
+	max-height: 165px;
+	max-width: 125px;
 	border: #000000 1px solid;
 }
 
