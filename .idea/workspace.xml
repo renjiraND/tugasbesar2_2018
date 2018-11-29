@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="134c6d72-e622-4aed-8815-7d4e4e201a20" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/pages/browse-detail.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/browse-detail.php" afterDir="false" />
+    <list default="true" id="134c6d72-e622-4aed-8815-7d4e4e201a20" name="Default Changelist" comment="Fix merge conflict">
+      <change afterPath="$PROJECT_DIR$/webservice/probank/node_modules/cors/CONTRIBUTING.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/probank/node_modules/cors/HISTORY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/probank/node_modules/cors/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/probank/node_modules/cors/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/probank/node_modules/cors/lib/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/probank/node_modules/cors/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/probank/node_modules/object-assign/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/probank/node_modules/object-assign/license" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/probank/node_modules/object-assign/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webservice/probank/node_modules/object-assign/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/validate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/php/submit-profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/php/submit-profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webservice/probank/npm-debug.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webservice/probank/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/probank/server.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,11 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="442" lean-forward="true" selection-start-line="442" selection-end-line="442" />
+            <state relative-caret-position="1152">
+              <caret line="85" column="7" selection-start-line="85" selection-start-column="7" selection-end-line="85" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -37,20 +51,20 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pages/browse-detail.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3870">
-              <caret line="216" column="18" selection-start-line="216" selection-start-column="18" selection-end-line="216" selection-end-column="18" />
+            <state relative-caret-position="316">
+              <caret line="36" column="37" lean-forward="true" selection-start-line="36" selection-start-column="37" selection-end-line="36" selection-end-column="37" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/js/validate.js">
+        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1620">
-              <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
+            <state relative-caret-position="458">
+              <caret line="56" column="65" selection-start-line="56" selection-start-column="65" selection-end-line="56" selection-end-column="65" />
             </state>
           </provider>
         </entry>
@@ -94,6 +108,7 @@
     <findStrings>
       <find>NTOD</find>
       <find>System</find>
+      <find>HEAD</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -162,12 +177,6 @@
               <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
               <item name="tugasbesar2_2018" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tugasbesar2_2018" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="tugasbesar2_2018" type="b2602c69:ProjectViewProjectNode" />
@@ -413,7 +422,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56037000" />
+    <option name="totallyTimeSpent" value="56144000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -426,6 +435,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="70" y="-5" width="1851" height="1086" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49519232" visible="true" weight="0.34802008" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -516,7 +526,8 @@
     <MESSAGE value="add reccomend front end" />
     <MESSAGE value="Beautify Recommend Front-end" />
     <MESSAGE value="Merge branch 'master' into bookservice-adv&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;webservice/probank/server.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' into bookservice-adv&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;webservice/probank/server.js" />
+    <MESSAGE value="Fix merge conflict" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix merge conflict" />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/System.java">
@@ -529,8 +540,8 @@
     <entry file="file://$PROJECT_DIR$/webservice/BookService/out/production/BookService/bookservice/BookService.class" />
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="64" lean-forward="true" selection-start-line="4" selection-start-column="64" selection-end-line="4" selection-end-column="64" />
+        <state relative-caret-position="458">
+          <caret line="56" column="65" selection-start-line="56" selection-start-column="65" selection-end-line="56" selection-end-column="65" />
         </state>
       </provider>
     </entry>
@@ -591,17 +602,17 @@
     <entry file="file://$PROJECT_DIR$/mocks/detail.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/browse-detail.php">
+    <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3870">
-          <caret line="216" column="18" selection-start-line="216" selection-start-column="18" selection-end-line="216" selection-end-column="18" />
+        <state relative-caret-position="1152">
+          <caret line="85" column="7" selection-start-line="85" selection-start-column="7" selection-end-line="85" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
+    <entry file="file://$PROJECT_DIR$/src/pages/browse-detail.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="442" lean-forward="true" selection-start-line="442" selection-end-line="442" />
+        <state relative-caret-position="316">
+          <caret line="36" column="37" lean-forward="true" selection-start-line="36" selection-start-column="37" selection-end-line="36" selection-end-column="37" />
         </state>
       </provider>
     </entry>
