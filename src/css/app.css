@@ -100,6 +100,7 @@ footer {height: 100px;}
 .align-right {justify-content: flex-end;}
 .align-bottom {align-items: flex-end;}
 .row {flex-direction: row;}
+.column {flex-direction: column;}
 
 .font-title{font-family: "Pathway Gothic One";}
 .font-title-2{font-family: "Nunito Sans";}

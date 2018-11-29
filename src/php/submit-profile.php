@@ -4,6 +4,7 @@
   $newname = $_POST['new-name'];
   $newaddress = $_POST['new-address'];
   $newphone = $_POST['new-phone'];
+  $newcard = $_POST['new-card'];
   $sql2 = "SELECT username from probook.user INNER JOIN probook.token ON username=granted where access_token='" . $_COOKIE['login']. "'" ;
   $result2 = mysqli_fetch_row(mysqli_query($conn, $sql2));
   $username = $result2[0];
@@ -12,7 +13,8 @@
           SET
           `name` = '$newname',
           `address` = '$newaddress',
-          `phone` = '$newphone'
+          `phone` = '$newphone',
+          `card_number` = '$newcard'
           WHERE (`username` = '$username')";
 
   if (mysqli_query($conn, $sql)) {

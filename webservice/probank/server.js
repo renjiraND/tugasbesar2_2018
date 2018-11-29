@@ -8,6 +8,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+var cors = require('cors')
+
 app.use(express.urlencoded());
 
 
@@ -18,6 +20,8 @@ let con = mysql.createConnection({
   database: "probank",
   multipleStatements: true
 });
+
+app.use(cors())
 
 con.connect(function(err) {
   if (err) throw err;

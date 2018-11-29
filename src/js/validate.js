@@ -59,13 +59,16 @@ function validateAll(){
 	var pass2 = document.forms["reg-form"]["input-password2"].value;
 	var address = document.forms["reg-form"]["input-address"].value;
 	var phone = document.forms["reg-form"]["input-phone-number"].value;
+	var card = document.forms["reg-form"]["input-card-number"].value;
 	if(validateName(name)){
 		if(validateUser(user)){
 			if(validateEmail(email)){
 				if(validatePassword(pass,pass2)){
 					if(validateAddress(address)){
 						if(validatePhone(phone)){
-							return true;
+							if (validateCard(card)){
+								return true;
+							}
 						}
 					}
 				}
@@ -93,10 +96,13 @@ function validateEdit(){
 	var name = document.forms["new-profile"]["new-name"].value;
 	var address = document.forms["new-profile"]["new-address"].value;
 	var phone = document.forms["new-profile"]["new-phone"].value;
+	var card = document.forms["new-profile"]["new-card"].value;
 	if(validateName(name)){
 		if(validateAddress(address)){
 			if(validatePhone(phone)){
-				return true;
+				if (validateCard(card)){
+					return true;
+				}
 			}
 		}
 	}
@@ -181,5 +187,26 @@ function validatePhone(phone){
 		alert("Phone number length should be between 9 and 12.");
 		return false;
 	}
+	return true;
+}
+
+function validateCard(card){
+	if(card.length == 0){
+		alert("Card number is required.");
+		return false;
+	}
+
+	var xmlHttp = new XMLHttpRequest();
+	url = "http://localhost:4000/validate/?no=" + card;
+    xmlHttp.open( "GET", url, false ); // false for synchronous request
+    xmlHttp.send();
+    if (xmlHttp.readyState == 4){
+    	response = JSON.parse(xmlHttp.responseText);
+    	if (response.validation == 0){
+	    	alert(response.message);
+	    	return false;
+    	}
+    }
+
 	return true;
 }
