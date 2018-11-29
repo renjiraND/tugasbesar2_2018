@@ -62,18 +62,21 @@
 			$client = new SoapClient("http://localhost:9000/BookService?wsdl");
 			$response = $client->getBook(array("arg0" => "xsRGDwAAQBAJ"));
 			/* Print webservice response */
-			// $title = $response->return;
-			// print_r($title);
+			$title = $response->return->categories;
+			print_r($title);
+			var_dump($title);
 
 			$book['id'] = $response->return->id;
 			$book['title'] = $response->return->title;
 			$book['author'] = $response->return->authors;
 			$book['description'] = $response->return->description;
-			$book['img'] = $response->return->imageLinks ;
+			$book['img'] = $response->return->imageLinks;
+			$book['price'] = $response->return->price;
+			$book['categories'] = $response->return->categories;
 			$book['rating'] = $_GET['rating'];
 
 			//var_dump($client->__getFunctions()); 
-			// $conn->close();
+			 $conn->close();
 		?>
 
 		<div class="flex center">	
@@ -88,6 +91,7 @@
 						<div class="flex center">
 							<img class="book-result-img margin font-default" src=<?php echo "\"" . $book["img"] . "\"";?>>
 						</div>
+						<div class="text-color-grey text-bold text-size-small margin-top-small font-default"><?php echo Rp . $book["price"];?></div>
 						<div class="flex row margin-top-small">
 							<?php
 								$rating = $book['rating'];
@@ -175,21 +179,22 @@
 					echo "<div class=\"flex space-beetween margin-bot-medium\">
 					<div class=\"flex space-beetween row \">
 						<img class=\"book-result-img\" src=\"" . $book['img'] . "\">
-						<div class=\"margin-left-small font-default\">
+						<div class=\"margin-left-small font-default flex column\">
 							<div class=\"text-color-orange text-bold text-size-medium\">" . $book["title"] ."</div>
 							<div class=\"text-color-grey text-bold text-size-very-small\">" . $book["author"] . " - " . number_format($book["rate"],1) . "/5.0 (" . $book["votes"] . " votes)</div>
-							<div class=\"text-color-grey text-bold text-size-very-small align-bottom\">wakwaw</div>
+							<div class=\"text-color-grey text-bold text-size-small font-default\">" . 'Rp' . $book["price"] . "</div>
+							<div class=\"flex column full-height align-right align-bottom\">
+								<form method=\"GET\" action=\"browse-detail.php\">
+									<div class>
+										<input type=\"hidden\" name=\"id_book\" value=\"" . $book["id"] . "\">
+										<input type=\"hidden\" name=\"rating\" value=\"" . $book["rate"] . "\">
+										<input class=\"text-color-white border-radius bg-color-light-blue margin-top-small font-default btn-detail\" type=\"submit\" value=\"See More!\" id_book=\"" . $book['id'] . "\" value=\"Detail\">
+									</div>
+								</form>
+							</div>
 						</div>
 					</div>
-					<div>
-						<form method=\"GET\" action=\"browse-detail.php\">
-							<div class=\"flex align-right\">
-								<input type=\"hidden\" name=\"id_book\" value=\"" . $book["id"] . "\">
-								<input type=\"hidden\" name=\"rating\" value=\"" . $book["rate"] . "\">
-								<input class=\"text-color-white border-radius bg-color-light-blue margin-top-small font-default btn-detail\" type=\"submit\" value=\"Detail\" id_book=\"" . $book['id'] . "\" value=\"Detail\">
-							</div>
-						</form>
-					</div>";
+					";
 				?>
 				</div>
 
