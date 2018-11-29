@@ -52,13 +52,17 @@
 			// 	$book['rating'] = $_GET['rating'];
 			// }
 
-			$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = " . 1;
+			$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = '" . $id_book . "'";
 			//print_r($sql);
 			$result = $conn->query($sql);
 			$list_review = array();
+			$sum = 0;
 			while ($row = $result->fetch_assoc()) {
 				array_push($list_review, $row);
+				//print_r($row);
+				$sum = $row['rating'];
 			}
+
 
 			$client = new SoapClient("http://localhost:9000/BookService?wsdl");
 			$responseDetail = $client->getBook(array("arg0" => $id_book));
@@ -74,8 +78,7 @@
 			$book['img'] = $responseDetail->return->imageLinks;
 			$book['price'] = $responseDetail->return->price;
 			$book['categories'] = $responseDetail->return->categories;
-			$book['rating'] = $_GET['rating'];
-
+			$book['rating'] = $sum / count($list_review);
 
 
 			// $responseReccomendation = $client->getRecommendation(array("arg0" => $book['categories']));
@@ -195,7 +198,7 @@
 				<div class="margin-top-large">
 					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Recommendation</div>
 					<?php
-					echo "<div class=\"flex space-beetween margin-bot-medium\">
+					/*echo "<div class=\"flex space-beetween margin-bot-medium\">
 					<div class=\"flex space-beetween row \">
 						<img class=\"book-result-img\" src=\"" . $book['img'] . "\">
 						<div class=\"margin-left-small font-default flex column\">
@@ -213,7 +216,7 @@
 							</div>
 						</div>
 					</div>
-					";
+					";*/
 				?>
 				</div>
 
