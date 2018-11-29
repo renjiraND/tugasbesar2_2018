@@ -52,13 +52,13 @@
 			// 	$book['rating'] = $_GET['rating'];
 			// }
 
-			$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = " . 1;
-			//print_r($sql);
-			$result = $conn->query($sql);
-			$list_review = array();
-			while ($row = $result->fetch_assoc()) {
-				array_push($list_review, $row);
-			}
+			// $sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = " . 1;
+			// //print_r($sql);
+			// $result = $conn->query($sql);
+			// $list_review = array();
+			// while ($row = $result->fetch_assoc()) {
+			// 	array_push($list_review, $row);
+			// }
 
 			$client = new SoapClient("http://localhost:9000/BookService?wsdl");
 			$responseDetail = $client->getBook(array("arg0" => $id_book));
