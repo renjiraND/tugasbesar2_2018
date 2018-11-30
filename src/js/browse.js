@@ -1,4 +1,4 @@
-selectNavigation(BROWSE);
+// selectNavigation(BROWSE);
 
 function addValidationToSearchBox() {
 	let element = document.getElementById('form-search');
@@ -55,6 +55,7 @@ function order(amount, username, idbook, card_number, categories) {
 			body: JSON.stringify(body),
 			headers: headers
 		};
+		//console.log(fetchData);
 		fetch('../php/order.php', fetchData)
 		.then((resp) => resp.json())
 		.then(function(data) {
@@ -68,5 +69,14 @@ function order(amount, username, idbook, card_number, categories) {
             showFailedNotification();
 			console.log(error);
 		});
+	}
+}
+
+function check_order(price) {
+	//price = "<?php echo $book['price'] ?>";
+	if (price=='Not For Sale') {
+		document.getElementById('ordersection').classList.add('hide');
+	} else {
+		document.getElementById('ordersection').classList.remove('hide');
 	}
 }

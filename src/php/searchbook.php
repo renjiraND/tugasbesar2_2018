@@ -12,23 +12,32 @@
    //var_dump($client->__getFunctions());
    //var_dump($client->__getTypes());
    //print_r($response->return[0]);
-   $x = $response->return;
+   //print_r((array)$response);
 
+   if (empty((array)$response)) {
+     echo null;
+   } else {
+     $x = $response->return;
 
-   foreach ($x as $book) {
-     $sql = "SELECT AVG(rating) AS rating, COUNT(*) AS votes from `order`
-     WHERE book='$book->id' GROUP BY book";
-     $result = mysqli_query($conn, $sql);
-     if (mysqli_num_rows($result) > 0) {
-       $result = mysqli_fetch_row($result);
-       $book->rating = number_format($result[0], 1);
-       $book->votes = $result[1];
-     } else {
-       $book->rating = number_format(0, 1);
-       $book->votes = 0;
+     foreach ($x as $book) {
+       $sql = "SELECT AVG(rating) AS avgrating, COUNT(*) AS votes from `order`
+       WHERE book='$book->id' AND rating IS NOT NULL GROUP BY book";
+       $result = mysqli_query($conn, $sql);
+       if (mysqli_num_rows($result) > 0) {
+         $result = mysqli_fetch_row($result);
+         $book->rating = number_format($result[0], 1);
+         $book->votes = $result[1];
+       } else {
+         $book->rating = number_format(0, 1);
+         $book->votes = 0;
+       }
+
+       if ($book->imageLinks=="default") {
+         $book->imageLinks = "../res/book_cover/default.jpg";
+       }
      }
-   }
 
-   //print_r($x);
-   echo json_encode($x);
+     //print_r($x);
+     echo json_encode($x);
+   }
  ?>

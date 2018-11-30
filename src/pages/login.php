@@ -7,6 +7,12 @@
   <script type="text/javascript" src="../js/validate.js"></script>
 </head>
 <body>
+  <?php
+    if (isset($_COOKIE['login'])) {
+  		header("Location: search.php");
+  		die();
+  	}
+   ?>
   <div class="flex center">
     <div class="login-box login-bg">
       <div class="flex center-horizontal text-size-very-large font-title text-bold">L O G I N</div>

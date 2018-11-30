@@ -13,12 +13,25 @@
     <div ng-app="myApp" ng-controller="SearchController" class="padding-large">
       <div class="text-color-orange text-bold text-size-very-large font-default">Search Book</div>
       <div class="margin-top-large">
-        <form ng-submit="search()">
+        <form id="form-search" ng-submit="search()">
           <input ng-model="searchvalue" id="search-value" class="input-search padding-left-small border-radius font-default" type="text" name="search" placeholder="Input search terms...">
           <div class="flex align-right">
             <input id="btn-search" class="text-color-white border-radius bg-color-light-blue margin-top-medium btn-search font-default" type="submit" value="Search">
           </div>
         </form>
+
+        <div id="loading" class="hide martgin-top-medium text-color-grey text-size-small font-default">
+          Searching, Please Wait...
+        </div>
+
+        <div id="resulttext" class="flex row hide margin-top-medium">
+          <div class="two-third">
+            <div class="text-color-orange text-bold text-size-large font-default">Result</div>
+          </div>
+          <div class="one-third flex align-right center-vertical">
+            <div id="bookfound" class="text-color-grey text-size-small font-default"></div>
+          </div>
+        </div>
 
         <div ng-repeat="book in searchresult">
           <div class="margin-bottom-medium">
@@ -34,7 +47,6 @@
               <form method="GET" action="browse-detail.php">
                 <div class="flex align-right">
                   <input type="hidden" name="id_book" ng-value="book.id">
-                  <input type="hidden" name="rating" value=5>
                   <input class="text-color-white border-radius bg-color-light-blue margin-top-small font-default btn-detail" type="submit" value="Detail">
                 </div>
               </form>
