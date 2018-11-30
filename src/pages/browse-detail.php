@@ -56,12 +56,12 @@
 			$list_review = array();
 			$sum = 0;
 			if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    array_push($list_review, $row);
-                    //print_r($row);
-                    $sum = $row['rating'];
-                }
-            }
+	      while ($row = $result->fetch_assoc()) {
+	          array_push($list_review, $row);
+	          //print_r($row);
+	          $sum = $sum + $row['rating'];
+	      }
+      }
 
 			$client = new SoapClient("http://localhost:9000/BookService?wsdl");
 			$responseDetail = $client->getBook(array("arg0" => $id_book));
@@ -107,7 +107,6 @@
 			$recBookId = $responseRecommendation->return;
 			// $recBookId = 'hBAlIbgHNx8C';
 			if($recBookId != 'NoRecommendation'){
-
 				$responseRecBook = $client->getBook(array("arg0" => $recBookId));
 
 				$recBook = array();
@@ -127,7 +126,7 @@
 				} else {
 					$recBook['price'] = 'Rp' + $responseRecBook->return->price;
 				}
-	
+
 				//GANTI
 				if ($result->num_rows==0) {
 				    $book['rating']=0;
@@ -245,6 +244,32 @@
 				<div class="margin-top-large">
 					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Recommendation</div>
 					<?php
+					$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = '" . $id_book . "'";
+					$result = $conn->query($sql);
+					$list_review = array();
+					$sum = 0;
+					if ($result->num_rows > 0) {
+			      while ($row = $result->fetch_assoc()) {
+			          array_push($list_review, $row);
+			          //print_r($row);
+			          $sum = $sum + $row['rating'];
+			      }
+		      }
+
+					$recBook['votes'] = count($list_review);
+
+					if (count($list_review) != 0){
+						$recBook['rate'] = $sum / $recBook['votes'];
+					} else {
+						$recBook['rate'] = 0;
+					}
+
+
+
+					if ($recBook["price"] != "Not For Sale") {
+						$recBook["price"] = "Rp " . $recBook["price"];
+					}
+
 					if ($recBookId == 'NoRecommendation'){
 						echo "<div class=\"text-color-orange text-bold text-size-small font-default\">Not Available</div>";
 					} else {
@@ -254,7 +279,7 @@
 							<div class=\"margin-left-small font-default flex column\">
 								<div class=\"text-color-orange text-bold text-size-medium\">" . $recBook["title"] ."</div>
 								<div class=\"text-color-grey text-bold text-size-very-small\">" . $recBook["author"] . " - " . number_format($recBook["rate"],1) . "/5.0 (" . $recBook["votes"] . " votes)</div>
-								<div class=\"text-color-grey text-bold text-size-small font-default\">" . 'Rp' . $recBook["price"] . "</div>
+								<div class=\"text-color-grey text-bold text-size-small font-default\">" . $recBook["price"] . "</div>
 								<div class=\"flex column full-height align-right align-bottom\">
 									<form method=\"GET\" action=\"browse-detail.php\">
 										<div class>

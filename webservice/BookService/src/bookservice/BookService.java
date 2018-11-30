@@ -279,7 +279,7 @@ public class BookService {
 
   @WebMethod
   public long buyBookByID(String BookID, String UserID, String[] categories, String squantity) throws IOException,ParseException {
-    System.out.println("BOOKID:"+BookID+"\nUSERID:"+UserID+"\nCATEGS:");
+    System.out.println("BOOKID:"+BookID+"quantiti:"+squantity+"\nUSERID:"+UserID+"\nCATEGS:");
     for (String categ : categories){
       System.out.println(categ);
     }

@@ -20,8 +20,8 @@
      $x = $response->return;
 
      foreach ($x as $book) {
-       $sql = "SELECT AVG(rating) AS rating, COUNT(*) AS votes from `order`
-       WHERE book='$book->id' GROUP BY book";
+       $sql = "SELECT AVG(rating) AS avgrating, COUNT(*) AS votes from `order`
+       WHERE book='$book->id' AND rating IS NOT NULL GROUP BY book";
        $result = mysqli_query($conn, $sql);
        if (mysqli_num_rows($result) > 0) {
          $result = mysqli_fetch_row($result);

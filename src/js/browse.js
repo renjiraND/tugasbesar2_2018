@@ -55,6 +55,7 @@ function order(amount, username, idbook, card_number, categories) {
 			body: JSON.stringify(body),
 			headers: headers
 		};
+		//console.log(fetchData);
 		fetch('../php/order.php', fetchData)
 		.then((resp) => resp.json())
 		.then(function(data) {
