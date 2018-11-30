@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="134c6d72-e622-4aed-8815-7d4e4e201a20" name="Default Changelist" comment="Fix merge conflict">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/browse.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/browse.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/searchbook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/searchbook.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/search.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/search.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webservice/BookService/out/production/tugasbesar2_2018/bookservice/BookService.class" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/out/production/tugasbesar2_2018/bookservice/BookService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,8 +26,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="33" column="43" lean-forward="true" selection-start-line="33" selection-start-column="43" selection-end-line="33" selection-end-column="43" />
+            <state relative-caret-position="-102">
+              <caret line="36" column="12" lean-forward="true" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -39,8 +44,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="29" column="48" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
+            <state relative-caret-position="595">
+              <caret line="35" column="48" selection-start-line="35" selection-start-column="48" selection-end-line="35" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -391,7 +396,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58459000" />
+    <option name="totallyTimeSpent" value="60299000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -558,8 +563,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="33" column="43" lean-forward="true" selection-start-line="33" selection-start-column="43" selection-end-line="33" selection-end-column="43" />
+        <state relative-caret-position="-102">
+          <caret line="36" column="12" lean-forward="true" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -572,8 +577,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="48" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
+        <state relative-caret-position="595">
+          <caret line="35" column="48" selection-start-line="35" selection-start-column="48" selection-end-line="35" selection-end-column="48" />
         </state>
       </provider>
     </entry>

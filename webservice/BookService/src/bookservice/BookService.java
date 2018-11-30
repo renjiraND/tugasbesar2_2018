@@ -49,6 +49,9 @@ public class BookService {
     JSONArray items = (JSONArray) JSONBooks.get("items");
     List<Book> book_list = new ArrayList<>();
 
+    if (items == null) {
+      return null;
+    }
 
     for (Object o : items) {
       JSONObject book = (JSONObject) o;

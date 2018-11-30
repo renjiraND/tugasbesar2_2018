@@ -13,7 +13,7 @@
     <div ng-app="myApp" ng-controller="SearchController" class="padding-large">
       <div class="text-color-orange text-bold text-size-very-large font-default">Search Book</div>
       <div class="margin-top-large">
-        <form ng-submit="search()">
+        <form id="form-search" ng-submit="search()">
           <input ng-model="searchvalue" id="search-value" class="input-search padding-left-small border-radius font-default" type="text" name="search" placeholder="Input search terms...">
           <div class="flex align-right">
             <input id="btn-search" class="text-color-white border-radius bg-color-light-blue margin-top-medium btn-search font-default" type="submit" value="Search">
