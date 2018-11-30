@@ -4,7 +4,7 @@ Melakukan *upgrade* Website toko buku online pada Tugas 1 dengan mengaplikasikan
 
 ### Tujuan Pembuatan Tugas
 
-Diharapkan dengan tugas ini anda dapat mengerti:
+Luaran dari tugas ini adalah memahami poin-poin berikut:
 * Produce dan Consume REST API
 * Produce dan Consume Web Services dengan protokol SOAP
 * Membuat web application yang akan memanggil web service secara REST dan SOAP.
@@ -12,23 +12,105 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ## Anggota Tim
 
-Setiap kelompok beranggotakan **3 orang dari kelas yang sama**. Jika jumlah mahasiswa dalam satu kelas modulo 3 menghasilkan 1, maka hanya 1 kelompok terdiri dari 4 mahasiswa. Jika jumlah mahasiswa modulo 3 menghasilkan 2, maka ada dua kelompok yang beranggotakan 4 orang. Seluruh anggota kelompok **harus berbeda dengan tugas 1**.
+* Rizki Alif Salman Alfarisy - 13516005
+* Renjira Naufhal Dhiaegana - 13516014
+* Naufal Putra Pamungkas - 13516110
 
-## Petunjuk Pengerjaan
+## Penjelasan
+1.  Basis Data
+    Kami memiliki dua database yang telah dibuat dan satu database yang di modifikasi: **probank**, **bookservice**, dan **probook** secara urut. 
 
-1. Buatlah organisasi pada gitlab dengan format "IF3110-2018-KXX-nama kelompok", dengan XX adalah nomor kelas.
-2. Tambahkan anggota tim pada organisasi anda.
-3. Fork pada repository ini dengan organisasi yang telah dibuat.
-4. Ubah hak akses repository hasil Fork anda menjadi **private**.
-5. [DELIVERABLE] Buat tugas sesuai spesifikasi dan silakan commit pada repository anda (hasil fork). Lakukan berberapa commit dengan pesan yang bermakna, contoh: `add register form`, `fix logout bug`, jangan seperti `final`, `benerin dikit`. Disarankan untuk tidak melakukan commit dengan perubahan yang besar karena akan mempengaruhi penilaian (contoh: hanya melakukan satu commit kemudian dikumpulkan). Sebaiknya commit dilakukan setiap ada penambahan fitur. **Commit dari setiap anggota tim akan mempengaruhi penilaian individu.** Jadi, setiap anggota tim harus melakukan sejumlah commit yang berpengaruh terhadap proses pembuatan aplikasi.
-6. Hapus bagian yang tidak perlu dari *readme* ini.
-7. [DELIVERABLE] Berikan penjelasan mengenai hal di bawah ini pada bagian **Penjelasan** dari *readme* repository git Anda: ((masih spek taun lalu))
-    - Basis data dari sistem yang Anda buat, yaitu basis data aplkasi pro-book, webservice bank, dan webservice buku.
-    - Konsep *shared session* dengan menggunakan REST.
-    - Mekanisme pembangkitan token dan expiry time pada aplikasi Anda.
-    - Kelebihan dan kelemahan dari arsitektur aplikasi tugas ini, dibandingkan dengan aplikasi monolitik (login, CRUD DB, dll jadi dalam satu aplikasi)
-8. Pada *readme* terdapat penjelasan mengenai pembagian tugas masing-masing anggota (lihat formatnya pada bagian **pembagian tugas**).
-9. Merge request dari repository anda ke repository ini dengan format **Nama kelompok** - **NIM terkecil** - **Nama Lengkap dengan NIM terkecil** sebelum **Jumat, 30 November 2018 pukul 23.59**.
+* Database **probank** memiliki dua tabel relasi, yaitu *nasabah* dan *transaksi* :
+    
+    * Tabel *nasabah* memiliki 3 kolom : 
+        * nama : sebagai nama nasabah yang terdaftar pada probank
+        * nomor : sebagai nomor kartu nasabah yang terdaftar pada probank (**PRIMARY KEY**)
+        * saldo : sebagai nominal uang yang dimiliki nasabah
+        
+    * Tabel *transaksi* memiliki 4 kolom : 
+        * pengirim : sebagai nomor nasabah pengirim yang melakukan transaksi (**FOREIGN KEY => NASABAH.NOMOR**)
+        * penerima : sebagai nomor nasabah penerima transaksi pengiriman (**FOREIGN KEY => NASABAH.NOMOR**)
+        * jumlah : sebagai nominal uang yang dikirim dari pengirim ke penerima
+        * waktu : sebagai waktu dilakukannya transaksi
+        
+
+* Database **bookservice** memiliki dua tabel relasi, yaitu *buku* dan *transaksi* :
+    
+    * Tabel *buku* memiliki 3 kolom : 
+        * id : sebagai id buku yang masih memiliki stok pada toko probook (**PRIMARY KEY**)
+        * price : sebagai harga buku
+        
+    * Tabel *transaksi* memiliki 4 kolom : 
+        * id : sebagai id buku yang sudah memiliki transaksi (**FOREIGN KEY => BUKU.ID**)
+        * amount : sebagai jumlah buku
+        * categories : sebagai kategori buku
+        
+* Database **probook** memiliki dua tiga relasi, yaitu *order*, *user* dan *token* :
+    
+    * Tabel *order* memiliki 7 kolom : 
+        * amount : sebagai jumlah buku yang dibeli pada pemesanan
+        * book : sebagai id buku
+        * buyer : sebagai username pengirim (**FOREIGN KEY => USER.USERNAME**)
+        * idorder : sebagai id pemesanan(order) buku (**PRIMARY KEY**)
+        * order_date : sebagai tanggal pemesanan
+        * rating : sebagai nilai rating yang diberikan oleh pemesan
+        * review : deskripsi ulasan yang diberikan pemesan
+        
+    * Tabel *token* memiliki 5 kolom : 
+        * access_token : sebagai token yang di-generate oleh probook ketika user login (**PRIMARY KEY**)
+        * browser : jenis browser yang digunakan ketika access token dibuat
+        * expiry_time : waktu expire sebuah token
+        * granted : username pengguna yang diberikan token (**FOREIGN KEY => USER.USERNAME**)
+        * ip : ip address user ketika login
+        
+    * Tabel *user* memiliki 5 kolom : 
+        * address : alamat dari pemilik akun probook
+        * card_number : nomor kartu bank pemilik akun probook
+        * email : alamat email dari pemilik akun probook 
+        * name : name dari pemilik akun probook
+        * password : password dari pemilik akun probook
+        * phone : nomor telepon dari pemilik akun probook
+        * picture : picture dari pemilik akun probook
+        * username :username dari pemilik akun probook (**PRIMARY KEY**)
+
+2.  Konsep *shared session* dengan REST
+    REST : Respresentational State Transfer
+    REST adalah sebuah konsep dalam melakukan shared session / state transfer (karena Web itu stateless)
+    REST biasanya diimplementasikan di HTTP (biarpun bisa di teknologi yg lain juga)
+
+Konsep :
+    - resource / sumber daya logical (berbentuk kelas biasanya)
+    - server : tempat menampung sumberdaya
+    - client : yang melakukan request pada server
+    - request dan response : interaksi antara client dan server
+    - representation : dokumen yg menjelaskan status dari sebuah resource
+
+Prinsip
+    1. State dari resource diketahui hanya oleh internal dari server
+    2. Server tidak memiliki status dari client
+    3. Request dari client mengandung semua informasi untuk diproses server
+    4. Session state di store di client side
+    5. Resource bisa memiliki beberapa respresentation
+    6. Response mengindikasikan cacheability (bisa ketahuan perlu di cached atau tidak)
+    7. Opsional : client bisa fetch sebagian code server jika dibutuhkan
+
+sumber: https://www.javacodegeeks.com/2012/10/introduction-to-rest-concepts.html
+
+3. Mekanisme pembangkitan token dan expiry time
+    Berikut tahapan yang kami lakukan untuk melakukan pembangkitan token dan expiry time:
+    * Ketika user melakukan login atau register maka user akan diberikan string random sebagai akses token yang memiliki expire time sejam dari login.
+    * Akses token dipasangkan ke satu user, ip address, dan browser kemudian disimpan di *database*
+    * Pada setiap login, setelah menambahkan access token database juga akan menghapus token-token yang sudah expire
+    * Jika pengguna melakukan logut, maka access token yang dimiliki pengguna terhadap browser dan ip address tempat logout akan dihapus
+
+4. Kelebihan dan kelemahan dari arsitektur
+ Kelebihan :
+    - Aplikasi dapat dikembangkan secara modular
+    - Kegagalan sistem pada salah satu service tidak akan menyebabkan kegagalan total pada aplikasi
+    - Dapat diaplikasikan di sistem terdistribusi
+
+Kekurangan :
+    - Rentan terhadap *bottleneck* jika terjadi traffic tingkat tinggi pada salah satu server
 
 ### Deskripsi Tugas
 ![](temp/architecture.png)
@@ -108,51 +190,32 @@ Hal-hal detail yang disebutkan pada spesifikasi di atas seperti data yang disimp
 9. Jika transfer berhasil, aplikasi mengirimkan request kepada webservice buku untuk mencatat penjualan buku.
 10. Notifikasi muncul menandakan status pembelian, berhasil atau gagal.
 
-### Bonus
-
-Anda tidak dituntut untuk mengerjakan ini. Fokus terlebih dahulu menyelesaikan semua spesifikasi yang ada sebelum memikirkan bonus.
-
-1. Token bank
-
-    Ketika Anda melakukan transfer online, beberapa bank menyediakan sebuah mesin yang memberikan sebuah angka (token) yang harus dimasukan untuk memvalidasi transfer. Anda akan meniru fitur ini pada webservice bank.
-    
-    Mekanisme token menggunakan algoritma HOTP atau TOTP, algoritma hash yang digunakan dibebaskan kepada peserta, misalnya SHA1. Token berupa 8 digit angka. Informasi-informasi yang dibutuhkan untuk membangun token ini, seperti shared secret key, disimpan pada database webservice bank. Anda diperbolehkan menggunakan library HOTP/TOTP untuk membentuk token tersebut.
-    
-    Buatlah juga sebuah script (bebas, mau dalam bentuk PHP, JS, dll.) sebagai pengganti mesin token bank untuk membangun token yang akan digunakan untuk proses transfer.
-    
-    Setiap permintaan transfer yang berasal (yang memberikan uang) dari nomor kartu tersebut, harus menyertakan token yang valid. Token valid adalah token milik nomor kartu yang bersangkutan yang di-generate melalui alat (request di atas) dan belum expired. Jika transfer tidak menyertakan token yang valid, transfer akan gagal, seperti jika Anda melakukan transfer dengan saldo yang kurang.
-    
-    Maka, aplikasi pro-book memiliki field tambahan yaitu transfer token, yang terdapat pada halaman book detail saat melakukan order. Token tersebut kemudian diberikan kepada webservice buku, yang kemudian akan digunakan untuk memvalidasi transfer pembelian buku.
-    
-2. Login via Google
-    
-    Aplikasi memiliki pilihan untuk login menggunakan akun google, seperti yang sering ditemui pada aplikasi web atau game. Contohnya seperti tombol berikut pada [stack overflow](https://stackoverflow.com/). Informasi yang ditampilkan untuk user yang login dengan akun google diambil dari informasi akun google tersebut.
-    
-    ![](temp/button_example.png)
-
 ### Pembagian Tugas
 "Gaji buta dilarang dalam tugas ini. Bila tak mengerti, luangkan waktu belajar lebih banyak. Bila belum juga mengerti, belajarlah bersama-sama kelompokmu. Bila Anda sekelompok bingung, bertanyalah (bukan menyontek) ke teman seangkatanmu. Bila seangkatan bingung, bertanyalah pada asisten manapun."
 
-*Harap semua anggota kelompok mengerjakan SOAP dan REST API kedua-duanya*. Tuliskan pembagian tugas seperti berikut ini.
-
 REST :
-1. Validasi nomor kartu : 1351xxxx
-2. ...
+1. fungsi validasi nomor kartu & transfer : 13516110
+2. Menghubungkan Webservice bank dan Webservice buku dengan method post (untuk transfer) : 13516014
+3. Menghubungkan Client ke webservice bank untuk memanggil fungsional validasi : 13516005
 
 SOAP :
-1. Add Produce : 1351xxxx
-2. Fungsionalitas Y : 1351xxxx
-3. ...
+1. Fungsionalitas buyBookByID : 13516005, 13516014
+2. Fungsionalitas connectHttpUrl for GET and POST : 13516014
+3. Fungsionalitas getConnectionResponse : 13516014
+4. Fungsionalitas getRecommendation : 13516005, 13516110
+5. Fungsionalitas getBook : 13516005
+6. Fungsionalitas searchBook : 13516005, 13516110
+7. Base code untuk SOAP : 13516014
 
 Perubahan Web app :
-1. Halaman Search : 
-2. Halaman X :
-3. ...
+1. Halaman Search : 13516110
+2. Halaman Detail : 13516005 (menghubungkan ke backend dan recommend), 13516014 (fungsionalitas order), 13516110 (rating handling)
+3. Halaman Register : 13516005, 13516110 
+4. Halaman Edit Profile : 13516005 (backend), 13516110 (frontend)
 
 Bonus :
-1. Pembangkitan token HTOP/TOTP : 
-2. Validasi token : 
-3. ...
+1. Pembangkitan token HTOP/TOTP : hehe
+2. Validasi token : hehe
 
 ## About
 
