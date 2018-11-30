@@ -302,30 +302,33 @@ public class BookService {
       System.out.println("Database connected!");
       Statement stmt = null;
       ResultSet rs = null;
+      boolean transfer_bank = false;
       int ur;
-
-      try {
         String varAmount = new String();
+      try {
         stmt = connection.createStatement();
         String query = String.format("SELECT buku.id, amount, price FROM buku JOIN transaksi on buku.id = transaksi.id AND buku.id = \'"+BookID+"\'");
         rs = stmt.executeQuery(query);
         if(rs.first()) {
-          int total = Integer.parseInt(rs.getString("price"));
+          int total = Integer.parseInt(rs.getString("price")) * quantity;
           varAmount = Integer.toString(total);
           String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
 
           byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
           String request = "http://localhost:4000/transfer";
-
           status = connectHttpUrlPOST(request,postData);
 
-          query = String.format("UPDATE transaksi SET amount = amount + 1 WHERE id = \'"+BookID+"\'");
-          ur = stmt.executeUpdate(query);
+          //INI MASIH BISA BERUBAH
+            if(status == 1) {
+                transfer_bank = true;
+                query = String.format("UPDATE transaksi SET amount = amount + \'" + quantity + "\' WHERE id = \'" + BookID + "\'");
+                ur = stmt.executeUpdate(query);
+            }
         } else {
           query = String.format("SELECT price FROM buku WHERE buku.id = \'"+BookID+"\'");
           rs = stmt.executeQuery(query);
           if (rs.next()){
-            int total = Integer.parseInt(rs.getString("price"));
+            int total = Integer.parseInt(rs.getString("price")) * quantity;
             varAmount = Integer.toString(total);
           }
           String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
@@ -334,9 +337,12 @@ public class BookService {
           String request = "http://localhost:4000/transfer";
 
           status = connectHttpUrlPOST(request,postData);
-          for (String category : categories){
-            query = String.format("INSERT INTO `transaksi` (`id`, `categories`, `amount`) VALUES (\'"+BookID+"\', \'"+category+"\', '1')");
-            ur = stmt.executeUpdate(query);
+          if(status == 1) {
+              transfer_bank = true;
+              for (String category : categories) {
+                  query = String.format("INSERT INTO `transaksi` (`id`, `categories`, `amount`) VALUES (\'" + BookID + "\', \'" + category + "\', '1')");
+                  ur = stmt.executeUpdate(query);
+              }
           }
         }
       }
@@ -344,6 +350,14 @@ public class BookService {
         System.out.println("SQLException: " + ex.getMessage());
         System.out.println("SQLState: " + ex.getSQLState());
         System.out.println("VendorError: " + ex.getErrorCode());
+          if(transfer_bank) {
+              String urlParams = "send=" + BankID + "&rcv=" + UserID + "&amount=" + varAmount + "&time=" + varTime;
+
+              byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
+              String request = "http://localhost:4000/transfer";
+
+              status = connectHttpUrlPOST(request,postData);
+          }
         return 0;
       }
       finally {
