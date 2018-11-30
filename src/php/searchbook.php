@@ -31,6 +31,10 @@
          $book->rating = number_format(0, 1);
          $book->votes = 0;
        }
+
+       if ($book->imageLinks=="default") {
+         $book->imageLinks = "../res/book_cover/default.jpg";
+       }
      }
 
      //print_r($x);
