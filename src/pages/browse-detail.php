@@ -77,7 +77,7 @@
 			$book['description'] = $responseDetail->return->description;
 
 			if ($responseDetail->return->imageLinks == 'default'){
-				$book['img'] = '../res/profile_picture/default.jpg';
+				$book['img'] = '../res/book_cover/default.jpg';
 			} else {
 				$book['img'] = $responseDetail->return->imageLinks;
 			}
@@ -116,7 +116,7 @@
 				$recBook['categories'] = $responseRecBook->return->categories;
 				$recBook['description'] = $responseRecBook->return->description;
 				if ($responseRecBook->return->imageLinks == 'default'){
-					$recBook['img'] = '../res/profile_picture/default.jpg';
+					$recBook['img'] = '../res/book_cover/default.jpg';
 				} else {
 					$recBook['img'] = $responseRecBook->return->imageLinks;
 				}
@@ -203,10 +203,13 @@
 								$result2 = mysqli_fetch_row(mysqli_query($conn, $sql2));
 								$username = $result2[0];
 								$card_number = $result2[1];
+								//echo json_encode($book['categories']);
+								$book['categories'] = str_replace('"',"'", json_encode($book['categories']));
+								//echo $book['categories'];
 							?>
 							<input class="text-color-white border-radius bg-color-light-blue btn-order font-default"
                                 type="button" name="btn-order" value="Order"
-                                onclick="order(amount.value, <?php echo "'" . $username . "'";?>, <?php echo "'". $_GET['id_book'] . "'";?>, <?php echo "'" . $card_number . "'";?>, <?php echo "'" . $book['categories'] . "'";?>) ">
+                                onclick="order(amount.value, <?php echo "'" . $username . "'";?>, <?php echo "'". $_GET['id_book'] . "'";?>, <?php echo "'" . $card_number . "'";?>, <?php echo $book['categories']?>)">
 						</div>
 					</form>
 				</div>
@@ -244,55 +247,52 @@
 				<div class="margin-top-large">
 					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Recommendation</div>
 					<?php
-					$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = '" . $id_book . "'";
-					$result = $conn->query($sql);
-					$list_review = array();
-					$sum = 0;
-					if ($result->num_rows > 0) {
-			      while ($row = $result->fetch_assoc()) {
-			          array_push($list_review, $row);
-			          //print_r($row);
-			          $sum = $sum + $row['rating'];
-			      }
-		      }
+						if ($recBookId == 'NoRecommendation'){
+							echo "<div class=\"text-color-orange text-bold text-size-small font-default\">Not Available</div>";
+						} else {
+							$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = '" . $id_book . "'";
+							$result = $conn->query($sql);
+							$list_review = array();
+							$sum = 0;
+							if ($result->num_rows > 0) {
+					      while ($row = $result->fetch_assoc()) {
+					          array_push($list_review, $row);
+					          //print_r($row);
+					          $sum = $sum + $row['rating'];
+					      }
+				      }
 
-					$recBook['votes'] = count($list_review);
+							$recBook['votes'] = count($list_review);
 
-					if (count($list_review) != 0){
-						$recBook['rate'] = $sum / $recBook['votes'];
-					} else {
-						$recBook['rate'] = 0;
-					}
+							if (count($list_review) != 0){
+								$recBook['rate'] = $sum / $recBook['votes'];
+							} else {
+								$recBook['rate'] = 0;
+							}
 
-
-
-					if ($recBook["price"] != "Not For Sale") {
-						$recBook["price"] = "Rp " . $recBook["price"];
-					}
-
-					if ($recBookId == 'NoRecommendation'){
-						echo "<div class=\"text-color-orange text-bold text-size-small font-default\">Not Available</div>";
-					} else {
-						echo "<div class=\"flex space-beetween margin-bot-medium\">
-						<div class=\"flex space-beetween row \">
-							<img class=\"book-result-img\" src=\"" . $recBook['img'] . "\">
-							<div class=\"margin-left-small font-default flex column\">
-								<div class=\"text-color-orange text-bold text-size-medium\">" . $recBook["title"] ."</div>
-								<div class=\"text-color-grey text-bold text-size-very-small\">" . $recBook["author"] . " - " . number_format($recBook["rate"],1) . "/5.0 (" . $recBook["votes"] . " votes)</div>
-								<div class=\"text-color-grey text-bold text-size-small font-default\">" . $recBook["price"] . "</div>
-								<div class=\"flex column full-height align-right align-bottom\">
-									<form method=\"GET\" action=\"browse-detail.php\">
-										<div class>
-											<input type=\"hidden\" name=\"id_book\" value=\"" . $recBook["id"] . "\">
-											<input type=\"hidden\" name=\"rating\" value=\"" . $recBook["rate"] . "\">
-											<input class=\"text-color-white border-radius bg-color-light-blue margin-top-small font-default btn-detail\" type=\"submit\" value=\"See More!\" id_book=\"" . $recBook['id'] . "\" value=\"Detail\">
-										</div>
-									</form>
+							if ($recBook["price"] != "Not For Sale") {
+								$recBook["price"] = "Rp " . $recBook["price"];
+							}
+							echo "<div class=\"flex space-beetween margin-bot-medium\">
+							<div class=\"flex space-beetween row \">
+								<img class=\"book-result-img\" src=\"" . $recBook['img'] . "\">
+								<div class=\"margin-left-small font-default flex column\">
+									<div class=\"text-color-orange text-bold text-size-medium\">" . $recBook["title"] ."</div>
+									<div class=\"text-color-grey text-bold text-size-very-small\">" . $recBook["author"] . " - " . number_format($recBook["rate"],1) . "/5.0 (" . $recBook["votes"] . " votes)</div>
+									<div class=\"text-color-grey text-bold text-size-small font-default\">" . $recBook["price"] . "</div>
+									<div class=\"flex column full-height align-right align-bottom\">
+										<form method=\"GET\" action=\"browse-detail.php\">
+											<div class>
+												<input type=\"hidden\" name=\"id_book\" value=\"" . $recBook["id"] . "\">
+												<input type=\"hidden\" name=\"rating\" value=\"" . $recBook["rate"] . "\">
+												<input class=\"text-color-white border-radius bg-color-light-blue margin-top-small font-default btn-detail\" type=\"submit\" value=\"See More!\" id_book=\"" . $recBook['id'] . "\" value=\"Detail\">
+											</div>
+										</form>
+									</div>
 								</div>
 							</div>
-						</div>
-						";
-					}
+							";
+						}
 					?>
 				</div>
 
