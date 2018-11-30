@@ -30,7 +30,7 @@ public class BookService {
 
   public static void main(String[] argv) {
     Object implementor = new BookService();
-    String address = "http://localhost:9000/BookService";
+    String address = "http://localhost:9001/BookService";
     Endpoint.publish(address, implementor);
   }
 
@@ -406,18 +406,20 @@ public class BookService {
 
 
   @WebMethod
-  public String getRecommendation(String[] categories) throws IOException, ParseException {
-
+  public String getRecommendation(String[] categories, String source_book) throws IOException, ParseException {
+      System.out.println("REKOMENDASI");
     String url = "jdbc:mysql://localhost:3306/bookservice";
     String username = "root";
     String password = "";
     String category = categories[0];
     System.out.println("Connecting database...");
 
+
     String encoded_category = new String(category);
     category = java.net.URLDecoder.decode(category, "UTF-8");
+    System.out.println(category);
 
-    if (category != "None") {
+    if (!category.equals("None")) {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             System.out.println("Database connected!");
 
@@ -426,7 +428,8 @@ public class BookService {
 
             try {
                 stmt = connection.createStatement();
-                String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi where categories='%s') LIMIT 1", category);
+                String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi WHERE categories='%s' AND id <> '%s') LIMIT 1", category, source_book);
+                System.out.println(query);
                 rs = stmt.executeQuery(query);
                 if (rs.first()) {
                     System.out.println(rs.getString("id"));
@@ -451,7 +454,7 @@ public class BookService {
                         id_list.add((String) currentbook.get("id"));
                     }
                     if (id_list.size() > 0) {
-                        int random_number = 0 + (int) (Math.random() * ((id_list.size() - 0) + 1));
+                        int random_number = 0 + (int) (Math.random() * ((id_list.size()-1 - 0) + 1));
                         return id_list.get(random_number);
                     }
                 }

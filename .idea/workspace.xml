@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="134c6d72-e622-4aed-8815-7d4e4e201a20" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/browse-detail.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/browse-detail.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webservice/BookService/out/production/tugasbesar2_2018/bookservice/BookService.class" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/out/production/tugasbesar2_2018/bookservice/BookService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java" afterDir="false" />
     </list>
@@ -23,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+            <state relative-caret-position="290">
+              <caret line="430" column="50" selection-start-line="430" selection-start-column="46" selection-end-line="430" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -44,8 +45,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="648">
-              <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+            <state relative-caret-position="666">
+              <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -94,6 +95,11 @@
       <find>cate</find>
       <find>Categories</find>
       <find>decode</find>
+      <find>WV</find>
+      <find>REKOMENDAS</find>
+      <find>address</find>
+      <find>SELEC</find>
+      <find>SELE</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -125,11 +131,11 @@
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="71" />
-    <option name="y" value="30" />
+    <option name="y" value="-5" />
     <option name="width" value="1297" />
-    <option name="height" value="707" />
+    <option name="height" value="742" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -288,7 +294,7 @@
       <workItem from="1543533058610" duration="212000" />
       <workItem from="1543538147733" duration="847000" />
       <workItem from="1543558580292" duration="1277000" />
-      <workItem from="1543563670805" duration="766000" />
+      <workItem from="1543563670805" duration="4173000" />
     </task>
     <task id="LOCAL-00001" summary="Sementara doang">
       <created>1543211795211</created>
@@ -437,11 +443,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543559831233</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="change search so keyword will alway be in title">
+      <created>1543564535782</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1543564535782</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65424000" />
+    <option name="totallyTimeSpent" value="68831000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -453,8 +466,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="70" y="-5" width="1851" height="1086" extended-state="6" />
-    <editor active="true" />
+    <frame x="71" y="-5" width="1849" height="1085" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49519232" visible="true" weight="0.38594535" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -550,7 +562,8 @@
     <MESSAGE value="Fix wrong variable assignment" />
     <MESSAGE value="add default picture for recommendation and handling for no review" />
     <MESSAGE value="add handling for no category" />
-    <option name="LAST_COMMIT_MESSAGE" value="add handling for no category" />
+    <MESSAGE value="change search so keyword will alway be in title" />
+    <option name="LAST_COMMIT_MESSAGE" value="change search so keyword will alway be in title" />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/System.java" />
@@ -612,8 +625,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webservice/BookService/src/bookservice/BookService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+        <state relative-caret-position="290">
+          <caret line="430" column="50" selection-start-line="430" selection-start-column="46" selection-end-line="430" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -629,8 +642,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+        <state relative-caret-position="666">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
         </state>
       </provider>
     </entry>

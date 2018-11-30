@@ -64,7 +64,7 @@
 			}
 
 
-			$client = new SoapClient("http://localhost:9000/BookService?wsdl");
+			$client = new SoapClient("http://localhost:9001/BookService?wsdl");
 			$responseDetail = $client->getBook(array("arg0" => $id_book));
 			/* Print webservice response */
 			$title = $responseDetail->return->categories;
@@ -104,7 +104,7 @@
 					$cat = rawurlencode($cat);
 				}
 			}
-			$responseRecommendation = $client->getRecommendation(array("arg0" => $searchCategory));
+			$responseRecommendation = $client->getRecommendation(array("arg0" => $searchCategory, "arg1" => $id_book));
 			$recBookId = $responseRecommendation->return;
 			// $recBookId = 'hBAlIbgHNx8C';
 			if($recBookId != 'NoRecommendation'){
@@ -117,8 +117,6 @@
 				$recBook['author'] = $responseRecBook->return->authors;
 				$recBook['categories'] = $responseRecBook->return->categories;
 				$recBook['description'] = $responseRecBook->return->description;
-				$recBook['img'] = $responseReccBook->return->imageLinks;
-				$recBook['price'] = $responseRecBook->return->price;
 				if ($responseRecBook->return->imageLinks == 'default'){
 					$recBook['img'] = '../res/profile_picture/default.jpg';
 				} else {
