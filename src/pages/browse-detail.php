@@ -5,6 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="../css/app.css">
 	<link rel="stylesheet" type="text/css" href="../css/home.css">
 	<link rel="stylesheet" type="text/css" href="../css/browse.css">
+	<script type="text/javascript" src="../js/browse.js"></script>
 </head>
 <body>
 
@@ -38,18 +39,6 @@
 		<?php
 			require '../php/connect.php';
 			$id_book = $_GET['id_book'];
-
-//			$sql = "SELECT * FROM probook.book WHERE probook.book.idbook = " . $id_book;
-//			$result = $conn->query($sql);
-//			$book = array();
-//			while ($row = $result->fetch_assoc()) {
-//				$book['id'] = $row['idbook'];
-//				$book['title'] = $row['bookname'];
-//				$book['author'] = $row['author'];
-//				$book['description'] = $row['description'];
-//				$book['img'] = $row['image'];
-//				$book['rating'] = $_GET['rating'];
-//			}
 
 			$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = '" . $id_book . "'";
 			$result = $conn->query($sql);
@@ -151,7 +140,7 @@
 						<div class="flex center">
 							<img class="book-result-img margin font-default" src=<?php echo "\"" . $book["img"] . "\"";?>>
 						</div>
-						<div class="text-color-grey text-bold text-size-small margin-top-small font-default"><?php echo $book["price"];?></div>
+						<div class="flex center text-color-grey text-bold text-size-very-small margin-top-small font-default"><?php echo $book["price"];?></div>
 						<div class="flex row margin-top-small">
 							<?php
 								$rating = $book['rating'];
@@ -176,8 +165,7 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="margin-top-large">
+				<div id="ordersection" class="margin-top-large">
 					<div class="margin-top-medium text-size-medium text-color-navy-blue text-bold font-default">Order</div>
 					<form method="POST" class="margin-top-small">
 						<span class="margin-right-small text-size-very-small font-default">
@@ -279,7 +267,7 @@
 								<div class=\"margin-left-small font-default flex column\">
 									<div class=\"text-color-orange text-bold text-size-medium\">" . $recBook["title"] ."</div>
 									<div class=\"text-color-grey text-bold text-size-very-small\">" . $recBook["author"] . " - " . number_format($recBook["rate"],1) . "/5.0 (" . $recBook["votes"] . " votes)</div>
-									<div class=\"text-color-grey text-bold text-size-small font-default\">" . $recBook["price"] . "</div>
+									<div class=\"text-color-grey text-bold text-size-very-small font-default\">" . $recBook["price"] . "</div>
 									<div class=\"flex column full-height align-right align-bottom\">
 										<form method=\"GET\" action=\"browse-detail.php\">
 											<div class>
@@ -300,8 +288,11 @@
 			</div>
 		</div>
 	</div>
-
+<script>
+	check_order("<?php echo $book['price'] ?>");
+	selectNavigation(BROWSE);
+</script>
 </body>
 <footer></footer>
 </html>
-<script type="text/javascript" src="../js/browse.js"></script>
+<!-- <script type="text/javascript" src="../js/browse.js"></script> -->
