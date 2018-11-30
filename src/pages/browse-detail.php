@@ -16,7 +16,7 @@
 				</div>
 				<div class="margin-left-large flex row text-color-black">
 					<img class="check-img margin-right-medium" src="../res/misc/check.png">
-					<div>
+					<div id="status">
 						<div class="text-bold text-size-very-small font-default">
 							Pemesanan Berhasil!
 						</div>
@@ -128,11 +128,14 @@
 						<div class="flex align-right">
 							<?php
 								require '../php/connect.php';
-							  $sql2 = "SELECT username from probook.user INNER JOIN probook.token ON username=granted where access_token='" . $_COOKIE['login']. "'" ;
+							    $sql2 = "SELECT username,card_number from probook.user INNER JOIN probook.token ON username=granted where access_token='" . $_COOKIE['login']. "'" ;
 								$result2 = mysqli_fetch_row(mysqli_query($conn, $sql2));
 								$username = $result2[0];
+								$card_number = $result2[1];
 							?>
-							<input class="text-color-white border-radius bg-color-light-blue btn-order font-default" type="button" name="btn-order" value="Order" onclick="order(amount.value, <?php echo "'" . $username . "'";?>, <?php echo $_GET['id_book'];?>)">
+							<input class="text-color-white border-radius bg-color-light-blue btn-order font-default"
+                                type="button" name="btn-order" value="Order"
+                                onclick="order(amount.value, <?php echo "'" . $username . "'";?>, <?php echo $_GET['id_book'];?>, <?php echo "'" . $card_number . "'";?>) ">
 						</div>
 					</form>
 				</div>

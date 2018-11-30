@@ -168,8 +168,8 @@ public class BookService {
     return book_list;
   }
 
-    @WebMethod
-    public Book getBook(String id) throws IOException, ParseException {
+  @WebMethod
+  public Book getBook(String id) throws IOException, ParseException {
         URL url = new URL("https://www.googleapis.com/books/v1/volumes/" + id + "?key=" + APIkey);
         StringBuffer content = connectHttpUrlGET(url);
 
@@ -285,7 +285,7 @@ public class BookService {
     }
 
   @WebMethod
-  public int buyBookByID(String BookID, String UserID, String[] categories) throws IOException {
+  public int buyBookByID(String BookID, String UserID, String[] categories) throws IOException,ParseException {
     System.out.println("BOOKID:"+BookID+"\nUSERID"+UserID+"\nCATEGS:");
     for (String categ : categories){
       System.out.println(categ);
@@ -296,6 +296,7 @@ public class BookService {
     String varTime = dateFormatter.format(date);
     StringBuffer content = new StringBuffer();
     String BankID = "000011112222";
+    int status;
 
     //Init variables for DB connection
     String url = "jdbc:mysql://localhost:3306/bookservice";
@@ -321,7 +322,7 @@ public class BookService {
           byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
           String request = "http://localhost:4000/transfer";
 
-          content = connectHttpUrlPOST(request,postData);
+          status = connectHttpUrlPOST(request,postData);
 
           query = String.format("UPDATE transaksi SET amount = amount + 1 WHERE id = \'"+BookID+"\'");
           ur = stmt.executeUpdate(query);
@@ -336,7 +337,7 @@ public class BookService {
           byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
           String request = "http://localhost:4000/transfer";
 
-          content = connectHttpUrlPOST(request,postData);
+          status = connectHttpUrlPOST(request,postData);
           for (String category : categories){
             query = String.format("INSERT INTO `transaksi` (`id`, `categories`, `amount`) VALUES (\'"+BookID+"\', \'"+category+"\', '1')");
             ur = stmt.executeUpdate(query);
@@ -347,7 +348,7 @@ public class BookService {
         System.out.println("SQLException: " + ex.getMessage());
         System.out.println("SQLState: " + ex.getSQLState());
         System.out.println("VendorError: " + ex.getErrorCode());
-        return 1;
+        return 0;
       }
       finally {
 
@@ -368,7 +369,7 @@ public class BookService {
       throw new IllegalStateException("Cannot connect the database!", e);
     }
 
-    return 0;
+    return status;
   }
 
   private StringBuffer connectHttpUrlGET(URL url) throws IOException{
@@ -383,7 +384,7 @@ public class BookService {
     return content;
   }
 
-  private StringBuffer connectHttpUrlPOST(String request ,byte[] postData) throws IOException{
+  private int connectHttpUrlPOST(String request ,byte[] postData) throws IOException,ParseException{
     int postDataLength = postData.length;
     URL url = new URL(request);
     HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -399,7 +400,12 @@ public class BookService {
     }
     StringBuffer response = getConnectionResponse(con);
     con.disconnect();
-    return response;
+
+    JSONParser jsonParse = new JSONParser();
+    String JSONstring = response.toString();
+    JSONObject JSONBooks = (JSONObject) jsonParse.parse(JSONstring);
+    int status = (int) JSONBooks.get("status");
+    return status;
   }
 
   private StringBuffer getConnectionResponse(HttpURLConnection con) throws IOException{
