@@ -74,43 +74,43 @@ Luaran dari tugas ini adalah memahami poin-poin berikut:
         * username :username dari pemilik akun probook (**PRIMARY KEY**)
 
 2.  Konsep *shared session* dengan REST
-REST : Respresentational State Transfer
-REST adalah sebuah konsep dalam melakukan shared session / state transfer (karena Web itu stateless)
-REST biasanya diimplementasikan di HTTP (biarpun bisa di teknologi yg lain juga)
+    REST : Respresentational State Transfer
+    REST adalah sebuah konsep dalam melakukan shared session / state transfer (karena Web itu stateless)
+    REST biasanya diimplementasikan di HTTP (biarpun bisa di teknologi yg lain juga)
 
 Konsep :
-- resource / sumber daya logical (berbentuk kelas biasanya)
-- server : tempat menampung sumberdaya
-- client : yang melakukan request pada server
-- request dan response : interaksi antara client dan server
-- representation : dokumen yg menjelaskan status dari sebuah resource
+    - resource / sumber daya logical (berbentuk kelas biasanya)
+    - server : tempat menampung sumberdaya
+    - client : yang melakukan request pada server
+    - request dan response : interaksi antara client dan server
+    - representation : dokumen yg menjelaskan status dari sebuah resource
 
 Prinsip
-1. State dari resource diketahui hanya oleh internal dari server
-2. Server tidak memiliki status dari client
-3. Request dari client mengandung semua informasi untuk diproses server
-4. Session state di store di client side
-5. Resource bisa memiliki beberapa respresentation
-6. Response mengindikasikan cacheability (bisa ketahuan perlu di cached atau tidak)
-7. Opsional : client bisa fetch sebagian code server jika dibutuhkan
+    1. State dari resource diketahui hanya oleh internal dari server
+    2. Server tidak memiliki status dari client
+    3. Request dari client mengandung semua informasi untuk diproses server
+    4. Session state di store di client side
+    5. Resource bisa memiliki beberapa respresentation
+    6. Response mengindikasikan cacheability (bisa ketahuan perlu di cached atau tidak)
+    7. Opsional : client bisa fetch sebagian code server jika dibutuhkan
 
 sumber: https://www.javacodegeeks.com/2012/10/introduction-to-rest-concepts.html
 
 3. Mekanisme pembangkitan token dan expiry time
     Berikut tahapan yang kami lakukan untuk melakukan pembangkitan token dan expiry time:
-* Ketika user melakukan login atau register maka user akan diberikan string random sebagai akses token yang memiliki expire time sejam dari login.
-* Akses token dipasangkan ke satu user, ip address, dan browser kemudian disimpan di *database*
-* Pada setiap login, setelah menambahkan access token database juga akan menghapus token-token yang sudah expire
-* Jika pengguna melakukan logut, maka access token yang dimiliki pengguna terhadap browser dan ip address tempat logout akan dihapus
+    * Ketika user melakukan login atau register maka user akan diberikan string random sebagai akses token yang memiliki expire time sejam dari login.
+    * Akses token dipasangkan ke satu user, ip address, dan browser kemudian disimpan di *database*
+    * Pada setiap login, setelah menambahkan access token database juga akan menghapus token-token yang sudah expire
+    * Jika pengguna melakukan logut, maka access token yang dimiliki pengguna terhadap browser dan ip address tempat logout akan dihapus
 
 4. Kelebihan dan kelemahan dari arsitektur
  Kelebihan :
-- Aplikasi dapat dikembangkan secara modular
-- Kegagalan sistem pada salah satu service tidak akan menyebabkan kegagalan total pada aplikasi
-- Dapat diaplikasikan di sistem terdistribusi
+    - Aplikasi dapat dikembangkan secara modular
+    - Kegagalan sistem pada salah satu service tidak akan menyebabkan kegagalan total pada aplikasi
+    - Dapat diaplikasikan di sistem terdistribusi
 
 Kekurangan :
-- Rentan terhadap *bottleneck* jika terjadi traffic tingkat tinggi pada salah satu server
+    - Rentan terhadap *bottleneck* jika terjadi traffic tingkat tinggi pada salah satu server
 
 ### Deskripsi Tugas
 ![](temp/architecture.png)
@@ -194,8 +194,8 @@ Hal-hal detail yang disebutkan pada spesifikasi di atas seperti data yang disimp
 "Gaji buta dilarang dalam tugas ini. Bila tak mengerti, luangkan waktu belajar lebih banyak. Bila belum juga mengerti, belajarlah bersama-sama kelompokmu. Bila Anda sekelompok bingung, bertanyalah (bukan menyontek) ke teman seangkatanmu. Bila seangkatan bingung, bertanyalah pada asisten manapun."
 
 REST :
-1. Validasi nomor kartu : 13516110
-2. Menghubungkan Webservice bank dan Webservice buku dengan method post (Transfer) : 13516014
+1. fungsi validasi nomor kartu & transfer : 13516110
+2. Menghubungkan Webservice bank dan Webservice buku dengan method post (untuk transfer) : 13516014
 3. Menghubungkan Client ke webservice bank untuk memanggil fungsional validasi : 13516005
 
 SOAP :
@@ -204,17 +204,18 @@ SOAP :
 3. Fungsionalitas getConnectionResponse : 13516014
 4. Fungsionalitas getRecommendation : 13516005, 13516110
 5. Fungsionalitas getBook : 13516005
-6. Fungsionalitas searchBook : 13516005
+6. Fungsionalitas searchBook : 13516005, 13516110
+7. Base code untuk SOAP : 13516014
 
 Perubahan Web app :
 1. Halaman Search : 13516110
-2. Halaman Detail : 13516005, 13516014, 13516110
-3. Halaman Register : 13516005, 13516110
-4. Halaman Edit Profile : 13516005, 13516110
+2. Halaman Detail : 13516005 (menghubungkan ke backend dan recommend), 13516014 (fungsionalitas order), 13516110 (rating handling)
+3. Halaman Register : 13516005, 13516110 
+4. Halaman Edit Profile : 13516005 (backend), 13516110 (frontend)
 
 Bonus :
-1. Pembangkitan token HTOP/TOTP : 
-2. Validasi token : 
+1. Pembangkitan token HTOP/TOTP : hehe
+2. Validasi token : hehe
 
 ## About
 
