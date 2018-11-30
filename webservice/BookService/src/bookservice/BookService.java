@@ -431,14 +431,14 @@ public class BookService {
 
         stmt = connection.createStatement();
         String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi where categories='%s') LIMIT 1", category);
-        System.out.print(query);
         rs = stmt.executeQuery(query);
         if(rs.first()) {
           System.out.println(rs.getString("id"));
           return rs.getString("id");
         } else {
           URL recommend_url = new URL("https://www.googleapis.com/books/v1/volumes?q=+subject="+category+"&key="+APIkey);
-
+          System.out.println();
+          System.out.println(recommend_url);
           StringBuffer content = connectHttpUrlGET(recommend_url);
 
           String JSONstring;
@@ -453,7 +453,10 @@ public class BookService {
           while (iterator.hasNext()) {
             JSONObject currentbook = iterator.next();
             String x = currentbook.toString();
+            category = java.net.URLDecoder.decode(category, "UTF-8");
             String y = String.format("\"categories\":[\"%s\"]", category);
+            System.out.println(x);
+            System.out.println(y);
             if (x.contains(y)) {
               return (String)currentbook.get("id");
             }
@@ -492,6 +495,6 @@ public class BookService {
       e.printStackTrace();
       throw new IllegalStateException("Cannot connect the database!", e);
     }
-    return "";
+    return "NoRecommendation";
   }
 }

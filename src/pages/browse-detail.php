@@ -97,23 +97,38 @@
 				$book['rating'] = 0;
 			}
 
-			// $responseReccomendation = $client->getRecommendation(array("arg0" => $book['categories']));
-			// $recBookId = $responseReccomendation->return;
+			
+			$searchCategory = $book['categories'];
 
-			// $responseRecBook = $client->getBook(array("arg0" => $recBookId));
+			if (gettype($searchCategory) == 'string'){
+				$searchCategory = rawurlencode($searchCategory);
+			} else {
+				foreach ($searchCategory as $cat) {
+					print_r("aaa");
+					$cat = rawurlencode($cat);
+				}
+			}
+			print_r($searchCategory);
+			$responseReccomendation = $client->getRecommendation(array("arg0" => $searchCategory));
+			$recBookId = $responseReccomendation->return;
 
-			// $recBook = array();
-			// $recBook['id'] = $responseReccomendation->return->id;
-			// $recBook['title'] = $responseReccomendation->return->title;
-			// $recBook['author'] = $responseReccomendation->return->authors;
-			// $recBook['description'] = $responseReccomendation->return->description;
-			// $recBook['img'] = $responseReccomendation->return->imageLinks;
-			// $recBook['price'] = $responseReccomendation->return->price;
-			// $recBook['categories'] = $responseReccomendation->return->categories;
-			// $book['rating'] = $_GET['rating'];
+			var_dump($recBookId);
+			$responseRecBook = $client->getBook(array("arg0" => $recBookId));
 
-			//var_dump($client->__getFunctions());
-			//var_dump($client->__getTypes());
+			$recBook = array();
+			$recBook['id'] = $responseReccomendation->return->id;
+			$recBook['title'] = $responseReccomendation->return->title;
+			$recBook['author'] = $responseReccomendation->return->authors;
+			$recBook['description'] = $responseReccomendation->return->description;
+			$recBook['img'] = $responseReccomendation->return->imageLinks;
+			$recBook['price'] = $responseReccomendation->return->price;
+			$recBook['categories'] = $responseReccomendation->return->categories;
+
+			//GANTI
+			$book['rating'] = $_GET['rating'];
+
+			// var_dump($client->__getFunctions());
+			// var_dump($client->__getTypes());
 			 $conn->close();
 		?>
 
