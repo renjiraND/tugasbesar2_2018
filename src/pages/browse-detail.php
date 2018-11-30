@@ -107,19 +107,20 @@
 			}
 			$responseReccomendation = $client->getRecommendation(array("arg0" => $searchCategory));
 			$recBookId = $responseReccomendation->return;
+			$recBookId = 'hBAlIbgHNx8C';
 			// var_dump($recBookId);
 			if($recBookId != 'NoRecommendation'){
 			
 				$responseRecBook = $client->getBook(array("arg0" => $recBookId));
 	
 				$recBook = array();
-				$recBook['id'] = $responseReccomendation->return->id;
-				$recBook['title'] = $responseReccomendation->return->title;
-				$recBook['author'] = $responseReccomendation->return->authors;
-				$recBook['description'] = $responseReccomendation->return->description;
-				$recBook['img'] = $responseReccomendation->return->imageLinks;
-				$recBook['price'] = $responseReccomendation->return->price;
-				$recBook['categories'] = $responseReccomendation->return->categories;
+				$recBook['id'] = $responseRecBook->return->id;
+				$recBook['title'] = $responseRecBook->return->title;
+				$recBook['author'] = $responseRecBook->return->authors;
+				$recBook['description'] = $responseRecBook->return->description;
+				$recBook['img'] = $responseReccBook->return->imageLinks;
+				$recBook['price'] = $responseRecBook->return->price;
+				$recBook['categories'] = $responseRecBook->return->categories;
 	
 				//GANTI
 				$book['rating'] = $_GET['rating'];
