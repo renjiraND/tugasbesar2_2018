@@ -10,17 +10,17 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @WebService(targetNamespace = "http://test")
@@ -36,9 +36,8 @@ public class BookService {
 
   @WebMethod
   public List<Book> searchBook(String keyword) throws IOException, ParseException {
-    URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + keyword + "&key=" + APIkey);
+    URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + keyword + "+intitle:" +keyword + "&key=" + APIkey);
     StringBuffer content = connectHttpUrlGET(url);
-
     String JSONstring;
 
     JSONParser jsonParse = new JSONParser();
@@ -154,25 +153,17 @@ public class BookService {
 
 
       Book b = new Book(id, title, author, description, thumbnail, category_list, price);
-//      System.out.println(id);
-//      System.out.println(title);
-//      System.out.println(author);
-//      System.out.println(description);
-//      System.out.println(thumbnail);
-//      System.out.println(category_list);
-//      System.out.println(book);
       book_list.add(b);
     }
 
 
     Gson gson = new Gson();
     String JSON_result = gson.toJson(book_list);
-    System.out.println(JSON_result);
     return book_list;
   }
 
-    @WebMethod
-    public Book getBook(String id) throws IOException, ParseException {
+  @WebMethod
+  public Book getBook(String id) throws IOException, ParseException {
         URL url = new URL("https://www.googleapis.com/books/v1/volumes/" + id + "?key=" + APIkey);
         StringBuffer content = connectHttpUrlGET(url);
 
@@ -283,19 +274,23 @@ public class BookService {
 
         Gson gson = new Gson();
         String JSON_result = gson.toJson(b);
-        System.out.println(JSON_result);
         return b;
     }
 
   @WebMethod
-  public StringBuffer buyBookByID(String BookID, String UserID, String[] categories) throws IOException {
-
+  public long buyBookByID(String BookID, String UserID, String[] categories, String squantity) throws IOException,ParseException {
+    System.out.println("BOOKID:"+BookID+"\nUSERID:"+UserID+"\nCATEGS:");
+    for (String categ : categories){
+      System.out.println(categ);
+    }
     //Init required variables
+    int quantity = Integer.parseInt(squantity);
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss");
     Date date = new Date();
     String varTime = dateFormatter.format(date);
     StringBuffer content = new StringBuffer();
     String BankID = "000011112222";
+    long status;
 
     //Init variables for DB connection
     String url = "jdbc:mysql://localhost:3306/bookservice";
@@ -310,30 +305,35 @@ public class BookService {
       int ur;
 
       try {
+        String varAmount = new String();
         stmt = connection.createStatement();
         String query = String.format("SELECT buku.id, amount, price FROM buku JOIN transaksi on buku.id = transaksi.id AND buku.id = \'"+BookID+"\'");
         rs = stmt.executeQuery(query);
         if(rs.first()) {
-          String varAmount = rs.getString("price");
+          int total = Integer.parseInt(rs.getString("price"));
+          varAmount = Integer.toString(total);
           String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
 
           byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
           String request = "http://localhost:4000/transfer";
 
-          content = connectHttpUrlPOST(request,postData);
+          status = connectHttpUrlPOST(request,postData);
 
           query = String.format("UPDATE transaksi SET amount = amount + 1 WHERE id = \'"+BookID+"\'");
           ur = stmt.executeUpdate(query);
         } else {
           query = String.format("SELECT price FROM buku WHERE buku.id = \'"+BookID+"\'");
           rs = stmt.executeQuery(query);
-          String varAmount = rs.getString("price");
+          if (rs.next()){
+            int total = Integer.parseInt(rs.getString("price"));
+            varAmount = Integer.toString(total);
+          }
           String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
 
           byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
           String request = "http://localhost:4000/transfer";
 
-          content = connectHttpUrlPOST(request,postData);
+          status = connectHttpUrlPOST(request,postData);
           for (String category : categories){
             query = String.format("INSERT INTO `transaksi` (`id`, `categories`, `amount`) VALUES (\'"+BookID+"\', \'"+category+"\', '1')");
             ur = stmt.executeUpdate(query);
@@ -344,6 +344,7 @@ public class BookService {
         System.out.println("SQLException: " + ex.getMessage());
         System.out.println("SQLState: " + ex.getSQLState());
         System.out.println("VendorError: " + ex.getErrorCode());
+        return 0;
       }
       finally {
 
@@ -364,7 +365,7 @@ public class BookService {
       throw new IllegalStateException("Cannot connect the database!", e);
     }
 
-    return content;
+    return status;
   }
 
   private StringBuffer connectHttpUrlGET(URL url) throws IOException{
@@ -374,12 +375,11 @@ public class BookService {
     con.setConnectTimeout(5000);
     con.setReadTimeout(5000);
     StringBuffer content = getConnectionResponse(con);
-    System.out.println(content);
     con.disconnect();
     return content;
   }
 
-  private StringBuffer connectHttpUrlPOST(String request ,byte[] postData) throws IOException{
+  private long connectHttpUrlPOST(String request ,byte[] postData) throws IOException,ParseException{
     int postDataLength = postData.length;
     URL url = new URL(request);
     HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -395,7 +395,12 @@ public class BookService {
     }
     StringBuffer response = getConnectionResponse(con);
     con.disconnect();
-    return response;
+
+    JSONParser jsonParse = new JSONParser();
+    String JSONstring = response.toString();
+    JSONObject JSONObj = (JSONObject) jsonParse.parse(JSONstring);
+    long status = (long)JSONObj.get("status");
+    return status;
   }
 
   private StringBuffer getConnectionResponse(HttpURLConnection con) throws IOException{
@@ -409,92 +414,92 @@ public class BookService {
       content.append(inputLine);
     }
     in.close();
-    System.out.println(content);
     con.disconnect();
     return content;
   }
 
 
   @WebMethod
-  public String getRecommendation(String[] categories) throws IOException, ParseException {
-
+  public String getRecommendation(String[] categories, String source_book) throws IOException, ParseException {
     String url = "jdbc:mysql://localhost:3306/bookservice";
     String username = "root";
     String password = "";
     String category = categories[0];
     System.out.println("Connecting database...");
 
-    try (Connection connection = DriverManager.getConnection(url, username, password)) {
-      System.out.println("Database connected!");
 
-      Statement stmt = null;
-      ResultSet rs = null;
+    String encoded_category = new String(category);
+    category = java.net.URLDecoder.decode(category, "UTF-8");
 
-      try {
+    if (!category.equals("None")) {
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
 
-        stmt = connection.createStatement();
-        String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi where categories='%s') LIMIT 1", category);
-        System.out.print(query);
-        rs = stmt.executeQuery(query);
-        if(rs.first()) {
-          System.out.println(rs.getString("id"));
-          return rs.getString("id");
-        } else {
-          URL recommend_url = new URL("https://www.googleapis.com/books/v1/volumes?q=+subject="+category+"&key="+APIkey);
+            Statement stmt = null;
+            ResultSet rs = null;
 
-          StringBuffer content = connectHttpUrlGET(recommend_url);
+            try {
+                stmt = connection.createStatement();
+                String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi WHERE categories='%s' AND id <> '%s') LIMIT 1", category, source_book);
+                rs = stmt.executeQuery(query);
+                if (rs.first()) {
+                    return rs.getString("id");
+                } else {
+                    URL recommend_url = new URL("https://www.googleapis.com/books/v1/volumes?q=+subject=" + encoded_category + "&key=" + APIkey);
+                    StringBuffer content = connectHttpUrlGET(recommend_url);
 
-          String JSONstring;
+                    String JSONstring;
 
-          JSONParser jsonParse = new JSONParser();
-          JSONstring = content.toString();
+                    JSONParser jsonParse = new JSONParser();
+                    JSONstring = content.toString();
 
-          JSONObject JSONBooks = (JSONObject) jsonParse.parse(JSONstring);
-          JSONArray booklist = (JSONArray) JSONBooks.get("items");
+                    JSONObject JSONBooks = (JSONObject) jsonParse.parse(JSONstring);
+                    JSONArray booklist = (JSONArray) JSONBooks.get("items");
+                    List<String> id_list = new ArrayList<>();
+                    Iterator<JSONObject> iterator = booklist.iterator();
+                    while (iterator.hasNext()) {
+                        JSONObject currentbook = iterator.next();
+                        id_list.add((String) currentbook.get("id"));
+                    }
+                    if (id_list.size() > 0) {
+                        int random_number = 0 + (int) (Math.random() * ((id_list.size()-1 - 0) + 1));
+                        return id_list.get(random_number);
+                    }
+                }
+            } catch (SQLException ex) {
+                // handle any errors
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+            } finally {
+                // it is a good idea to release
+                // resources in a finally{} block
+                // in reverse-order of their creation
+                // if they are no-longer needed
 
-          Iterator<JSONObject> iterator = booklist.iterator();
-          while (iterator.hasNext()) {
-            JSONObject currentbook = iterator.next();
-            String x = currentbook.toString();
-            String y = String.format("\"categories\":[\"%s\"]", category);
-            if (x.contains(y)) {
-              return (String)currentbook.get("id");
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (SQLException sqlEx) {
+                    } // ignore
+
+                    rs = null;
+                }
+
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException sqlEx) {
+                    } // ignore
+
+                    stmt = null;
+                }
             }
-          }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Cannot connect the database!", e);
         }
-      }
-      catch (SQLException ex){
-        // handle any errors
-        System.out.println("SQLException: " + ex.getMessage());
-        System.out.println("SQLState: " + ex.getSQLState());
-        System.out.println("VendorError: " + ex.getErrorCode());
-      }
-      finally {
-        // it is a good idea to release
-        // resources in a finally{} block
-        // in reverse-order of their creation
-        // if they are no-longer needed
-
-        if (rs != null) {
-          try {
-            rs.close();
-          } catch (SQLException sqlEx) { } // ignore
-
-          rs = null;
-        }
-
-        if (stmt != null) {
-          try {
-            stmt.close();
-          } catch (SQLException sqlEx) { } // ignore
-
-          stmt = null;
-        }
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw new IllegalStateException("Cannot connect the database!", e);
     }
-    return "";
+    return "NoRecommendation";
   }
 }
