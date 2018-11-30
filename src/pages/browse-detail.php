@@ -54,22 +54,80 @@
 			$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = " . $id_book;
 			$result = $conn->query($sql);
 			$list_review = array();
+			$sum = 0;
 			while ($row = $result->fetch_assoc()) {
 				array_push($list_review, $row);
+				//print_r($row);
+				$sum = $row['rating'];
 			}
 
 			$client = new SoapClient("http://localhost:9000/BookService?wsdl");
-			//$response = $client->__soapCall("getBook",array('id' => "xsRGDwAAQBAJ"));
-			$response = $client->getBook(array("arg0" => "xsRGDwAAQBAJ"));
+			$responseDetail = $client->getBook(array("arg0" => $id_book));
 			/* Print webservice response */
-			$title = $response->return->title;
-			print_r($title);
-			//var_dump($client->__getFunctions()); 
-			var_dump($client->__getTypes()); 
-			$conn->close();
+			$title = $responseDetail->return->categories;
+			//print_r($title);
+			//var_dump($title);
+
+			$book['id'] = $responseDetail->return->id;
+			$book['title'] = $responseDetail->return->title;
+			$book['author'] = $responseDetail->return->authors;
+			$book['categories'] = $responseDetail->return->categories;
+
+			if ($responseDetail->return->description == 'default'){
+				$book['description'] = '../res/profile_picture/default.jpg';
+			} else {
+			$book['description'] = $responseDetail->return->description;
+			}
+
+			$book['img'] = $responseDetail->return->imageLinks;
+
+			if ($responseDetail->return->price == -1){
+				$book['price'] = 'Not For Sale';
+			} else {
+			$book['price'] = 'Rp' + $responseDetail->return->price;
+			}
+
+			if (count($list_review) != 0){
+				$book['rating'] = $sum / count($list_review);
+			} else {
+				$book['rating'] = 0;
+			}
+
+
+			$searchCategory = $book['categories'];
+			if (gettype($searchCategory) == 'string'){
+				$searchCategory = rawurlencode($searchCategory);
+			} else {
+				foreach ($searchCategory as &$cat) {
+					$cat = rawurlencode($cat);
+				}
+			}
+			$responseReccomendation = $client->getRecommendation(array("arg0" => $searchCategory));
+			$recBookId = $responseReccomendation->return;
+			$recBookId = 'hBAlIbgHNx8C';
+			// var_dump($recBookId);
+			if($recBookId != 'NoRecommendation'){
+
+				$responseRecBook = $client->getBook(array("arg0" => $recBookId));
+
+				$recBook = array();
+				$recBook['id'] = $responseRecBook->return->id;
+				$recBook['title'] = $responseRecBook->return->title;
+				$recBook['author'] = $responseRecBook->return->authors;
+				$recBook['description'] = $responseRecBook->return->description;
+				$recBook['img'] = $responseReccBook->return->imageLinks;
+				$recBook['price'] = $responseRecBook->return->price;
+				$recBook['categories'] = $responseRecBook->return->categories;
+
+				//GANTI
+				$book['rating'] = $_GET['rating'];
+			}
+			// var_dump($client->__getFunctions());
+			// var_dump($client->__getTypes());
+			 $conn->close();
 		?>
 
-		<div class="flex center">	
+		<div class="flex center">
 			<div class="container-small">
 				<div class="flex space-beetween">
 					<div>
@@ -81,6 +139,7 @@
 						<div class="flex center">
 							<img class="book-result-img margin font-default" src=<?php echo "\"" . $book["img"] . "\"";?>>
 						</div>
+						<div class="text-color-grey text-bold text-size-small margin-top-small font-default"><?php echo $book["price"];?></div>
 						<div class="flex row margin-top-small">
 							<?php
 								$rating = $book['rating'];
@@ -144,7 +203,7 @@
 				<div class="margin-top-large">
 					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Reviews</div>
 					<?php
-						foreach ($list_review as $review) {
+                        foreach ($list_review as $review) {
 							echo "<div class=\"flex space-beetween margin-bot-medium\">
 								<div class=\"flex row\">
 									<img class=\"review-img margin-right-small\" src=\"" . $review["img"] . "\">
@@ -163,7 +222,36 @@
 						}
 					?>
 				</div>
-				-->
+
+
+				<div class="margin-top-large">
+					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Recommendation</div>
+					<?php
+					if ($recBookId == 'NoRecommendation'){
+						echo "<div class=\"text-color-orange text-bold text-size-small font-default\">Not Available</div>";
+					} else {
+						echo "<div class=\"flex space-beetween margin-bot-medium\">
+						<div class=\"flex space-beetween row \">
+							<img class=\"book-result-img\" src=\"" . $recBook['img'] . "\">
+							<div class=\"margin-left-small font-default flex column\">
+								<div class=\"text-color-orange text-bold text-size-medium\">" . $recBook["title"] ."</div>
+								<div class=\"text-color-grey text-bold text-size-very-small\">" . $recBook["author"] . " - " . number_format($recBook["rate"],1) . "/5.0 (" . $recBook["votes"] . " votes)</div>
+								<div class=\"text-color-grey text-bold text-size-small font-default\">" . 'Rp' . $book["price"] . "</div>
+								<div class=\"flex column full-height align-right align-bottom\">
+									<form method=\"GET\" action=\"browse-detail.php\">
+										<div class>
+											<input type=\"hidden\" name=\"id_book\" value=\"" . $recBook["id"] . "\">
+											<input type=\"hidden\" name=\"rating\" value=\"" . $recBook["rate"] . "\">
+											<input class=\"text-color-white border-radius bg-color-light-blue margin-top-small font-default btn-detail\" type=\"submit\" value=\"See More!\" id_book=\"" . $recBook['id'] . "\" value=\"Detail\">
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						";
+					}
+				?>
+				</div>
 
 
 			</div>

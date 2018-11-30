@@ -22,8 +22,8 @@
 				$username = $result2[0];
 			?>
       <?php
-				$que1 = "SELECT idorder, amount, bookname, image, order_date, rating, review from probook.`order` inner join probook.`book` on probook.`order`.book = probook.`book`.idbook WHERE buyer = '" . $username . "' AND rating is null ORDER BY idorder DESC";
-				$que2 = "SELECT idorder, amount, bookname, image, order_date, rating, review from probook.`order` inner join probook.`book` on probook.`order`.book = probook.`book`.idbook WHERE buyer = '" . $username . "' AND rating is not null ORDER BY idorder DESC";
+				$que1 = "SELECT idorder, book, amount, order_date, rating, review from probook.`order` WHERE buyer = '" . $username . "' AND rating is null ORDER BY idorder DESC";
+				$que2 = "SELECT idorder, book, amount, order_date, rating, review from probook.`order` WHERE buyer = '" . $username . "' AND rating is not null ORDER BY idorder DESC";
 				$sql_arr = array($que1, $que2);
 				$isEmpty = true;
 				foreach ($sql_arr as $sql) {
@@ -31,6 +31,12 @@
 					if (mysqli_num_rows($result)>0) {
 						$isEmpty=false;
 		        foreach ($result as $order) {
+							$client = new SoapClient("http://localhost:9000/BookService?wsdl");
+							$responseDetail = $client->getBook(array("arg0" => $order['book']));
+
+							$order['author'] = $responseDetail->return->authors;
+							$order['bookname'] = $responseDetail->return->title;
+							$order['image'] = $responseDetail->return->imageLinks;
 							$ordertime = strtotime($order["order_date"]);
 							$ordertime = date('d', $ordertime) ." " . date('F', $ordertime). " " . date('Y', $ordertime);
 
@@ -50,9 +56,15 @@
 		                ."<div class=\"flex align-right\">"
 		                . ($order["rating"] ? "" : "<div>
 		                    <div class=\"flex\">
-		                      <input class=\"blue-button font-default\" type=\"button\" name=\"btn-review\" value=\"Review\"
-														onclick=\"window.location.href='review.php?idorder=" . $order["idorder"] . "'\">
-		                    </div>")
+													<form method=\"POST\" action=\"review.php\">
+														<input type=\"hidden\" name=\"idorder\" value=\"" . $order['idorder'] . "\">
+														<input type=\"hidden\" name=\"book\" value=\"" . $order['book'] . "\">
+														<input type=\"hidden\" name=\"bookname\" value=\"" . $order['bookname'] . "\">
+														<input type=\"hidden\" name=\"author\" value=\"" . $order['author'] . "\">
+														<input type=\"hidden\" name=\"image\" value=\"" . $order['image'] . "\">
+			                      <input class=\"blue-button font-default\" type=\"submit\" name=\"btn-review\" value=\"Review\">
+													</form>
+												</div>")
 		              . "</div>
 		                </div>
 		              </div>

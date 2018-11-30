@@ -42,7 +42,8 @@
   function addTokenToDB($token,$user)
   {
     require '../php/connect.php';
-    $exptime = date('Y-m-d H:i:s',(time()+43200));
+		date_default_timezone_set("Asia/Jakarta");
+    $exptime = date('Y-m-d H:i:s',(time()+3600));
 		$browser = $_SERVER['HTTP_USER_AGENT'];
     $ip = get_client_ip_server();
 		$sql = "INSERT INTO probook.token(access_token, granted, expiry_time, browser, ip) VALUES ('$token','$user','$exptime', '$browser', '$ip')";

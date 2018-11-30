@@ -38,7 +38,7 @@ public class BookService {
   public List<Book> searchBook(String keyword) throws IOException, ParseException {
     URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + keyword + "&key=" + APIkey);
     StringBuffer content = connectHttpUrlGET(url);
-
+    System.out.println(content);
     String JSONstring;
 
     JSONParser jsonParse = new JSONParser();
@@ -151,13 +151,6 @@ public class BookService {
 
 
       Book b = new Book(id, title, author, description, thumbnail, category_list, price);
-//      System.out.println(id);
-//      System.out.println(title);
-//      System.out.println(author);
-//      System.out.println(description);
-//      System.out.println(thumbnail);
-//      System.out.println(category_list);
-//      System.out.println(book);
       book_list.add(b);
     }
 
@@ -434,6 +427,12 @@ public class BookService {
     String category = categories[0];
     System.out.println("Connecting database...");
 
+    String encoded_category = new String(category);
+      System.out.println(category);
+      System.out.println(encoded_category);
+    category = java.net.URLDecoder.decode(category, "UTF-8");
+    System.out.println(category);
+    System.out.println(encoded_category);
     try (Connection connection = DriverManager.getConnection(url, username, password)) {
       System.out.println("Database connected!");
 
@@ -441,17 +440,16 @@ public class BookService {
       ResultSet rs = null;
 
       try {
-
         stmt = connection.createStatement();
         String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi where categories='%s') LIMIT 1", category);
-        System.out.print(query);
         rs = stmt.executeQuery(query);
         if(rs.first()) {
           System.out.println(rs.getString("id"));
           return rs.getString("id");
         } else {
-          URL recommend_url = new URL("https://www.googleapis.com/books/v1/volumes?q=+subject="+category+"&key="+APIkey);
-
+          URL recommend_url = new URL("https://www.googleapis.com/books/v1/volumes?q=+subject="+encoded_category+"&key="+APIkey);
+          System.out.println();
+          System.out.println(recommend_url);
           StringBuffer content = connectHttpUrlGET(recommend_url);
 
           String JSONstring;
@@ -467,6 +465,8 @@ public class BookService {
             JSONObject currentbook = iterator.next();
             String x = currentbook.toString();
             String y = String.format("\"categories\":[\"%s\"]", category);
+            System.out.println(x);
+            System.out.println(y);
             if (x.contains(y)) {
               return (String)currentbook.get("id");
             }
@@ -505,6 +505,6 @@ public class BookService {
       e.printStackTrace();
       throw new IllegalStateException("Cannot connect the database!", e);
     }
-    return "";
+    return "NoRecommendation";
   }
 }

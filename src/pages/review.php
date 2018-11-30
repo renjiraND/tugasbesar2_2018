@@ -11,13 +11,13 @@
 	<?php require 'header.php';?>
 	<?php require '../php/connect.php';?>
 	<?php
-		if (!isset($_GET['idorder'])) {
+		if (!isset($_POST['idorder']) || !isset($_POST['book']) || !isset($_POST['bookname']) || !isset($_POST['author']) || !isset($_POST['image'])) {
 			header( "Location: history.php" ); die;
 		}
-		$order_id = $_GET['idorder'];
+		$order_id = $_POST['idorder'];
 		$sql = "select bookname, author, image from probook.order inner join probook.book on
 			(probook.book.idbook=probook.order.book) WHERE probook.order.idorder=" . $order_id;
-		$result = mysqli_fetch_row(mysqli_query($conn, $sql));
+		$result = array($_POST['bookname'], $_POST['author'], $_POST['image']);
 	?>
 	<div class="margin-top-large margin-left-large margin-right-large flex row center">
 		<div class="two-third">
@@ -39,7 +39,7 @@
 		</div>
 		<div class="flex center text-size-large">
 			<form class="rating" id="review" method="post" action="../php/submit-review.php">
-				<input type="hidden" name="idorder" value=<?php echo $_GET['idorder']?>>
+				<input type="hidden" name="idorder" value=<?php echo $_POST['idorder']?>>
 				<div>
 				  <label>
 				    <input type="radio" class="stars-button" name="stars" value="1" />
