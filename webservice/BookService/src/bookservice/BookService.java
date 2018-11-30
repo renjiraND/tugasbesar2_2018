@@ -417,7 +417,7 @@ public class BookService {
     String encoded_category = new String(category);
     category = java.net.URLDecoder.decode(category, "UTF-8");
 
-    if (category != 'None') {
+    if (category != "None") {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             System.out.println("Database connected!");
 
