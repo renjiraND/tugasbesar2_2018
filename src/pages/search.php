@@ -20,6 +20,19 @@
           </div>
         </form>
 
+        <div id="loading" class="hide martgin-top-medium text-color-grey text-size-small font-default">
+          Searching, Please Wait...
+        </div>
+
+        <div id="resulttext" class="flex row hide margin-top-medium">
+          <div class="two-third">
+            <div class="text-color-orange text-bold text-size-large font-default">Result</div>
+          </div>
+          <div class="one-third flex align-right center-vertical">
+            <div id="bookfound" class="text-color-grey text-size-small font-default"></div>
+          </div>
+        </div>
+
         <div ng-repeat="book in searchresult">
           <div class="margin-bottom-medium">
             <div class="flex row margin-top-large">
