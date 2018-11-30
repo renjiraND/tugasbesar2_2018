@@ -15,8 +15,8 @@
 					<img class="cancel-img" src="../res/misc/close.png" onclick="closeNotification()">
 				</div>
 				<div class="margin-left-large flex row text-color-black">
-					<img class="check-img margin-right-medium" src="../res/misc/check.png">
-					<div>
+					<img id="img_status" class="check-img margin-right-medium" src="../res/misc/check.png">
+					<div id="status">
 						<div class="text-bold text-size-very-small font-default">
 							Pemesanan Berhasil!
 						</div>
@@ -38,33 +38,32 @@
 		<?php
 			require '../php/connect.php';
 			$id_book = $_GET['id_book'];
-			//$id_book = 'xsRGDwAAQBAJ';
 
-			// $sql = "SELECT * FROM probook.book WHERE probook.book.idbook = " . $id_book;
-			// $result = $conn->query($sql);
-			// $book = array();
-			// while ($row = $result->fetch_assoc()) {
-			// 	$book['id'] = $row['idbook'];
-			// 	$book['title'] = $row['bookname'];
-			// 	$book['author'] = $row['author'];
-			// 	$book['description'] = $row['description'];
-			// 	$book['img'] = $row['image'];
-			// 	$book['rating'] = $_GET['rating'];
-			// }
+//			$sql = "SELECT * FROM probook.book WHERE probook.book.idbook = " . $id_book;
+//			$result = $conn->query($sql);
+//			$book = array();
+//			while ($row = $result->fetch_assoc()) {
+//				$book['id'] = $row['idbook'];
+//				$book['title'] = $row['bookname'];
+//				$book['author'] = $row['author'];
+//				$book['description'] = $row['description'];
+//				$book['img'] = $row['image'];
+//				$book['rating'] = $_GET['rating'];
+//			}
 
 			$sql = "SELECT probook.`order`.buyer AS username, probook.`order`.rating AS rating, probook.`order`.review AS review, probook.`user`.picture AS img FROM probook.`order` INNER JOIN probook.`user` ON probook.`order`.buyer = probook.`user`.username WHERE probook.`order`.rating is not null AND probook.`order`.book = '" . $id_book . "'";
-			//print_r($sql);
 			$result = $conn->query($sql);
 			$list_review = array();
 			$sum = 0;
-			while ($row = $result->fetch_assoc()) {
-				array_push($list_review, $row);
-				//print_r($row);
-				$sum = $row['rating'];
-			}
+			if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    array_push($list_review, $row);
+                    //print_r($row);
+                    $sum = $row['rating'];
+                }
+            }
 
-
-			$client = new SoapClient("http://localhost:9001/BookService?wsdl");
+			$client = new SoapClient("http://localhost:9000/BookService?wsdl");
 			$responseDetail = $client->getBook(array("arg0" => $id_book));
 			/* Print webservice response */
 			$title = $responseDetail->return->categories;
@@ -74,7 +73,7 @@
 			$book['id'] = $responseDetail->return->id;
 			$book['title'] = $responseDetail->return->title;
 			$book['author'] = $responseDetail->return->authors;
-			$book['categories'] = $responseDetail->return->categories;		
+			$book['categories'] = $responseDetail->return->categories;
 			$book['description'] = $responseDetail->return->description;
 
 			if ($responseDetail->return->imageLinks == 'default'){
@@ -86,7 +85,7 @@
 			if ($responseDetail->return->price == -1){
 				$book['price'] = 'Not For Sale';
 			} else {
-			$book['price'] = 'Rp' + $responseDetail->return->price;
+			    $book['price'] = "Rp." . $responseDetail->return->price;
 			}
 
 			if (count($list_review) != 0){
@@ -108,9 +107,9 @@
 			$recBookId = $responseRecommendation->return;
 			// $recBookId = 'hBAlIbgHNx8C';
 			if($recBookId != 'NoRecommendation'){
-			
+
 				$responseRecBook = $client->getBook(array("arg0" => $recBookId));
-	
+
 				$recBook = array();
 				$recBook['id'] = $responseRecBook->return->id;
 				$recBook['title'] = $responseRecBook->return->title;
@@ -130,7 +129,11 @@
 				}
 	
 				//GANTI
-				$book['rating'] = $_GET['rating'];
+				if ($result->num_rows==0) {
+				    $book['rating']=0;
+				}else{
+				    $book['rating'] = $sum / $result->num_rows;
+			    }
 			}
 			// var_dump($client->__getFunctions());
 			// var_dump($client->__getTypes());
@@ -197,15 +200,17 @@
 						<div class="flex align-right">
 							<?php
 								require '../php/connect.php';
-							  $sql2 = "SELECT username from probook.user INNER JOIN probook.token ON username=granted where access_token='" . $_COOKIE['login']. "'" ;
+							    $sql2 = "SELECT username,card_number from probook.user INNER JOIN probook.token ON username=granted where access_token='" . $_COOKIE['login']. "'" ;
 								$result2 = mysqli_fetch_row(mysqli_query($conn, $sql2));
 								$username = $result2[0];
+								$card_number = $result2[1];
 							?>
-							<input class="text-color-white border-radius bg-color-light-blue btn-order font-default" type="button" name="btn-order" value="Order" onclick="order(amount.value, <?php echo "'" . $username . "'";?>, <?php echo $_GET['id_book'];?>)">
+							<input class="text-color-white border-radius bg-color-light-blue btn-order font-default"
+                                type="button" name="btn-order" value="Order"
+                                onclick="order(amount.value, <?php echo "'" . $username . "'";?>, <?php echo "'". $_GET['id_book'] . "'";?>, <?php echo "'" . $card_number . "'";?>, <?php echo "'" . $book['categories'] . "'";?>) ">
 						</div>
 					</form>
 				</div>
-
 
 				<div class="margin-top-large">
 					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Reviews</div>
@@ -232,7 +237,7 @@
 						} else {
 							echo "<div class=\"text-color-orange text-bold text-size-small font-default\">Not Available</div>";
 						}
-                        
+
 					?>
 				</div>
 
@@ -249,8 +254,7 @@
 							<div class=\"margin-left-small font-default flex column\">
 								<div class=\"text-color-orange text-bold text-size-medium\">" . $recBook["title"] ."</div>
 								<div class=\"text-color-grey text-bold text-size-very-small\">" . $recBook["author"] . " - " . number_format($recBook["rate"],1) . "/5.0 (" . $recBook["votes"] . " votes)</div>
-								<div class=\"text-color-grey text-bold text-size-small font-default\">" . 'Rp' . $recBook["price"] . "
-								</div>
+								<div class=\"text-color-grey text-bold text-size-small font-default\">" . 'Rp' . $recBook["price"] . "</div>
 								<div class=\"flex column full-height align-right align-bottom\">
 									<form method=\"GET\" action=\"browse-detail.php\">
 										<div class>

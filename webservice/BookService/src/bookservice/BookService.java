@@ -10,17 +10,17 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @WebService(targetNamespace = "http://test")
@@ -30,7 +30,7 @@ public class BookService {
 
   public static void main(String[] argv) {
     Object implementor = new BookService();
-    String address = "http://localhost:9001/BookService";
+    String address = "http://localhost:9000/BookService";
     Endpoint.publish(address, implementor);
   }
 
@@ -159,8 +159,8 @@ public class BookService {
     return book_list;
   }
 
-    @WebMethod
-    public Book getBook(String id) throws IOException, ParseException {
+  @WebMethod
+  public Book getBook(String id) throws IOException, ParseException {
         URL url = new URL("https://www.googleapis.com/books/v1/volumes/" + id + "?key=" + APIkey);
         StringBuffer content = connectHttpUrlGET(url);
 
@@ -275,14 +275,19 @@ public class BookService {
     }
 
   @WebMethod
-  public StringBuffer buyBookByID(String BookID, String UserID, String[] categories) throws IOException {
-
+  public long buyBookByID(String BookID, String UserID, String[] categories, String squantity) throws IOException,ParseException {
+    System.out.println("BOOKID:"+BookID+"\nUSERID:"+UserID+"\nCATEGS:");
+    for (String categ : categories){
+      System.out.println(categ);
+    }
     //Init required variables
+    int quantity = Integer.parseInt(squantity);
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss");
     Date date = new Date();
     String varTime = dateFormatter.format(date);
     StringBuffer content = new StringBuffer();
     String BankID = "000011112222";
+    long status;
 
     //Init variables for DB connection
     String url = "jdbc:mysql://localhost:3306/bookservice";
@@ -297,30 +302,35 @@ public class BookService {
       int ur;
 
       try {
+        String varAmount = new String();
         stmt = connection.createStatement();
         String query = String.format("SELECT buku.id, amount, price FROM buku JOIN transaksi on buku.id = transaksi.id AND buku.id = \'"+BookID+"\'");
         rs = stmt.executeQuery(query);
         if(rs.first()) {
-          String varAmount = rs.getString("price");
+          int total = Integer.parseInt(rs.getString("price"));
+          varAmount = Integer.toString(total);
           String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
 
           byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
           String request = "http://localhost:4000/transfer";
 
-          content = connectHttpUrlPOST(request,postData);
+          status = connectHttpUrlPOST(request,postData);
 
           query = String.format("UPDATE transaksi SET amount = amount + 1 WHERE id = \'"+BookID+"\'");
           ur = stmt.executeUpdate(query);
         } else {
           query = String.format("SELECT price FROM buku WHERE buku.id = \'"+BookID+"\'");
           rs = stmt.executeQuery(query);
-          String varAmount = rs.getString("price");
+          if (rs.next()){
+            int total = Integer.parseInt(rs.getString("price"));
+            varAmount = Integer.toString(total);
+          }
           String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
 
           byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
           String request = "http://localhost:4000/transfer";
 
-          content = connectHttpUrlPOST(request,postData);
+          status = connectHttpUrlPOST(request,postData);
           for (String category : categories){
             query = String.format("INSERT INTO `transaksi` (`id`, `categories`, `amount`) VALUES (\'"+BookID+"\', \'"+category+"\', '1')");
             ur = stmt.executeUpdate(query);
@@ -331,6 +341,7 @@ public class BookService {
         System.out.println("SQLException: " + ex.getMessage());
         System.out.println("SQLState: " + ex.getSQLState());
         System.out.println("VendorError: " + ex.getErrorCode());
+        return 0;
       }
       finally {
 
@@ -351,7 +362,7 @@ public class BookService {
       throw new IllegalStateException("Cannot connect the database!", e);
     }
 
-    return content;
+    return status;
   }
 
   private StringBuffer connectHttpUrlGET(URL url) throws IOException{
@@ -365,7 +376,7 @@ public class BookService {
     return content;
   }
 
-  private StringBuffer connectHttpUrlPOST(String request ,byte[] postData) throws IOException{
+  private long connectHttpUrlPOST(String request ,byte[] postData) throws IOException,ParseException{
     int postDataLength = postData.length;
     URL url = new URL(request);
     HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -381,7 +392,12 @@ public class BookService {
     }
     StringBuffer response = getConnectionResponse(con);
     con.disconnect();
-    return response;
+
+    JSONParser jsonParse = new JSONParser();
+    String JSONstring = response.toString();
+    JSONObject JSONObj = (JSONObject) jsonParse.parse(JSONstring);
+    long status = (long)JSONObj.get("status");
+    return status;
   }
 
   private StringBuffer getConnectionResponse(HttpURLConnection con) throws IOException{
