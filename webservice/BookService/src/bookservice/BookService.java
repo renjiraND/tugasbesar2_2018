@@ -285,8 +285,11 @@ public class BookService {
     }
 
   @WebMethod
-  public StringBuffer buyBookByID(String BookID, String UserID, String[] categories) throws IOException {
-
+  public int buyBookByID(String BookID, String UserID, String[] categories) throws IOException {
+    System.out.println("BOOKID:"+BookID+"\nUSERID"+UserID+"\nCATEGS:");
+    for (String categ : categories){
+      System.out.println(categ);
+    }
     //Init required variables
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss");
     Date date = new Date();
@@ -307,11 +310,12 @@ public class BookService {
       int ur;
 
       try {
+        String varAmount = new String();
         stmt = connection.createStatement();
         String query = String.format("SELECT buku.id, amount, price FROM buku JOIN transaksi on buku.id = transaksi.id AND buku.id = \'"+BookID+"\'");
         rs = stmt.executeQuery(query);
         if(rs.first()) {
-          String varAmount = rs.getString("price");
+          varAmount = rs.getString("price");
           String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
 
           byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
@@ -324,7 +328,9 @@ public class BookService {
         } else {
           query = String.format("SELECT price FROM buku WHERE buku.id = \'"+BookID+"\'");
           rs = stmt.executeQuery(query);
-          String varAmount = rs.getString("price");
+          if (rs.next()){
+            varAmount = rs.getString("price");
+          }
           String urlParams = "send=" + UserID + "&rcv=" + BankID + "&amount=" + varAmount + "&time=" + varTime;
 
           byte[] postData = urlParams.getBytes(StandardCharsets.UTF_8);
@@ -341,6 +347,7 @@ public class BookService {
         System.out.println("SQLException: " + ex.getMessage());
         System.out.println("SQLState: " + ex.getSQLState());
         System.out.println("VendorError: " + ex.getErrorCode());
+        return 1;
       }
       finally {
 
@@ -361,7 +368,7 @@ public class BookService {
       throw new IllegalStateException("Cannot connect the database!", e);
     }
 
-    return content;
+    return 0;
   }
 
   private StringBuffer connectHttpUrlGET(URL url) throws IOException{
