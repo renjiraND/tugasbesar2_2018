@@ -427,7 +427,6 @@ public class BookService {
       ResultSet rs = null;
 
       try {
-
         stmt = connection.createStatement();
         String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi where categories='%s') LIMIT 1", category);
         rs = stmt.executeQuery(query);
