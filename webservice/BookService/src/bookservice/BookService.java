@@ -38,7 +38,6 @@ public class BookService {
   public List<Book> searchBook(String keyword) throws IOException, ParseException {
     URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + keyword + "+intitle:" +keyword + "&key=" + APIkey);
     StringBuffer content = connectHttpUrlGET(url);
-    System.out.println(content);
     String JSONstring;
 
     JSONParser jsonParse = new JSONParser();
@@ -157,7 +156,6 @@ public class BookService {
 
     Gson gson = new Gson();
     String JSON_result = gson.toJson(book_list);
-    System.out.println(JSON_result);
     return book_list;
   }
 
@@ -273,7 +271,6 @@ public class BookService {
 
         Gson gson = new Gson();
         String JSON_result = gson.toJson(b);
-        System.out.println(JSON_result);
         return b;
     }
 
@@ -364,7 +361,6 @@ public class BookService {
     con.setConnectTimeout(5000);
     con.setReadTimeout(5000);
     StringBuffer content = getConnectionResponse(con);
-    System.out.println(content);
     con.disconnect();
     return content;
   }
@@ -399,7 +395,6 @@ public class BookService {
       content.append(inputLine);
     }
     in.close();
-    System.out.println(content);
     con.disconnect();
     return content;
   }
@@ -407,7 +402,6 @@ public class BookService {
 
   @WebMethod
   public String getRecommendation(String[] categories, String source_book) throws IOException, ParseException {
-      System.out.println("REKOMENDASI");
     String url = "jdbc:mysql://localhost:3306/bookservice";
     String username = "root";
     String password = "";
@@ -417,7 +411,6 @@ public class BookService {
 
     String encoded_category = new String(category);
     category = java.net.URLDecoder.decode(category, "UTF-8");
-    System.out.println(category);
 
     if (!category.equals("None")) {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
@@ -429,15 +422,11 @@ public class BookService {
             try {
                 stmt = connection.createStatement();
                 String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi WHERE categories='%s' AND id <> '%s') LIMIT 1", category, source_book);
-                System.out.println(query);
                 rs = stmt.executeQuery(query);
                 if (rs.first()) {
-                    System.out.println(rs.getString("id"));
                     return rs.getString("id");
                 } else {
                     URL recommend_url = new URL("https://www.googleapis.com/books/v1/volumes?q=+subject=" + encoded_category + "&key=" + APIkey);
-                    System.out.println();
-                    System.out.println(recommend_url);
                     StringBuffer content = connectHttpUrlGET(recommend_url);
 
                     String JSONstring;
