@@ -105,8 +105,8 @@
 					$cat = rawurlencode($cat);
 				}
 			}
-			$responseReccomendation = $client->getRecommendation(array("arg0" => $searchCategory));
-			$recBookId = $responseReccomendation->return;
+			$responseRecommendation = $client->getRecommendation(array("arg0" => $searchCategory));
+			$recBookId = $responseReccmmendation->return;
 			$recBookId = 'hBAlIbgHNx8C';
 			// var_dump($recBookId);
 			if($recBookId != 'NoRecommendation'){

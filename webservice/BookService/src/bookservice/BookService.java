@@ -446,17 +446,15 @@ public class BookService {
 
           JSONObject JSONBooks = (JSONObject) jsonParse.parse(JSONstring);
           JSONArray booklist = (JSONArray) JSONBooks.get("items");
-
+          List<String> id_list = new ArrayList<>();
           Iterator<JSONObject> iterator = booklist.iterator();
           while (iterator.hasNext()) {
             JSONObject currentbook = iterator.next();
-            String x = currentbook.toString();
-            String y = String.format("\"categories\":[\"%s\"]", category);
-            System.out.println(x);
-            System.out.println(y);
-            if (x.contains(y)) {
-              return (String)currentbook.get("id");
-            }
+            id_list.add((String) currentbook.get("id"));
+          }
+          if(id_list.size()>0) {
+              int random_number = 0 +(int) (Math.random() * ((id_list.size() - 0) + 1));
+              return id_list.get(random_number);
           }
         }
       }
