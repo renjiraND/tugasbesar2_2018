@@ -74,14 +74,13 @@
 			$book['title'] = $responseDetail->return->title;
 			$book['author'] = $responseDetail->return->authors;
 			$book['categories'] = $responseDetail->return->categories;
-
-			if ($responseDetail->return->description == 'default'){
-				$book['description'] = '../res/profile_picture/default.jpg';
-			} else {
 			$book['description'] = $responseDetail->return->description;
-			}
 
-			$book['img'] = $responseDetail->return->imageLinks;
+			if ($responseDetail->return->imageLinks == 'default'){
+				$book['img'] = '../res/profile_picture/default.jpg';
+			} else {
+				$book['img'] = $responseDetail->return->imageLinks;
+			}
 
 			if ($responseDetail->return->price == -1){
 				$book['price'] = 'Not For Sale';
@@ -95,7 +94,7 @@
 				$book['rating'] = 0;
 			}
 
-
+			//Recommendation
 			$searchCategory = $book['categories'];
 			if (gettype($searchCategory) == 'string'){
 				$searchCategory = rawurlencode($searchCategory);
@@ -104,10 +103,9 @@
 					$cat = rawurlencode($cat);
 				}
 			}
-			$responseReccomendation = $client->getRecommendation(array("arg0" => $searchCategory));
-			$recBookId = $responseReccomendation->return;
-			$recBookId = 'hBAlIbgHNx8C';
-			// var_dump($recBookId);
+			$responseRecommendation = $client->getRecommendation(array("arg0" => $searchCategory, "arg1" => $id_book));
+			$recBookId = $responseRecommendation->return;
+			// $recBookId = 'hBAlIbgHNx8C';
 			if($recBookId != 'NoRecommendation'){
 
 				$responseRecBook = $client->getBook(array("arg0" => $recBookId));
@@ -116,11 +114,20 @@
 				$recBook['id'] = $responseRecBook->return->id;
 				$recBook['title'] = $responseRecBook->return->title;
 				$recBook['author'] = $responseRecBook->return->authors;
-				$recBook['description'] = $responseRecBook->return->description;
-				$recBook['img'] = $responseRecBook->return->imageLinks;
-				$recBook['price'] = $responseRecBook->return->price;
 				$recBook['categories'] = $responseRecBook->return->categories;
+				$recBook['description'] = $responseRecBook->return->description;
+				if ($responseRecBook->return->imageLinks == 'default'){
+					$recBook['img'] = '../res/profile_picture/default.jpg';
+				} else {
+					$recBook['img'] = $responseRecBook->return->imageLinks;
+				}
 
+				if ($responseRecBook->return->price == -1){
+					$recBook['price'] = 'Not For Sale';
+				} else {
+					$recBook['price'] = 'Rp' + $responseRecBook->return->price;
+				}
+	
 				//GANTI
 				if ($result->num_rows==0) {
 				    $book['rating']=0;
@@ -207,8 +214,10 @@
 
 				<div class="margin-top-large">
 					<div class="margin-top-medium margin-bottom-medium text-size-medium text-color-navy-blue text-bold font-default">Reviews</div>
+
 					<?php
-                        foreach ($list_review as $review) {
+						if (count($list_review) != 0){
+							foreach ($list_review as $review) {
 							echo "<div class=\"flex space-beetween margin-bot-medium\">
 								<div class=\"flex row\">
 									<img class=\"review-img margin-right-small\" src=\"" . $review["img"] . "\">
@@ -224,7 +233,11 @@
 									<div class=\"flex center-horizontal text-size-very-small text-bold text-color-grey font-default\">" . number_format($review["rating"],1) . "/5.0</div>
 								</div>
 							</div>";
+							}
+						} else {
+							echo "<div class=\"text-color-orange text-bold text-size-small font-default\">Not Available</div>";
 						}
+
 					?>
 				</div>
 
@@ -241,7 +254,7 @@
 							<div class=\"margin-left-small font-default flex column\">
 								<div class=\"text-color-orange text-bold text-size-medium\">" . $recBook["title"] ."</div>
 								<div class=\"text-color-grey text-bold text-size-very-small\">" . $recBook["author"] . " - " . number_format($recBook["rate"],1) . "/5.0 (" . $recBook["votes"] . " votes)</div>
-								<div class=\"text-color-grey text-bold text-size-small font-default\">" . $book["price"] . "</div>
+								<div class=\"text-color-grey text-bold text-size-small font-default\">" . 'Rp' . $recBook["price"] . "</div>
 								<div class=\"flex column full-height align-right align-bottom\">
 									<form method=\"GET\" action=\"browse-detail.php\">
 										<div class>
@@ -255,7 +268,7 @@
 						</div>
 						";
 					}
-				?>
+					?>
 				</div>
 
 

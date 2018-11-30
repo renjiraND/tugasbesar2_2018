@@ -36,9 +36,8 @@ public class BookService {
 
   @WebMethod
   public List<Book> searchBook(String keyword) throws IOException, ParseException {
-    URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + keyword + "&key=" + APIkey);
+    URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + keyword + "+intitle:" +keyword + "&key=" + APIkey);
     StringBuffer content = connectHttpUrlGET(url);
-    System.out.println(content);
     String JSONstring;
 
     JSONParser jsonParse = new JSONParser();
@@ -157,7 +156,6 @@ public class BookService {
 
     Gson gson = new Gson();
     String JSON_result = gson.toJson(book_list);
-    System.out.println(JSON_result);
     return book_list;
   }
 
@@ -273,7 +271,6 @@ public class BookService {
 
         Gson gson = new Gson();
         String JSON_result = gson.toJson(b);
-        System.out.println(JSON_result);
         return b;
     }
 
@@ -375,7 +372,6 @@ public class BookService {
     con.setConnectTimeout(5000);
     con.setReadTimeout(5000);
     StringBuffer content = getConnectionResponse(con);
-    System.out.println(content);
     con.disconnect();
     return content;
   }
@@ -415,98 +411,91 @@ public class BookService {
       content.append(inputLine);
     }
     in.close();
-    System.out.println(content);
     con.disconnect();
     return content;
   }
 
 
   @WebMethod
-  public String getRecommendation(String[] categories) throws IOException, ParseException {
-
+  public String getRecommendation(String[] categories, String source_book) throws IOException, ParseException {
     String url = "jdbc:mysql://localhost:3306/bookservice";
     String username = "root";
     String password = "";
     String category = categories[0];
     System.out.println("Connecting database...");
 
+
     String encoded_category = new String(category);
-      System.out.println(category);
-      System.out.println(encoded_category);
     category = java.net.URLDecoder.decode(category, "UTF-8");
-    System.out.println(category);
-    System.out.println(encoded_category);
-    try (Connection connection = DriverManager.getConnection(url, username, password)) {
-      System.out.println("Database connected!");
 
-      Statement stmt = null;
-      ResultSet rs = null;
+    if (!category.equals("None")) {
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
 
-      try {
-        stmt = connection.createStatement();
-        String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi where categories='%s') LIMIT 1", category);
-        rs = stmt.executeQuery(query);
-        if(rs.first()) {
-          System.out.println(rs.getString("id"));
-          return rs.getString("id");
-        } else {
-          URL recommend_url = new URL("https://www.googleapis.com/books/v1/volumes?q=+subject="+encoded_category+"&key="+APIkey);
-          System.out.println();
-          System.out.println(recommend_url);
-          StringBuffer content = connectHttpUrlGET(recommend_url);
+            Statement stmt = null;
+            ResultSet rs = null;
 
-          String JSONstring;
+            try {
+                stmt = connection.createStatement();
+                String query = String.format("SELECT id FROM transaksi WHERE amount = (SELECT MAX(amount) FROM transaksi WHERE categories='%s' AND id <> '%s') LIMIT 1", category, source_book);
+                rs = stmt.executeQuery(query);
+                if (rs.first()) {
+                    return rs.getString("id");
+                } else {
+                    URL recommend_url = new URL("https://www.googleapis.com/books/v1/volumes?q=+subject=" + encoded_category + "&key=" + APIkey);
+                    StringBuffer content = connectHttpUrlGET(recommend_url);
 
-          JSONParser jsonParse = new JSONParser();
-          JSONstring = content.toString();
+                    String JSONstring;
 
-          JSONObject JSONBooks = (JSONObject) jsonParse.parse(JSONstring);
-          JSONArray booklist = (JSONArray) JSONBooks.get("items");
+                    JSONParser jsonParse = new JSONParser();
+                    JSONstring = content.toString();
 
-          Iterator<JSONObject> iterator = booklist.iterator();
-          while (iterator.hasNext()) {
-            JSONObject currentbook = iterator.next();
-            String x = currentbook.toString();
-            String y = String.format("\"categories\":[\"%s\"]", category);
-            System.out.println(x);
-            System.out.println(y);
-            if (x.contains(y)) {
-              return (String)currentbook.get("id");
+                    JSONObject JSONBooks = (JSONObject) jsonParse.parse(JSONstring);
+                    JSONArray booklist = (JSONArray) JSONBooks.get("items");
+                    List<String> id_list = new ArrayList<>();
+                    Iterator<JSONObject> iterator = booklist.iterator();
+                    while (iterator.hasNext()) {
+                        JSONObject currentbook = iterator.next();
+                        id_list.add((String) currentbook.get("id"));
+                    }
+                    if (id_list.size() > 0) {
+                        int random_number = 0 + (int) (Math.random() * ((id_list.size()-1 - 0) + 1));
+                        return id_list.get(random_number);
+                    }
+                }
+            } catch (SQLException ex) {
+                // handle any errors
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+            } finally {
+                // it is a good idea to release
+                // resources in a finally{} block
+                // in reverse-order of their creation
+                // if they are no-longer needed
+
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (SQLException sqlEx) {
+                    } // ignore
+
+                    rs = null;
+                }
+
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException sqlEx) {
+                    } // ignore
+
+                    stmt = null;
+                }
             }
-          }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Cannot connect the database!", e);
         }
-      }
-      catch (SQLException ex){
-        // handle any errors
-        System.out.println("SQLException: " + ex.getMessage());
-        System.out.println("SQLState: " + ex.getSQLState());
-        System.out.println("VendorError: " + ex.getErrorCode());
-      }
-      finally {
-        // it is a good idea to release
-        // resources in a finally{} block
-        // in reverse-order of their creation
-        // if they are no-longer needed
-
-        if (rs != null) {
-          try {
-            rs.close();
-          } catch (SQLException sqlEx) { } // ignore
-
-          rs = null;
-        }
-
-        if (stmt != null) {
-          try {
-            stmt.close();
-          } catch (SQLException sqlEx) { } // ignore
-
-          stmt = null;
-        }
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw new IllegalStateException("Cannot connect the database!", e);
     }
     return "NoRecommendation";
   }
